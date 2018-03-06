@@ -1,0 +1,145 @@
+
+        <div class="love mt-20">
+            <div class="love_box_title love_title_search">
+                <span>寻觅</span>
+            </div>
+            <div class="love_search_box mt-20">
+                <span class="tools_label">性别：</span>
+                <div class="tools_radio">
+                    <input type="radio" name="radio" checked>
+                    <div class="tools_radio_bg"></div>
+                    <span class="tools_radio_text">男士</span>
+                </div>
+                <div class="tools_radio">
+                    <input type="radio" name="radio">
+                    <div class="tools_radio_bg"></div>
+                    <span class="tools_radio_text">女士</span>
+                </div>
+                <div class="select select_age">
+                    <span class="tools_label">年龄：</span>
+                    <div class="tools_select">
+                        <div class="tools_select_text"></div>
+                        <select name="" id="">
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="tools_select">
+                        <div class="tools_select_text"></div>
+                        <select name="" id="">
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="select select_address">
+                    <div class="select_city" id="city_1">
+                        <span class="tools_label">现居：</span>
+                        <div class="tools_select">
+                            <div class="tools_select_text"></div>
+                            <select name="" id="" class="prov"></select>
+                        </div>
+                        <div class="tools_select">
+                            <div class="tools_select_text"></div>
+                            <select name="" id="" class="city"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="select select_address">
+                    <div class="select_city" id="city_2">
+                        <span class="tools_label">籍贯：</span>
+                        <div class="tools_select">
+                            <div class="tools_select_text"></div>
+                            <select name="" id="" class="prov"></select>
+                        </div>
+                        <div class="tools_select">
+                            <div class="tools_select_text"></div>
+                            <select name="" id="" class="city"></select>
+                        </div>
+                    </div>
+                </div>
+                <span class="love_search_more"></span>
+                <button class="btn fr" type="button">搜索</button>
+                <div class="love_search_other mt-20">
+                    <div class="select select_address">
+                        <span class="tools_label">学历：</span>
+                        <div class="tools_select">
+                            <div class="tools_select_text"></div>
+                            <select name="" id="">
+                                <option value="18">本科</option>
+                                <option value="19">专科</option>
+                                <option value="20">硕士</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="select select_address">
+                        <span class="tools_label">月薪：</span>
+                        <div class="tools_select">
+                            <div class="tools_select_text"></div>
+                            <select name="" id="">
+                                <option value="18">8000-10000</option>
+                                <option value="19">10001-20000</option>
+                                <option value="20">20000以上</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="select select_address">
+                        <span class="tools_label">星座：</span>
+                        <div class="tools_select">
+                            <div class="tools_select_text"></div>
+                            <select name="" id="">
+                                <option value="18">狮子座</option>
+                                <option value="19">双鱼座</option>
+                                <option value="20">白羊座</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="select select_address">
+                        <span class="tools_label">民族：</span>
+                        <div class="tools_select">
+                            <div class="tools_select_text"></div>
+                            <select name="" id="">
+                                <option value="18">汉族</option>
+                                <option value="19">少数民族</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="love_row love_box_line">
+            {% for e in D %}
+                <div class="love_col love_col_4 love_item">
+                    <div class="love_img">
+                        <a href="detail.html" target="_blank">
+                            <img src="{{e['img']}}" alt="{{'boy' if e['sex'] == u'男' else 'girl'}}">
+                        </a>
+                    </div>
+                    <h2>{{e['name']}}
+                        <span>（{{e['sex']}}）</span>
+                    </h2>
+                    <p>
+                        <span>{{e['age']}}</span>
+                        <span>{{e['height']}}</span>
+                        <span>{{e['degree']}}</span>
+                    </p>
+                    <p class="love_text">{{e['state']}}</p>
+                </div>
+            {% end %}
+            </div>
+            <div class="love_page">
+                <div>
+                    <span class="love_icon love_icon-back disabled"></span>
+                    <span class="active">1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span class="love_page_more">...</span>
+                    <span>30</span>
+                    <span class="love_icon love_icon-more"></span>
+                    <span class="love_total">共90页</span>
+                </div>
+            </div>
+        </div>

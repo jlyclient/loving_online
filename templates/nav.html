@@ -1,0 +1,41 @@
+
+    <header>
+        <div class="love love_header clear">
+            <a class="love_header_logo" href="/">
+                <img src="img/logo.png" alt="佳良缘">
+            </a>
+            <ul class="love_nav">
+                <li class="active">
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="dating/tryst.html">约会</a>
+                </li>
+                <li>
+                    <a href="seeking/seeking.html">征婚</a>
+                </li>
+                <li>
+                    <a href="self.html">自己找</a>
+                </li>
+                <li>
+                    <a href="/center">个人中心</a>
+                </li>
+            </ul>
+        {% if ctx and ctx.get('user') and ctx['user'].get('nick_name', None) %}
+            <div class="love_header_tools">
+                <a href="inbox.html" class="love_icon love_icon-lingdang"></a>
+                <a class="btn_dialog btn_recharge" data-flag="false" href="javascript:void(0);">充值</a>
+                <dl class="love_header_tools_center">
+                    <dt><a href="/center">{{'unknown' if not ctx['user']['nick_name'] else ctx['user']['nick_name']}}</a></dt>
+                    <dd><a class="sign_out" href="/logout">退出登录</a></dd>
+                </dl>   
+            </div>
+        {% else %}
+            <div class="love_header_tools">
+                <a class="btn_dialog btn_dialog_login" href="javascript:void(0);">登录</a>
+                <span>/</span>
+                <a class="btn_dialog btn_dialog_reg" href="javascript:void(0);">注册</a>
+            </div>
+        {% end %}
+        </div>
+    </header>
