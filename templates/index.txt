@@ -1,0 +1,47 @@
+index.html协议定义如下:
+
+注意: 所有的post请求都需要有_xsrf参数:
+function get_cookie_by_name(name)
+{
+    var start = document.cookie.indexOf(name);
+    if (start != -1) {
+        var res = ""; 
+        var end  = document.cookie.indexOf(";", start+1);
+        if (end == -1) {
+            res = document.cookie.substring(start+name.length+1);
+        } else {
+            res = document.cookie.substring(start+name.length+1, end);
+        }   
+        return res;
+    }   
+    return ""; 
+}
+直接调用: var xsrf = get_cookie_by_name('_xsrf')即可
+ajax的data字段中，一定要有{"_xsrf":xsrf}字段，否则传不上去
+
+
+1，最新注册男会员url: GET  /new_male
+2，最新注册女会员url: GET  /new_female
+3，寻觅url:           GET  /search
+   search请求参数:
+   sex=0&age=18&curr_loc1=北京&curr_loc2=东城区&ori_loc1=北京&ori_loc2=东城区&degree=0&salary=0&xz=0&nation=汉族
+   首页中所有参数为空，可以用GET方法，也可以用post方法
+
+以上3中的返回数据格式都是一样的，如下所示：
+   {
+     'code': 0,-1, //0成功, -1失败
+     'msg': 'ok',或者 'reason'
+     'data': [{'name':xx,
+               'sex':0,1,
+               'age':22,
+               'height':165,
+               'degree': 0=保密 1=高中及以下 2=中专/大专 3=本科 4=研究生 5=博士及博士后,
+               'motto': 简介//两行一共不超过37个汉字,标点符号算一个汉字，超出部分用...表示,
+               'img': 图片url,
+               'landing_url': 点击用户跳转url
+              },
+              {
+              },
+              ...
+             ]
+   }
