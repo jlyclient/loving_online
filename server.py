@@ -59,7 +59,7 @@ class IndexHandler(BaseHandler):
                 ctx = d.get('data', {})
         '''ctx section end'''
 
-        self.render('index/index.html', ctx=ctx)
+        self.render('index.html', ctx=ctx)
 
 class IndexNewHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -92,6 +92,8 @@ class IndexNewHandler(tornado.web.RequestHandler):
                 r = json.loads(data)
             except:
                 r = {}
+            print('sex=%d'%sex)
+            print(r)
             if not r or r.get('code', -1) != 0:
                 d = {'code':-1, 'msg':'error', 'data':{}}
                 d = json.dumps(d)
