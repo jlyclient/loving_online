@@ -26,7 +26,39 @@
 </head>
 
 <body>
-    {% include "../nva.html" %}
+    <header>
+        <div class="love love_header clear">
+            <a class="love_header_logo" href="../index.html">
+                <img src="../img/logo.png" alt="佳良缘">
+            </a>
+            <ul class="love_nav">
+                <li>
+                    <a href="../index.html">首页</a>
+                </li>
+                <li>
+                    <a href="../dating/tryst.html">约会</a>
+                </li>
+                <li>
+                    <a href="../seeking.html">征婚</a>
+                </li>
+                <li>
+                    <a href="../self.html">自己找</a>
+                </li>
+                <li class="active">
+                    <a href="center.html">个人中心</a>
+                </li>
+            </ul>
+            <div class="love_header_tools">
+                <a href="#" class="love_icon love_icon-lingdang"></a>
+                <a class="btn_dialog btn_recharge" data-flag="false" href="javascript:void(0);">充值</a>
+                <dl class="love_header_tools_center">
+                    <dt><a href="center.html">走走停停</a></dt>
+                    <dd><a class="sign_out" href="">退出登录</a></dd>
+                </dl>
+            </div>
+        </div>
+    </header>
+
     <section>
         <div class="love love_inbox mt-30">
             <div class="love_inbox_tab">
@@ -323,9 +355,10 @@
             </div>
         </div>
     </div>
-
     <script src="../js/jquery-min.js"></script>
-    <script src="../js/tools.js"></script>
+    <script src="../js/default.js"></script>
+    <script src="../js/center.js"></script>
+
 </body>
 
 </html>

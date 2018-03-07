@@ -20,15 +20,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>佳良缘</title>
-    <link rel="stylesheet" href="css/webuploader.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/tools.css">
-    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="../css/webuploader.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/tools.css">
+    <link rel="stylesheet" href="../css/common.css">
 </head>
 
 <body>
-    {% include "../nav.html" %}
-    {% include "center_nav.html" %}
+    <header>
+        <div class="love love_header clear">
+            <a class="love_header_logo" href="../index.html">
+                <img src="../img/logo.png" alt="佳良缘">
+            </a>
+            <ul class="love_nav">
+                <li>
+                    <a href="../index.html">首页</a>
+                </li>
+                <li>
+                    <a href="../dating/tryst.html">约会</a>
+                </li>
+                <li>
+                    <a href="../seeking/seeking.html">征婚</a>
+                </li>
+                <li>
+                    <a href="../self.html">自己找</a>
+                </li>
+                <li class="active">
+                    <a href="center.html">个人中心</a>
+                </li>
+            </ul>
+            <div class="love_header_tools">
+                <a href="inbox.html" class="love_icon love_icon-lingdang"></a>
+                <a class="btn_dialog btn_recharge" data-flag="false" href="javascript:void(0);">充值</a>
+                <dl class="love_header_tools_center">
+                    <dt><a href="../center/center.html">走走停停</a></dt>
+                    <dd><a class="sign_out" href="">退出登录</a></dd>
+                </dl>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="love mt-30">
+            <ul class="love_center_tab">
+                <li class="active">
+                    <a href="center.html">个人资料</a>
+                </li>
+                <li>
+                    <a href="mySee.html">我看过谁</a>
+                </li>
+                <li>
+                    <a href="">谁看过我</a>
+                </li>
+                <li>
+                    <a href="">我关注的</a>
+                </li>
+                <li>
+                    <a href="">关注我的</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
     <section>
         <div class="love mt-30">
             <div class="love_box_title border_none love_title_material">
@@ -40,35 +93,44 @@
                         <div class="love_mater_left">
                             <div class="love_mater_img love_mater_photo move">
                                 <p class="btn_dialog btn_dialog_img">编辑头像</p>
-                                <img src="{{ctx['pic'].get('arr', [''])[0] if len(ctx['pic'].get('arr', [''])[0]) > 0 else 'img/boy.jpg' if ctx['user']['sex'] == u'男' else 'img/girl.jpg' if ctx['user']['sex'] == u'女' else 'img/person.jpg'}}" alt="">
+                                <img src="../img/img1.jpg" alt="">
                             </div>
                             <p>资料完善度<span>80%</span></p>
                             <p><span>温馨提示：</span></p>
                             <p><span>资料越完善，越能更快更好的被ta看见哦</span></p>
                         </div>
                         <div class="love_mater_right">
-                            <h2>{{ctx['user']['nick_name']}}<span>（{{ctx['user']['sex']}}）</span></h2>
+                            <h2>巴拉难斗地主<span>（男）</span></h2>
                             <div class="love_mater_detail">
-                                {% include "index/basic.html" %}
+                                <span class="love_bold">粉丝：1000人</span>
+                                <span class="love_bold">余额：1000爱豆</span>
+                                <span class="love_bold">我关注的：30人</span>
+                                <span class="love_bold">我点赞的人：55人</span>
+                                <span class="love_bold">查看过你：606人</span>
+                                <span class="love_bold">附近的人：600人</span>
+                                <span>意向：交友</span>
+                                <span>年龄：20岁</span>
+                                <span>婚姻：未婚</span>
+                                <span>星座：双子座</span>
+                                <span>属相：狗</span>
+                                <span>血型：O</span>
+                                <span>体重：45KG</span>
+                                <span>身高：160CM</span>
+                                <span>学历：本科</span>
+                                <span>民族：汉族</span>
+                                <span>现居：北京</span>
+                                <span>籍贯：中国/河北/石家庄</span>
                             </div>
                             <p>
-                                <span >简介：</span>
-                                <span class="text_over2">{{ctx['statement'].get('motto', '未填')}}</span>
+                                <span>简介：</span>
+                                <span class="text_over2">爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力…</span>
                             </p>
                             <p>
                                 <span>兴趣：</span>
-                        {% if ctx['hobby'].get('arr', []) %}
-                            {% for e in ctx['hobby'].get('arr', []) %}
-                                {% if e[1] == 1 %}
-                                <em>{{e[0]}}</em>
-                                {% end %}
-                            {% end %}
-                            {% if ctx['hobby'].get('arr_flag', 1) == 0 %}
-                                <span>未填</span>
-                            {% end %}
-                        {% else %}
-                                <span>未填</span>
-                        {% end %}
+                                <em>爬山</em>
+                                <em>画画</em>
+                                <em>旅行</em>
+                                <em>健身</em>
                             </p>
                         </div>
                     </div>
@@ -78,9 +140,14 @@
                             <a class="prev love_icon love_icon-back"></a>
                             <div class="bd">
                                 <ul class="picList" data-flag="false">
-                                {% for e in ctx['pic'].get('arr', [''])[1:] %}
-                                    <li><img src="{{e}}" alt=""></li>
-                                {% end %}
+                                    <li><img src="../img/img1.jpg" alt=""></li>
+                                    <li><img src="../img/img1.jpg" alt=""></li>
+                                    <li><img src="../img/img1.jpg" alt=""></li>
+                                    <li><img src="../img/img1.jpg" alt=""></li>
+                                    <li><img src="../img/img1.jpg" alt=""></li>
+                                    <li><img src="../img/img1.jpg" alt=""></li>
+                                    <li><img src="../img/img1.jpg" alt=""></li>
+                                    <li><img src="../img/img1.jpg" alt=""></li>
                                 </ul>
                             </div>
                         </div>
@@ -94,7 +161,7 @@
                         <div class="love_mater_left">
                             <div class="love_mater_img love_mater_photo move">
                                 <p class="btn_dialog btn_dialog_img">编辑头像</p>
-                                <img src="{{ctx['pic'].get('arr', [''])[0] if len(ctx['pic'].get('arr', [''])[0]) > 0 else 'img/boy.jpg' if ctx['user']['sex'] == '男' else 'img/girl.jpg' if ctx['user']['sex'] == '女' else 'img/person.jpg'}}" alt="">
+                                <img src="../img/img1.jpg" alt="">
                             </div>
                             <p>资料完善度<span>80%</span></p>
                             <p><span>温馨提示：</span></p>
@@ -104,45 +171,49 @@
                             <div class="love_row">
                                 <div class="love_col love_col_3">
                                     <div class="tools_row">
-                                        <span class="tools_label">昵称：{{ctx['user']['nick_name']}}</span>
+                                        <span class="tools_label">昵称：</span>
+                                        <div class="tools_input">
+                                            <input type="text" value="巴拉难斗地主">
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="love_col love_col_3">
                                     <div class="tools_row">
-                                        <span class="tools_label">性别：{{ctx['user']['sex']}}</span>
+                                        <span class="tools_label">性别：</span>
+                                        <div class="tools_select">
+                                            <div class="tools_select_text"></div>
+                                            <select name="" id="">
+                                                        <option value="19" checked>男</option>
+                                                        <option value="20">女</option>
+                                                    </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="love_mater_detail">
+                                <div>
+                                    <span class="love_bold">粉丝：1000人</span>
+                                    <span class="love_bold">余额：1000爱豆</span>
+                                    <span class="love_bold">我关注的：30人</span>
+                                    <span class="love_bold">我点赞的人：55人</span>
+                                    <span class="love_bold">查看过你：606人</span>
+                                    <span class="love_bold">附近的人：600人</span>
+                                </div>
                                 <div class="love_row mt-20">
                                     <div class="love_col love_col_3">
                                         <div class="tools_row">
                                             <span class="tools_label">意向：</span>
-                                            <div class="tools_select">
-                                                <div class="tools_select_text"></div>
-                                                <select id='aim'>
-                                                    <option value='0' {{"selected" if ctx['user']['aim'] == u'未填' else ''}}>未填</option>
-                                                    <option value='1' {{"selected" if ctx['user']['aim'] == u'交友' else ''}}>交友</option>
-                                                    <option value='2' {{"selected" if ctx['user']['aim'] == u'征婚' else ''}}>征婚</option>
-                                                    <option value='3' {{"selected" if ctx['user']['aim'] == u'聊天' else ''}}>聊天</option>
-                                                </select>
+                                            <div class="tools_input">
+                                                <input type="text" value="交友">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="love_col love_col_3">
                                         <div class="tools_row">
                                             <span class="tools_label">年龄：</span>
-                                            <div class="tools_select">
-                                                <div class="tools_select_text"></div>
-                                                <select id="age">
-                                                    {% for e in xrange(66) %}
-                                                        {% if e <= 18 %}
-                                                        {% continue %}
-                                                        {% end %}
-                                                        <option value='{{e}}' {{"selected" if ctx['user']['age'] == e else ""}}>{{e}}</option>
-                                                    {% end %}
-                                                </select>
+                                            <div class="tools_input">
+                                                <input type="text" value="20岁">
                                             </div>
                                         </div>
                                     </div>
@@ -151,13 +222,10 @@
                                             <span class="tools_label">婚姻：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select id="marriage">
-                                                            <option value="0" {{"selected" if ctx['user']['marriage'] == u"保密" else ""}}>保密</option>
-                                                            <option value="1" {{"selected" if ctx['user']['marriage'] == u"单身" else ""}}>单身</option>
-                                                            <option value="2" {{"selected" if ctx['user']['marriage'] == u"非单身" else ""}}>非单身</option>
-                                                            <option value="3" {{"selected" if ctx['user']['marriage'] == u"已婚" else ""}}>已婚</option>
-                                                            <option value="4" {{"selected" if ctx['user']['marriage'] == u"丧偶" else ""}}>丧偶</option>
-                                                </select>
+                                                <select name="" id="">
+                                                            <option value="19" checked>未婚</option>
+                                                            <option value="20">已婚</option>
+                                                        </select>
                                             </div>
                                         </div>
                                     </div>
@@ -166,20 +234,8 @@
                                             <span class="tools_label">星座：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select id="xingzuo">
-                                                            <option value="0" {{"selected" if ctx['user']['xingzuo'] == u'未填' else ''}}>未填</option>
-                                                            <option value="1" {{"selected" if ctx['user']['xingzuo'] == u'白羊座' else ''}}>白羊座</option>
-                                                            <option value="2" {{"selected" if ctx['user']['xingzuo'] == u'金牛座' else ''}}>金牛座</option>
-                                                            <option value="3" {{"selected" if ctx['user']['xingzuo'] == u'双子座' else ''}}>双子座</option>
-                                                            <option value="4" {{"selected" if ctx['user']['xingzuo'] == u'巨蟹座' else ''}}>巨蟹座</option>
-                                                            <option value="5" {{"selected" if ctx['user']['xingzuo'] == u'狮子座' else ''}}>狮子座</option>
-                                                            <option value="6" {{"selected" if ctx['user']['xingzuo'] == u'处女座' else ''}}>处女座</option>
-                                                            <option value="7" {{"selected" if ctx['user']['xingzuo'] == u'天秤座' else ''}}>天秤座</option>
-                                                            <option value="8" {{"selected" if ctx['user']['xingzuo'] == u'天蝎座' else ''}}>天蝎座</option>
-                                                            <option value="9" {{"selected" if ctx['user']['xingzuo'] == u'射手座' else ''}}>射手座</option>
-                                                            <option value="10" {{"selected" if ctx['user']['xingzuo'] == u'摩羯座' else ''}}>摩羯座</option>
-                                                            <option value="11" {{"selected" if ctx['user']['xingzuo'] == u'水平座' else ''}}>水平座</option>
-                                                            <option value="12" {{"selected" if ctx['user']['xingzuo'] == u'双鱼座' else ''}}>双鱼座</option>
+                                                <select name="" id="">
+                                                            <option value="19">双子座</option>
                                                         </select>
                                             </div>
                                         </div>
@@ -189,20 +245,8 @@
                                             <span class="tools_label">属相：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select id="shengxiao">
-                                                            <option value="0" {{"selected" if ctx['user']['shengxiao'] == u'未填' else ''}}>未填</option>
-                                                            <option value="1" {{"selected" if ctx['user']['shengxiao'] == u'鼠' else ''}}>鼠</option>
-                                                            <option value="2" {{"selected" if ctx['user']['shengxiao'] == u'牛' else ''}}>牛</option>
-                                                            <option value="3" {{"selected" if ctx['user']['shengxiao'] == u'虎' else ''}}>虎</option>
-                                                            <option value="4" {{"selected" if ctx['user']['shengxiao'] == u'兔' else ''}}>兔</option>
-                                                            <option value="5" {{"selected" if ctx['user']['shengxiao'] == u'龙' else ''}}>龙</option>
-                                                            <option value="6" {{"selected" if ctx['user']['shengxiao'] == u'蛇' else ''}}>蛇</option>
-                                                            <option value="7" {{"selected" if ctx['user']['shengxiao'] == u'马' else ''}}>马</option>
-                                                            <option value="8" {{"selected" if ctx['user']['shengxiao'] == u'羊' else ''}}>羊</option>
-                                                            <option value="9" {{"selected" if ctx['user']['shengxiao'] == u'猴' else ''}}>猴</option>
-                                                            <option value="10" {{"selected" if ctx['user']['shengxiao'] == u'鸡' else ''}}>鸡</option>
-                                                            <option value="11" {{"selected" if ctx['user']['shengxiao'] == u'狗' else ''}}>狗</option>
-                                                            <option value="12" {{"selected" if ctx['user']['shengxiao'] == u'猪' else ''}}>猪</option>
+                                                <select name="" id="">
+                                                            <option value="20">狗</option>
                                                         </select>
                                             </div>
                                         </div>
@@ -212,48 +256,26 @@
                                             <span class="tools_label">血型：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select id="blood">
-                                                            <option value="0" {{"selected" if ctx['user']['blood'] == u'未填' else ''}}>未填</option>
-                                                            <option value="1" {{"selected" if ctx['user']['blood'] == u'A'  else ''}}>A型</option>
-                                                            <option value="2" {{"selected" if ctx['user']['blood'] == u'B'  else ''}}>B型</option>
-                                                            <option value="3" {{"selected" if ctx['user']['blood'] == u'AB' else ''}}>AB型</option>
-                                                            <option value="4" {{"selected" if ctx['user']['blood'] == u'O'  else ''}}>O型</option>
-                                                 </select>
+                                                <select name="" id="">
+                                                            <option value="20">O</option>
+                                                        </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="love_col love_col_3">
                                         <div class="tools_row">
                                             <span class="tools_label">体重：</span>
-                                            <div class="tools_select">
-                                                <div class="tools_select_text"></div>
-                                                <select id="weight">
-                                                    {% for e in xrange(110) %}
-                                                    {% if e < 30 %}
-                                                    {% continue %}
-                                                    {% end %}
-                                                    <option value="{{e}}" {{"selected" if ctx['user']['weight'] == e else ''}}>{{e}}</option>
-                                                    {% end %}
-                                                </select>
+                                            <div class="tools_input">
+                                                <input type="text" value="45KG">
                                             </div>
-                                            <em>kg</em>
                                         </div>
                                     </div>
                                     <div class="love_col love_col_3">
                                         <div class="tools_row">
                                             <span class="tools_label">身高：</span>
-                                            <div class="tools_select">
-                                                <div class="tools_select_text" id="height_v"></div>
-                                                <select id="height">
-                                                    {% for e in xrange(220) %}
-                                                        {% if e < 130 %}
-                                                        {% continue %}
-                                                        {% end %}
-                                                        <option value="{{e}}" {{"selected" if ctx['user']['height'] == e else ''}}>{{e}}</option>
-                                                    {% end %}
-                                                </select>
+                                            <div class="tools_input">
+                                                <input type="text" value="160CM">
                                             </div>
-                                            <em>cm</em>
                                         </div>
                                     </div>
                                     <div class="love_col love_col_3">
@@ -261,81 +283,17 @@
                                             <span class="tools_label">学历：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select id="degree">
-                                                    <option value="0" {{"selected" if ctx['user']['degree'] == u'保密' else ''}}>保密</option>
-                                                    <option value="1" {{"selected" if ctx['user']['degree'] == u'高中及其以下' else ''}}>高中及其以下</option>
-                                                    <option value="2" {{"selected" if ctx['user']['degree'] == u'中专/大专' else ''}}>中专/大专</option>
-                                                    <option value="3" {{"selected" if ctx['user']['degree'] == u'本科' else ''}}>本科</option>
-                                                    <option value="4" {{"selected" if ctx['user']['degree'] == u'研究生' else ''}}>研究生</option>
-                                                    <option value="5" {{"selected" if ctx['user']['degree'] == u'博士及博士后' else ''}}>博士及博士后</option>
-                                                </select>
+                                                <select name="" id="">
+                                                            <option value="20">本科</option>
+                                                        </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="love_col love_col_3">
                                         <div class="tools_row">
                                             <span class="tools_label">民族：</span>
-                                            <div class="tools_select">
-                                                <div class="tools_select_text"></div>
-                                                <select id="nation">
-                                                    <option value='未填' {{"selected" if ctx['user']['nation'] == u'未填' else ''}}>未填</option>
-                                                    <option value='汉族' {{"selected" if ctx['user']['nation'] == u'汉族' else ''}}>汉族</option>
-                                                    <option value='壮族' {{"selected" if ctx['user']['nation'] == u'壮族' else ''}}>壮族</option>
-                                                    <option value='满族' {{"selected" if ctx['user']['nation'] == u'满族' else ''}}>满族</option>
-                                                    <option value='回族' {{"selected" if ctx['user']['nation'] == u'回族' else ''}}>回族</option>
-                                                    <option value='苗族' {{"selected" if ctx['user']['nation'] == u'苗族' else ''}}>苗族</option>
-                                                    <option value='维吾尔族' {{"selected" if ctx['user']['nation'] == u'维吾尔族' else ''}}>维吾尔族</option>
-                                                    <option value='土家族'   {{"selected" if ctx['user']['nation'] == u'土家族'   else ''}}>土家族</option>
-                                                    <option value='彝族'     {{"selected" if ctx['user']['nation'] == u'彝族'     else ''}}>彝族</option>
-                                                    <option value='蒙古族'   {{"selected" if ctx['user']['nation'] == u'蒙古族'   else ''}}>蒙古族</option>
-                                                    <option value='藏族'     {{"selected" if ctx['user']['nation'] == u'藏族'     else ''}}>藏族</option>
-                                                    <option value='布依族'   {{"selected" if ctx['user']['nation'] == u'布依族'   else ''}}>布依族</option>
-                                                    <option value='侗族'     {{"selected" if ctx['user']['nation'] == u'侗族'     else ''}}>侗族</option>
-                                                    <option value='瑶族'     {{"selected" if ctx['user']['nation'] == u'瑶族'     else ''}}>瑶族</option>
-                                                    <option value='朝鲜族'   {{"selected" if ctx['user']['nation'] == u'朝鲜族'   else ''}}>朝鲜族</option>
-                                                    <option value='白族'     {{"selected" if ctx['user']['nation'] == u'白族'     else ''}}>白族</option>
-                                                    <option value='哈尼族'   {{"selected" if ctx['user']['nation'] == u'哈尼族'   else ''}}>哈尼族</option>
-                                                    <option value='哈萨克族' {{"selected" if ctx['user']['nation'] == u'哈萨克族' else ''}}>哈萨克族</option>
-                                                    <option value='黎族'     {{"selected" if ctx['user']['nation'] == u'黎族'     else ''}}>黎族</option>
-                                                    <option value='傣族'     {{"selected" if ctx['user']['nation'] == u'傣族'     else ''}}>傣族</option>
-                                                    <option value='畲族'     {{"selected" if ctx['user']['nation'] == u'畲族'     else ''}}>畲族</option>
-                                                    <option value='傈僳族'   {{"selected" if ctx['user']['nation'] == u'傈僳族'   else ''}}>傈僳族</option>
-                                                    <option value='仡佬族'   {{"selected" if ctx['user']['nation'] == u'仡佬族'   else ''}}>仡佬族</option>
-                                                    <option value='东乡族'   {{"selected" if ctx['user']['nation'] == u'东乡族'   else ''}}>东乡族</option>
-                                                    <option value='高山族'   {{"selected" if ctx['user']['nation'] == u'高山族'   else ''}}>高山族</option>
-                                                    <option value='拉祜族'   {{"selected" if ctx['user']['nation'] == u'拉祜族'   else ''}}>拉祜族</option>
-                                                    <option value='水族'     {{"selected" if ctx['user']['nation'] == u'水族'     else ''}}>水族</option>
-                                                    <option value='佤族'     {{"selected" if ctx['user']['nation'] == u'佤族'     else ''}}>佤族</option>
-                                                    <option value='纳西族'   {{"selected" if ctx['user']['nation'] == u'纳西族'   else ''}}>纳西族</option>
-                                                    <option value='羌族'     {{"selected" if ctx['user']['nation'] == u'羌族'     else ''}}>羌族</option>
-                                                    <option value='土族'     {{"selected" if ctx['user']['nation'] == u'土族'     else ''}}>土族</option>
-                                                    <option value='仫佬族'   {{"selected" if ctx['user']['nation'] == u'仫佬族'   else ''}}>仫佬族</option>
-                                                    <option value='锡伯族'   {{"selected" if ctx['user']['nation'] == u'锡伯族'   else ''}}>锡伯族</option>
-                                                    <option value='柯尔克孜族' {{"selected" if ctx['user']['nation'] == u'柯尔克孜族' else ''}}>柯尔克孜族</option>
-                                                    <option value='达翰尔族'   {{"selected" if ctx['user']['nation'] == u'达翰尔族'   else ''}}>达翰尔族</option>
-                                                    <option value='景颇族'     {{"selected" if ctx['user']['nation'] == u'景颇族'     else ''}}>景颇族</option>
-                                                    <option value='毛南族'     {{"selected" if ctx['user']['nation'] == u'毛南族'     else ''}}>毛南族</option>
-                                                    <option value='撒拉族'     {{"selected" if ctx['user']['nation'] == u'撒拉族'     else ''}}>撒拉族</option>
-                                                    <option value='塔吉克族'   {{"selected" if ctx['user']['nation'] == u'塔吉克族'   else ''}}>塔吉克族</option>
-                                                    <option value='阿昌族'     {{"selected" if ctx['user']['nation'] == u'阿昌族'     else ''}}>阿昌族</option>
-                                                    <option value='普米族'     {{"selected" if ctx['user']['nation'] == u'普米族'     else ''}}>普米族</option>
-                                                    <option value='鄂温克族'   {{"selected" if ctx['user']['nation'] == u'鄂温克族'   else ''}}>鄂温克族</option>
-                                                    <option value='怒族'       {{"selected" if ctx['user']['nation'] == u'怒族'       else ''}}>怒族</option>
-                                                    <option value='京族'       {{"selected" if ctx['user']['nation'] == u'京族'       else ''}}>京族</option>
-                                                    <option value='基诺族'     {{"selected" if ctx['user']['nation'] == u'基诺族'     else ''}}>基诺族</option>
-                                                    <option value='德昂族'     {{"selected" if ctx['user']['nation'] == u'德昂族'     else ''}}>德昂族</option>
-                                                    <option value='保安族'     {{"selected" if ctx['user']['nation'] == u'保安族'     else ''}}>保安族</option>
-                                                    <option value='俄罗斯族'   {{"selected" if ctx['user']['nation'] == u'俄罗斯族'   else ''}}>俄罗斯族</option>
-                                                    <option value='裕固族'     {{"selected" if ctx['user']['nation'] == u'裕固族'     else ''}}>裕固族</option>
-                                                    <option value='乌兹别克族' {{"selected" if ctx['user']['nation'] == u'乌次别克族' else ''}}>乌兹别克族</option>
-                                                    <option value='门巴族' {{"selected" if ctx['user']['nation'] == u'门巴族' else '' }}>门巴族</option>
-                                                    <option value='鄂伦春族' {{"selected" if ctx['user']['nation'] == u'鄂伦春族' else ''}}>鄂伦春族</option>
-                                                    <option value='独龙族'   {{"selected" if ctx['user']['nation'] == u'独龙族'  else ''}}>独龙族</option>
-                                                    <option value='塔塔尔族' {{"selected" if ctx['user']['nation'] == u'塔塔尔族' else ''}}>塔塔尔族</option>
-                                                    <option value='赫哲族'   {{"selected" if ctx['user']['nation'] == u'赫哲族' else ''  }}>赫哲族</option>
-                                                    <option value='珞巴族'   {{"selected" if ctx['user']['nation'] == u'珞巴族' else ''  }}>珞巴族</option>
-                                                    <option value='布朗族'   {{"selected" if ctx['user']['nation'] == u'布朗族' else ''  }}>布朗族</option>
-                                                </select>
+                                            <div class="tools_input">
+                                                <input type="text" value="汉族">
                                             </div>
                                         </div>
                                     </div>
@@ -345,11 +303,11 @@
                                                 <span class="tools_label">现居：</span>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="" id="cur_loc1" class="prov"></select>
+                                                    <select name="" id="" class="prov"></select>
                                                 </div>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="" id="cur_loc2" class="city"></select>
+                                                    <select name="" id="" class="city"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -360,11 +318,11 @@
                                                 <span class="tools_label">籍贯：</span>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="" id="ori_loc1" class="prov"></select>
+                                                    <select name="" id="" class="prov"></select>
                                                 </div>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="" id="ori_loc2" class="city"></select>
+                                                    <select name="" id="" class="city"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -372,43 +330,67 @@
                                 </div>
                             </div>
                             <div class="tools_row love_center_textarea">
-                                <span class="tools_label">简介：</span>
+                                <span class="tools_label">爱情座右铭：</span>
                                 <div class="tools_textarea">
-                                    <textarea name="" id="motto" placeholder="不超过64个字符~">
-{{ctx['statement'].get('motto', '未填')}}
-                                    </textarea>
+                                    <textarea name="" id="" placeholder="不超过64个字符~">爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力…</textarea>
                                 </div>
                             </div>
                             <div class="tools_row">
                                 <span class="tools_label">兴趣：</span>
                                 <div class="tools_span_select">
-                                {% for e in ctx['hobby'].get('arr', []) %}
-                                    <span {{'' if e[1] == 0 else 'class=active'}}>{{e[0]}}</span>
-                                {% end %}
+                                    <span>爬山</span>
+                                    <span class="active">摄影</span>
+                                    <span class="active">听音乐</span>
+                                    <span>看电影</span>
+                                    <span>旅行</span>
+                                    <span>打游戏</span>
+                                    <span>健身</span>
+                                    <span>爬山</span>
+                                    <span class="active">摄影</span>
+                                    <span>听音乐</span>
+                                    <span>看电影</span>
+                                    <span>旅行</span>
+                                    <span>打游戏</span>
+                                    <span>健身</span>
+                                    <span>爬山</span>
+                                    <span>摄影</span>
+                                    <span class="active">听音乐</span>
+                                    <span>看电影</span>
+                                    <span>旅行</span>
+                                    <span>打游戏</span>
+                                    <span>健身</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="love_center_group">
-                        <button class="btn" type="button" id="basic_sure">确定</button>
-                        <button class="btn btn_blue love_mater_back" type="button">取消</button>
-                    </div>
                     <div class="love_row mt-30">
-                    {% for e in ctx['pic'].get('arr', [])[1:] %}
-                        {% if len(e) %}
                         <div class="love_col love_col_2">
                             <div class="love_photo">
                                 <p><span class="love_icon love_icon-delete"></span></p>
-                                <img src="{{e}}" alt="">
+                                <img src="../img/img1.jpg" alt="">
                             </div>
                         </div>
-                        {% end %}
-                    {% end %}
+                        <div class="love_col love_col_2">
+                            <div class="love_photo">
+                                <p><span class="love_icon love_icon-delete"></span></p>
+                                <img src="../img/img1.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="love_col love_col_2">
+                            <div class="love_photo">
+                                <p><span class="love_icon love_icon-delete"></span></p>
+                                <img src="../img/img1.jpg" alt="">
+                            </div>
+                        </div>
                         <div class="love_col love_col_2">
                             <div class="love_photo_add btn_dialog btn_dialog_img">
-                                <img src="img/img3.png" alt="">
+                                <img src="../img/img3.png" alt="">
                             </div>
                         </div>
+                    </div>
+                    <div class="love_center_group">
+                        <button class="btn" type="button">确定</button>
+                        <button class="btn btn_blue love_mater_back" type="button">取消</button>
                     </div>
                 </div>
             </div>
@@ -420,17 +402,18 @@
             </div>
             <div class="love_heart_before">
                 <div class="love_mater love_heart">
-                    <p id="content">{{ctx['statement'].get('content', '未填')}}</p>
+                    <p>我的择偶标准简单例句一下：</p>
+                    <p>1、160~170cm。2、身体健康无不良习惯。3、不爱八卦逛淘宝。4、会点心、烤曲奇、做蛋糕，愿意每天在男人做菜前备好料、做完菜收拾桌子洗碗。5、告诉你不方便接电话的时候不追问。6、主动有情趣，懂男人的需要。7、在男人事业不顺时懂得怎么安慰他、鼓励他，不拖后腿，为他着想。8、每次约会不作不生气，规划好什么玩什么。9、收入不能少于男人的75%。10、坚持锻炼身体。11、自己最好有车。</p>
                     <a class="love_center_edit love_white_edit" href="javascript:void(0);">编辑</a>
                 </div>
             </div>
             <div class="love_heart_after love_after">
                 <div class="love_mater love_heart love_heart_edit">
                     <div class="tools_textarea">
-                        <textarea name="" id="statement" placeholder="不超过500字~">{{ctx['statement'].get('content', '未填')}}</textarea>
+                        <textarea name="" id="" placeholder="不超过500字~">1、160~170cm。2、身体健康无不良习惯。3、不爱八卦逛淘宝。4、会点心、烤曲奇、做蛋糕，愿意每天在男人做菜前备好料、做完菜收拾桌子洗碗。5、告诉你不方便接电话的时候不追问。6、主动有情趣，懂男人的需要。7、在男人事业不顺时懂得怎么安慰他、鼓励他，不拖后腿，为他着想。8、每次约会不作不生气，规划好什么玩什么。9、收入不能少于男人的75%。10、坚持锻炼身体。11、自己最好有车。</textarea>
                     </div>
                     <div class="love_center_group">
-                        <button class="btn" type="button" id="state_sure">确定</button>
+                        <button class="btn" type="button">确定</button>
                         <button class="btn btn_blue love_white_back" type="button">取消</button>
                     </div>
                 </div>
@@ -445,37 +428,42 @@
                 <div class="love_mater love_other">
                     <div class="love_other_box">
                         <div class="love_row">
+                            <div class="love_col love_col_4">性格特征：开朗、活泼、</div>
+                            <div class="love_col love_col_4">参加工作：已参加</div>
+                            <div class="love_col love_col_4">公司类型：教育</div>
+                            <div class="love_col love_col_4">职业类型：教育</div>
+                            <div class="love_col love_col_4">月薪：8000-10000</div>
+                            <div class="love_col love_col_4">投资理财：无</div>
+                            <div class="love_col love_col_4">购车：已购</div>
+                            <div class="love_col love_col_4">购房：— —</div>
+                        </div>
+                        <div class="love_row">
                             <div class="love_col love_col_5">
-                                <span id='m_o1'>手机：{{ ctx['otherinfo'].get('mobile', '未填')}}</span>
-                            {% if ctx['otherinfo'].get('mobile') %}
+                                手机：18900026767
                                 <div class="love_other_tools">
-                                    <button class="btn_center btn_center_plain" id='m_o3'>查看</button>
+                                    <button class="btn_center">对外公开</button>
+                                    <button class="btn_center btn_center_plain">解绑</button>
                                 </div>
-                            {% end %}
                             </div>
                             <div class="love_col love_col_5">
-                                <span id='em_o1'>邮箱：{{ctx['otherinfo'].get('email', '未填' )}}</span>
-                            {% if ctx['otherinfo'].get('email') %}
+                                邮箱：189000@qq.com
                                 <div class="love_other_tools">
-                                    <button class="btn_center btn_center_plain" id='em_o3'>查看</button>
+                                    <button class="btn_center">对外公开</button>
+                                    <button class="btn_center btn_center_plain">解绑</button>
                                 </div>
-                            {% end %}
                             </div>
                             <div class="love_col love_col_5">
-                                <span id='w_o1'>微信：{{ctx['otherinfo'].get('wx', '未填')}}</span>
-                            {% if ctx['otherinfo'].get('wx') %}
+                                微信：— — —
                                 <div class="love_other_tools">
-                                    <button class="btn_center btn_center_plain" id='w_o3'>查看</button>
+                                    <button class="btn_center">去绑定</button>
                                 </div>
-                            {% end %}
                             </div>
                             <div class="love_col love_col_5">
-                                <span id='q_o1'>QQ：{{ctx['otherinfo'].get('qq', '未填')}}</span>
-                            {% if ctx['otherinfo'].get('qq') %}
+                                QQ：189000587948
                                 <div class="love_other_tools">
-                                    <button class="btn_center btn_center_plain" id='q_o3'>查看</button>
+                                    <button class="btn_center">对外公开</button>
+                                    <button class="btn_center btn_center_plain">解绑</button>
                                 </div>
-                            {% end %}
                             </div>
                         </div>
                     </div>
@@ -488,34 +476,115 @@
                 <div class="love_mater love_other love_other_edit">
                     <div class="love_other_box">
                         <div class="love_row">
+                            <div class="love_col love_col_4">
+                                <div class="tools_row">
+                                    <span class="tools_label">性格特征：</span>
+                                    <div class="tools_input">
+                                        <input type="text" value="开朗、活泼">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="love_col love_col_4">
+                                <div class="tools_row">
+                                    <span class="tools_label">参加工作：</span>
+                                    <div class="tools_input">
+                                        <input type="text" value="已参加">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="love_col love_col_4">
+                                <div class="tools_row">
+                                    <span class="tools_label">公司类型：</span>
+                                    <div class="tools_input">
+                                        <input type="text" value="教育">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="love_col love_col_4">
+                                <div class="tools_row">
+                                    <span class="tools_label">职业类型：</span>
+                                    <div class="tools_input">
+                                        <input type="text" value="教育">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="love_col love_col_4">
+                                <div class="tools_row">
+                                    <span class="tools_label">月薪情况：</span>
+                                    <div class="tools_input">
+                                        <input type="text" value="8000-10000">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="love_col love_col_4">
+                                <div class="tools_row">
+                                    <span class="tools_label">投资理财：</span>
+                                    <div class="tools_input">
+                                        <input type="text" value="无">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="love_col love_col_4">
+                                <div class="tools_row">
+                                    <span class="tools_label">购车情况：</span>
+                                    <div class="tools_input">
+                                        <input type="text" value="已购">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="love_col love_col_4">
+                                <div class="tools_row">
+                                    <span class="tools_label">购房情况：</span>
+                                    <div class="tools_input">
+                                        <input type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="love_row">
                             <div class="love_col love_col_5">
                                 <span class="tools_label">手机：</span>
                                 <div class="tools_input">
-                                    <input type="text" id="m_o4" value="{{ctx['otherinfo'].get('mobile', '')}}">
+                                    <input type="text" value="18900026767">
+                                </div>
+                                <div class="love_other_tools">
+                                    <button class="btn_center">对外公开</button>
+                                    <button class="btn_center btn_center_plain">解绑</button>
                                 </div>
                             </div>
                             <div class="love_col love_col_5">
                                 <span class="tools_label">邮箱：</span>
                                 <div class="tools_input">
-                                    <input type="text" id='em_o4' value="{{ctx['otherinfo'].get('email', '')}}">
+                                    <input type="text" value="189000@qq.com">
+                                </div>
+                                <div class="love_other_tools">
+                                    <button class="btn_center">对外公开</button>
+                                    <button class="btn_center btn_center_plain">解绑</button>
                                 </div>
                             </div>
                             <div class="love_col love_col_5">
                                 <span class="tools_label">微信：</span>
                                 <div class="tools_input">
-                                    <input type="text" id='w_o4' value="{{ctx['otherinfo'].get('wx', '')}}">
+                                    <input type="text">
+                                </div>
+                                <div class="love_other_tools">
+                                    <button class="btn_center">去绑定</button>
                                 </div>
                             </div>
                             <div class="love_col love_col_5">
                                 <span class="tools_label">QQ：</span>
                                 <div class="tools_input">
-                                    <input type="text" id='q_o4' value="{{ctx['otherinfo'].get('qq', '')}}">
+                                    <input type="text" value="189000587948">
+                                </div>
+                                <div class="love_other_tools">
+                                    <button class="btn_center">对外公开</button>
+                                    <button class="btn_center btn_center_plain">解绑</button>
                                 </div>
                             </div>
                         </div>
 
                         <div class="love_center_group">
-                            <button class="btn" type="button" id="other_sure">确定</button>
+                            <button class="btn" type="button">确定</button>
                             <button class="btn btn_blue love_other_back" type="button">取消</button>
                         </div>
                     </div>
@@ -523,8 +592,26 @@
             </div>
         </div>
     </section>
-    {% include "../footer.html" %}
-<!--
+
+    <footer>
+        <div class="love_fluid love_footer">
+            <div class="love">
+                <div class="love_footer_text">
+                    <div class="love_row">
+                        <a href="">关于我们</a>
+                        <a href="">联系我们</a>
+                        <a href="">加入我们</a>
+                    </div>
+                    <p>蜀ICP备17035293号&emsp;川网备号12345号&emsp;电信业务经营许可证：川B2-12345</p>
+                    <p>版权所有 ©2017—2020 四川佳良缘网络科技有限公司</p>
+                </div>
+                <div class="love_footer_code">
+                    <img src="../img/code.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <div class="love_tools">
         <div class="love_tools_item">
             <a href="" class="love_icon love_icon-home"></a>
@@ -540,7 +627,6 @@
             <a href="javascript:(0);" class="love_icon love_icon-fanhuidingbu"></a>
         </div>
     </div>
--->
 
     <div class="love_dialog">
         <!-- 充值 -->
@@ -635,13 +721,13 @@
         </div>
     </div>
 
-    <script src="js/jquery-min.js"></script>
-    <script src="js/jquery.cityselect.js"></script>
-    <script src="js/jquery.SuperSlide.2.1.1.js"></script>
-    <script src="js/webuploader.min.js"></script>
-    <script src="js/tools.js"></script>
-    <script src="js/center.js"></script>
-    <script src="js/upload.js"></script>
+    <script src="../js/jquery-min.js"></script>
+    <script src="../js/jquery.cityselect.js"></script>
+    <script src="../js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="../js/webuploader.min.js"></script>
+    <script src="../js/default.js"></script>
+    <script src="../js/center.js"></script>
+    <script src="../js/upload.js"></script>
     <script>
         jQuery(".picScroll-left").slide({
             mainCell: ".bd ul",

@@ -21,18 +21,18 @@ ajax的data字段中，一定要有{"_xsrf":xsrf}字段，否则传不上去
 
 
 1，最新注册男会员url: POST  /new
-   parameters:    sex=1&limit=4&page=12&next=0
+parameters:    sex=1&limit=4&page=12&next=0
 2，最新注册女会员url: POST  /new
-   parameters:    sex=2&limit=4&page=12&next=0
+parameters:    sex=2&limit=4&page=12&next=0
 3，寻觅url:           POST  /find
-   parameters: null
+parameters: null
 
 以上3中的返回数据格式都是一样的，如下所示：
-   {
-     'code': 0,-1, //0成功, -1失败
-     'msg': 'ok',或者 'reason'
-     'data': [{'user': {},'pic': {},'statement': {}},...]
-   }
+{
+    'code': 0,-1, //0成功, -1失败
+    'msg': 'ok',或者 'reason'
+    'data': [{'user': {},'pic': {},'statement': {}},...]
+}
 其中user数据结构如下:
 {
     'id': 用户id,
