@@ -61,39 +61,46 @@ class IndexHandler(BaseHandler):
 
         self.render('index/index.html', ctx=ctx)
 
-class IndexOtherHandler(tornado.web.RequestHandler):
+class IndexNewHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        url = 'http://%s:%s/indexdata' % (conf.dataserver_ip, conf.dataserver_port)
-        headers = self.request.headers
-        http_client = tornado.httpclient.AsyncHTTPClient()
-        resp = yield tornado.gen.Task(
-                http_client.fetch,
-                url,
-                method='POST',
-                headers=headers,
-                body='a=1',
-                validate_cert=False)
-        data = resp.body
-        r = {}
-        try:
-            r = json.loads(data)
-        except:
+        sex   = int(self.get_argument('sex', 0)) 
+        limit = int(self.get_argument('limit', 0)) 
+        page  = int(self.get_argument('page',  0)) 
+        next_ = int(self.get_argument('next',  0))
+        if sex < 1 or limit < 1 or page < 1 or next_ != 0:
+            d = {'code': -1, 'msg':'error', 'data':{}}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else:
+            url = 'http://%s:%s/new' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = 'sex=%d&limit=%d&page=%d&next_=%d' % (sex,limit,page,next_)
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            data = resp.body
             r = {}
-        R = {}
-        try:
-            R['code'] = 0
-            D = {'new_male': r.get('new_male',[]), 'new_female': r.get('new_female', [])}
-            R['new']  = self.render_string('index/new.html', D=D)
-            R['find'] = self.render_string('index/find.html', D=r.get('find', []))
-        except Exception, e:
-            R['code'] = -1
-            R['new'] = e.message
-            R['find'] = e.message
-        R = json.dumps(R)
-        self.write(R)
-        self.finish()
+            try:
+                r = json.loads(data)
+            except:
+                r = {}
+            if not r or r.get('code', -1) != 0:
+                d = {'code':-1, 'msg':'error', 'data':{}}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
+            else:
+                r = json.dumps(r)
+                self.write(r)
+                self.finish()
 
 class LoginHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -531,7 +538,7 @@ if __name__ == "__main__":
         (r"/js/(.*)", StaticFileHandler, {"path": "static/js"}),  
         (r"/img/(.*)", StaticFileHandler, {"path": "static/img"}), 
         ('/', IndexHandler),
-        ('/indexother', IndexOtherHandler),
+        ('/new', IndexNewHandler),
         ('/login', LoginHandler),
         ('/logout', LogoutHandler),
         ('/regist', RegistHandler),

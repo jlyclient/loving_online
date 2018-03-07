@@ -20,28 +20,37 @@ function get_cookie_by_name(name)
 ajax的data字段中，一定要有{"_xsrf":xsrf}字段，否则传不上去
 
 
-1，最新注册男会员url: GET  /new_male
-2，最新注册女会员url: GET  /new_female
-3，寻觅url:           GET  /search
-   search请求参数:
-   sex=0&age=18&curr_loc1=北京&curr_loc2=东城区&ori_loc1=北京&ori_loc2=东城区&degree=0&salary=0&xz=0&nation=汉族
-   首页中所有参数为空，可以用GET方法，也可以用post方法
+1，最新注册男会员url: POST  /new
+   parameters:    sex=1&limit=4&page=12&next=0
+2，最新注册女会员url: POST  /new
+   parameters:    sex=2&limit=4&page=12&next=0
+3，寻觅url:           POST  /find
+   parameters: null
 
 以上3中的返回数据格式都是一样的，如下所示：
    {
      'code': 0,-1, //0成功, -1失败
      'msg': 'ok',或者 'reason'
-     'data': [{'name':xx,
-               'sex':0,1,
-               'age':22,
-               'height':165,
-               'degree': 0=保密 1=高中及以下 2=中专/大专 3=本科 4=研究生 5=博士及博士后,
-               'motto': 简介//两行一共不超过37个汉字,标点符号算一个汉字，超出部分用...表示,
-               'img': 图片url,
-               'landing_url': 点击用户跳转url
-              },
-              {
-              },
-              ...
-             ]
+     'data': [{'user': {},'pic': {},'statement': {}},...]
    }
+其中user数据结构如下:
+{
+    'id': 用户id,
+    'nick_name': 登录名字, 
+    'sex': 性别 0=未填 1=男 2=女,
+    'age': 年龄,
+    'height': 身高,
+    'degree' 学历 0=保密 1=高中及以下 2=中专/大专 3=本科 4=研究生 5=博士及博士后
+}
+pic数据结构如下:
+{
+    'id': 用户id,
+    'count': 还可以上传几张图片, 最多能上传10张 0~9 第0张是头像，1~9是照片
+    'arr': [url0, url1, url2, ......url9] url是图片的url,如果第i张url为空,则从它开始及其以后都没有图片了
+}
+statement数据结构如下:
+{
+    'id': 用户id,
+    'motto': 用户爱情宣言或简介或自我介绍,
+    'content': 用户的内心独白
+}

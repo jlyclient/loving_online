@@ -389,8 +389,8 @@ function fill_other()
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         type: 'POST',
-        url:  '/indexother',
-        data: {'_xsrf': xsrf},
+        url:  '/new',
+        data: {'_xsrf': xsrf, 'sex':1, 'limit':4,'page':12,'next':0},
         success: function(para) {
             var r = JSON.parse(para);
             if (r['code'] == '0') {
