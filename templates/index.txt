@@ -28,6 +28,7 @@ parameters:    sex=2&limit=4&page=12&next=0
 parameters: null
 4，按条件查找url：    POST /find
 parameters: sex=1&agemin=18&agemax=25&cur1=北京&cur2=昌平区&ori1=海南省&ori2=海口&degree=3&salary=2&xingzuo&=1&shengxiao=2&limit=12&12&0
+   首页中不用传递参数即可
 按条件查找
 sex:       1=男 2=女
 agemin:    年龄区间最小
@@ -38,8 +39,8 @@ ori1:      籍贯所在省(直辖市)
 ori2:      籍贯所在市(直辖市区)
 degree:    学历  0=保密 1=高中及以下 2=中专/大专
                  3=本科 4=研究生     5=博士及博士后
-salary:    薪资  0=3000以下    1=3000~5000 2=5000~10000 3=10000~20000
-                 4=20000~50000 5=50000以上
+salary:    薪资  0=未填        1=2000以下    2=2000~5000 3=5000~10000
+                 4=10000~20000 5=20000~50000 6=50000以上
 xingzuo:   星座  0=未填 1~12依次顺排星座 1=白羊座 2=金牛座 3=双子座
 shengxiao: 生肖  0=未填 1~12依次顺排生肖 1=鼠 2=牛 3=虎...12=猪
 limit:     一次最多取limit个
