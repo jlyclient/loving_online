@@ -81,7 +81,7 @@ function get_new_member(sex_, dom) {
 function find_member(dom) {
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
-        type:'POST',
+        type:'POST',
         url: '/find',
         data: {
             "_xsrf":xsrf

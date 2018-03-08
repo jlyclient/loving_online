@@ -176,7 +176,8 @@ class FindHandler(tornado.web.RequestHandler):
                         self.write(r)
                         self.finish()
                     else:
-                        r = {'code':0, 'msg':'ok', 'data':d['data']}
+                        r = {'code':0, 'msg':'ok',
+                             'count':d.get('count', 0),'data':d['data']}
                         r = json.dumps(r)
                         self.write(r)
                         self.finish()
@@ -209,7 +210,8 @@ class FindHandler(tornado.web.RequestHandler):
                 self.write(r)
                 self.finish()
             else:
-                r = {'code':0, 'msg':'ok', 'data':d['data']}
+                r = {'code':0, 'msg':'ok',
+                     'count': d.get('count', 0), 'data':d['data']}
                 r = json.dumps(r)
                 self.write(r)
                 self.finish()
@@ -641,7 +643,7 @@ if __name__ == "__main__":
         "template_path": os.path.join(os.path.dirname(__file__), "templates"),
         "static_path": os.path.join(os.path.dirname(__file__), "static"),
         "cookie_secret": "bZJc2sWbQLKos6GkHn/VB9oXwQt8S0R0kRvJ5/xJ89E=",
-        "xsrf_cookies": False,
+        "xsrf_cookies": True,
         "login_url": "/",
         "debug":True}
     handler = [

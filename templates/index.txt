@@ -51,6 +51,7 @@ next_:     分页, 0=第一页 1=第二页
 {
     'code': 0,-1, //0成功, -1失败
     'msg': 'ok',或者 'reason'
+    'count': count, 总共有多少人
     'data': [{'user': {},'pic': {},'statement': {}},...]
 }
 其中user数据结构如下:
