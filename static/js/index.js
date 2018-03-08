@@ -78,12 +78,60 @@ function get_new_member(sex_, dom) {
         } 
     })
 }
+function find_member(data, dom) {
+    $.ajax({
+        type:'POST',
+        url: '/find',
+        data: data,
+        success: function(mes) {
+            var boydata = JSON.parse(mes);
+            if (boydata['code'] == '0') {
+                var boyhtml = '';
+                var degreearr = ['保密', '高中及以下', '中专/大专', '本科', '研究生', '博士及博士后'];
+                var sexarr = ['未填', '男', '女'];
+                for (var i = 0; i < boydata.data.length; i++) {
+                    var head_pic = boydata.data[i].pic.arr[0];
+                    if (head_pic.length == 0) {
+                        if (sex_ == 1) {
+                            head_pic = '/img/default_male.jpg';
+                        } else if (sex_ == 2) {
+                            head_pic = '/img/default_female.jpg';
+                        }
+                    }
+                    boyhtml += '<div class="love_col love_col_4 love_item"> ' +
+                    '<div class="love_img">' +
+                        '<a href="detail.html" target="_blank">' +
+                            '<img src='+head_pic+' alt="">' +
+                        '</a>'+
+                    '</div>'+
+                    '<h2>'+ boydata.data[i].user.nick_name +' '+
+                        '<span>（'+ sexarr[boydata.data[i].user.sex] +'）</span>' +
+                    '</h2>'+
+                    '<p>'+
+                        '<span>'+ boydata.data[i].user.age +'岁</span>'+
+                        '<span>'+ boydata.data[i].user.height +'CM</span>'+
+                        '<span>'+ degreearr[boydata.data[i].user.degree] + '</span>'+
+                    '</p>'+
+                    '<p class="love_text">'+ boydata.data[i].statement.motto+'</p>'+
+                '</div>';
+                }
+                $('#'+dom+'').append(boyhtml);
+            } else {
+                console.log('获取数据失败！');
+            }
+        },
+        error: function(para) {
+            console.log('ajax请求失败：' + para);
+        } 
+    })
+}
 $(function() {
-    var xsrf = get_cookie_by_name('_xsrf');
     // 最新注册男会员
     get_new_member(1, 'love_row_boy');
     // 最新注册女会员
     get_new_member(2, 'love_row_girl');
+    // 获取寻觅信息
+    find_member(null, 'find_member')
     //更多搜索
     $(document).on('click', '.love_search_more', function() {
         $(this).toggleClass('active');
@@ -92,8 +140,6 @@ $(function() {
         else
             $('.love_search_other').hide();
     });
-
-
     //获取动态码
     $(document).on('click', '.btn_ver', function() {
         var count = 60;
