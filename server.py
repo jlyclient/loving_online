@@ -103,6 +103,116 @@ class IndexNewHandler(tornado.web.RequestHandler):
                 r = json.dumps(r)
                 self.write(r)
                 self.finish()
+class FindHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        sex          = int(self.get_argument('sex',     -1))
+        agemin       = int(self.get_argument('agemin',  -1))
+        agemax       = int(self.get_argument('agemax',  -1))
+        cur1         = self.get_argument('cur1',    None)
+        cur2         = self.get_argument('cur2',    None)
+        ori1         = self.get_argument('ori1',    None)
+        ori2         = self.get_argument('ori2',    None)
+        degree       = int(self.get_argument('degree', -1))
+        salary       = int(self.get_argument('salary', -1))
+        xz           = self.get_argument('xingzuo', None)
+        sx           = self.get_argument('shengxiao', None)
+        limit        = int(self.get_argument('limit', -1))
+        page         = int(self.get_argument('page', -1))
+        next_        = int(self.get_argument('next', -1))
+        if sex != -1 or agemin != -1 or agemax != -1 or cur1 or cur2 or ori1 or ori2 or degree != -1 or salary != -1 or xz or sx or limit != -1 or page != -1 or next_ != -1:
+            '''ctx section begin '''
+            cookie = self.get_secure_cookie('userid')
+            ctx = {}
+            if cookie:
+                url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+                headers = self.request.headers
+                http_client = tornado.httpclient.AsyncHTTPClient()
+                resp = yield tornado.gen.Task(
+                        http_client.fetch,
+                        url,
+                        method='POST',
+                        headers=headers,
+                        body='cookie=%s'%cookie,
+                        validate_cert=False)
+                b = resp.body
+                d = {}
+                try:
+                    d = json.loads(b)
+                except:
+                    d = {}
+                if d.get('code', -1) == -1:
+                    ctx = {}
+                else:
+                    ctx = d.get('data', {})
+                '''ctx section end '''
+                if not ctx:
+                    self.clear_cookie('userid')
+                    r = {'code':-1, 'msg':'请先登录!', 'data':{}}
+                    r = json.dumps(r)
+                    self.write(r)
+                    self.finish()
+                else:
+                    url = 'http://%s:%s/find' % (conf.dataserver_ip, conf.dataserver_port)
+                    headers = self.request.headers
+                    http_client = tornado.httpclient.AsyncHTTPClient()
+                    resp = yield tornado.gen.Task(
+                            http_client.fetch,
+                            url,
+                            method='POST',
+                            headers=headers,
+                            body=self.request.body,
+                            validate_cert=False)
+                    b = resp.body
+                    d = {}
+                    try:
+                        d = json.loads(b)
+                    except:
+                        d = {}
+                    if not d or d.get('code', -1) != 0 or not d.get('data'):
+                        r = {'code':-1, 'msg':'error', 'data':[]}
+                        r = json.dumps(r)
+                        self.write(r)
+                        self.finish()
+                    else:
+                        r = {'code':0, 'msg':'ok', 'data':d['data']}
+                        r = json.dumps(r)
+                        self.write(r)
+                        self.finish()
+
+            else:
+                r = {'code':-1, 'msg':'请先登录!', 'data':[]}
+                r = json.dumps(r)
+                self.write(r)
+                self.finish()
+        else:
+            url = 'http://%s:%s/find' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=self.request.body,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if not d or d.get('code', -1) != 0 or not d.get('data'):
+                r = {'code':-1, 'msg':'error', 'data':[]}
+                r = json.dumps(r)
+                self.write(r)
+                self.finish()
+            else:
+                r = {'code':0, 'msg':'ok', 'data':d['data']}
+                r = json.dumps(r)
+                self.write(r)
+                self.finish()
 
 class LoginHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -541,6 +651,7 @@ if __name__ == "__main__":
         (r"/img/(.*)", StaticFileHandler, {"path": "static/img"}), 
         ('/', IndexHandler),
         ('/new', IndexNewHandler),
+        ('/find', FindHandler),
         ('/login', LoginHandler),
         ('/logout', LogoutHandler),
         ('/regist', RegistHandler),

@@ -26,8 +26,27 @@ parameters:    sex=1&limit=4&page=12&next=0
 parameters:    sex=2&limit=4&page=12&next=0
 3，寻觅url:           POST  /find
 parameters: null
+4，按条件查找url：    POST /find
+parameters: sex=1&agemin=18&agemax=25&cur1=北京&cur2=昌平区&ori1=海南省&ori2=海口&degree=3&salary=2&xingzuo&=1&shengxiao=2&limit=12&12&0
+按条件查找
+sex:       1=男 2=女
+agemin:    年龄区间最小
+agemax:    年龄区间最大
+cur1:      当前居住省(直辖市)
+cur2:      当前居住市(直辖市区)
+ori1:      籍贯所在省(直辖市)
+ori2:      籍贯所在市(直辖市区)
+degree:    学历  0=保密 1=高中及以下 2=中专/大专
+                 3=本科 4=研究生     5=博士及博士后
+salary:    薪资  0=3000以下    1=3000~5000 2=5000~10000 3=10000~20000
+                 4=20000~50000 5=50000以上
+xingzuo:   星座  0=未填 1~12依次顺排星座 1=白羊座 2=金牛座 3=双子座
+shengxiao: 生肖  0=未填 1~12依次顺排生肖 1=鼠 2=牛 3=虎...12=猪
+limit:     一次最多取limit个
+page:      一个页面最多能展示page个
+next_:     分页, 0=第一页 1=第二页
 
-以上3中的返回数据格式都是一样的，如下所示：
+以上4种的返回数据格式都是一样的，如下所示：
 {
     'code': 0,-1, //0成功, -1失败
     'msg': 'ok',或者 'reason'
