@@ -78,11 +78,14 @@ function get_new_member(sex_, dom) {
         } 
     })
 }
-function find_member(data, dom) {
+function find_member(dom) {
+    var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         type:'POST',
         url: '/find',
-        data: data,
+        data: {
+            "_xsrf":xsrf
+        },
         success: function(mes) {
             var boydata = JSON.parse(mes);
             if (boydata['code'] == '0') {
@@ -126,13 +129,12 @@ function find_member(data, dom) {
     })
 }
 $(function() {
-    var xsrf = get_cookie_by_name('_xsrf');
     // 最新注册男会员
     get_new_member(1, 'love_row_boy');
     // 最新注册女会员
     get_new_member(2, 'love_row_girl');
     // 获取寻觅信息
-    find_member({"_xsrf":xsrf}, 'find_member')
+    find_member('find_member')
     //更多搜索
     $(document).on('click', '.love_search_more', function() {
         $(this).toggleClass('active');
