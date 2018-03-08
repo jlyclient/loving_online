@@ -95,9 +95,9 @@ function find_member(dom) {
                 for (var i = 0; i < boydata.data.length; i++) {
                     var head_pic = boydata.data[i].pic.arr[0];
                     if (head_pic.length == 0) {
-                        if (sex_ == 1) {
+                        if (boydata.data[i].user.sex == 1) {
                             head_pic = '/img/default_male.jpg';
-                        } else if (sex_ == 2) {
+                        } else if (boydata.data[i].user.sex == 2) {
                             head_pic = '/img/default_female.jpg';
                         }
                     }
