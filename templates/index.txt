@@ -1,3 +1,24 @@
+首页    url: /
+约会    url: /dating
+征婚    url: /marriage
+自己找  url: /find
+个人中心url: /center
+充值    url: /pay
+铃铛    url: /email
+用户名  url: /center
+退出登录url: /logout
+logo    url: /
+
+首页下方foot处需要将工信部备案号和公安部备案号添加上去
+
+备案/许可证编号为：蜀ICP备18003572号
+川公网安备 51010802000485号  //公安图标在static/img/police.jpg
+公安备案格式的html如下：
+            <div style="width:300px;margin:0 auto; padding:20px 0;">
+                            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51010802000485" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">川公网安备 51010802000485号</p></a>
+                                        </div>
+                                                 
+
 index.html协议定义如下:
 
 注意: 所有的post请求都需要有_xsrf参数:
@@ -22,12 +43,18 @@ ajax的data字段中，一定要有{"_xsrf":xsrf}字段，否则传不上去
 
 1，最新注册男会员url: POST  /new
 parameters:    sex=1&limit=4&page=12&next=0
+   最新注册男会员更多url: POST /new
+parameters:    sex=1&limit=12&page=12&next=0
 2，最新注册女会员url: POST  /new
 parameters:    sex=2&limit=4&page=12&next=0
+   最新注册女会员url: POST  /new
+parameters:    sex=2&limit=12&page=12&next=0
 3，寻觅url:           POST  /find
 parameters: null
+   寻觅搜索url:       POST  /find
+parameters: limit=12&page=12&next=0
 4，按条件查找url：    POST /find
-parameters: sex=1&agemin=18&agemax=25&cur1=北京&cur2=昌平区&ori1=海南省&ori2=海口&degree=3&salary=2&xingzuo&=1&shengxiao=2&limit=12&12&0
+parameters: sex=1&agemin=18&agemax=25&cur1=北京&cur2=昌平区&ori1=海南省&ori2=海口&degree=3&salary=2&xingzuo&=1&shengxiao=2&limit=12&page=12&next=0
    首页中不用传递参数即可
 按条件查找
 sex:       1=男 2=女
