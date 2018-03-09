@@ -5,6 +5,7 @@ import tornado.ioloop
 import tornado.web
 import tornado.options
 import hashlib
+import random
 import os.path
 import json
 import time
@@ -68,8 +69,8 @@ class IndexNewHandler(tornado.web.RequestHandler):
         sex   = int(self.get_argument('sex', 0)) 
         limit = int(self.get_argument('limit', 0)) 
         page  = int(self.get_argument('page',  0)) 
-        next_ = int(self.get_argument('next',  0))
-        if sex < 1 or limit < 1 or page < 1 or next_ != 0:
+        next_ = int(self.get_argument('next',  -1))
+        if sex < 1 or limit < 1 or page < 1 or next_ == -1:
             d = {'code': -1, 'msg':'error', 'data':{}}
             d = json.dumps(d)
             self.write(d)
@@ -77,14 +78,13 @@ class IndexNewHandler(tornado.web.RequestHandler):
         else:
             url = 'http://%s:%s/new' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
-            body = 'sex=%d&limit=%d&page=%d&next_=%d' % (sex,limit,page,next_)
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
                     url,
                     method='POST',
                     headers=headers,
-                    body=body,
+                    body=self.request.body,
                     validate_cert=False)
             data = resp.body
             r = {}
@@ -220,16 +220,15 @@ class LoginHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        name   = self.get_argument('username', None)
+        mobile = self.get_argument('mobile', None)
         passwd = self.get_argument('password', None)
-        if not name or not passwd:
+        if not mobile or not passwd:
             r = {'code':-1, 'msg':'', 'data':{}}
             r = json.dumps(r)
             self.write(r)
             self.finish()
         else:
             url = 'http://%s:%s/login' % (conf.dataserver_ip, conf.dataserver_port)
-            body = 'username=%s&password=%s' % (name, passwd)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -237,7 +236,7 @@ class LoginHandler(tornado.web.RequestHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body=body,
+                    body=self.request.body,
                     validate_cert=False)
             r = resp.body
             try:
@@ -245,27 +244,24 @@ class LoginHandler(tornado.web.RequestHandler):
             except:
                 r = {}
             if not r:
-                a = {'code': -1, 'msg': '服务器出错!', 'data':{}}
+                a = {'code': -2, 'msg': '服务器出错!'}
                 a = json.dumps(a)
                 self.write(a)
             elif r.get('code', -1) == -1:
-                a = {'code': -1, 'msg': '用户名或密码错误!', 'data':{}}
+                a = {'code': -1, 'msg': '手机号或密码错误!'}
                 a = json.dumps(a)
                 self.write(a)
             elif r.get('code', -1) == 0:
-                d = r.get('data', {})
-                user = d.get('user', {})
-                if not user.get('nick_name') or not user.get('password'):
-                    a = {'code': -1, 'msg': 'cookie错误!', 'data':{}}
-                    a = json.dumps(a)
-                    self.write(a)
-                else:
-                    key = 'user_%s_%s' % (user['nick_name'], user['password'])
+                try:
+                    d = r['data']
+                    user = d['user']
+                    key = 'user_%s_%s' % (user['mobile'], user['password'])
                     self.set_secure_cookie('userid', key)
-                    a = self.render_string('header_user.html', name=user['nick_name'])
-                    a = {'code': 0, 'msg': a, 'data':{}}
-                    a = json.dumps(a)
-                    self.write(a)
+                    a = {'code': 0, 'msg': 'ok', 'data':{'id':user['id'], 'nick_name':user['nick_name']}}
+                except:
+                    a = {'code': -2, 'msg': '服务器错误'}
+                a = json.dumps(a)
+                self.write(a)
             self.finish()
 
 class LogoutHandler(BaseHandler):
@@ -277,27 +273,89 @@ class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        name      = self.get_argument('username', None)
-        passwd    = self.get_argument('password', None)
-        gender    = self.get_argument('gender', None)
-        if not name or not passwd:
-            self.write('-1')
+        mobile    = self.get_argument('mobile', None)
+        passwd1   = self.get_argument('passwd1', None)
+        passwd2   = self.get_argument('passwd2', None)
+        sex       = int(self.get_argument('sex', 0))
+        token     = self.get_argument('token', None)
+        t_        = int(self.get_argument('time', 0))
+        if not mobile:
+            d = {'code':-6, 'msg':'手机号为空'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        elif not passwd1 or not passwd2 or passwd1 != passwd2:
+            d = {'code':-3, 'msg':'两次密码不一致'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        elif sex not in [1,2]:
+            d = {'code':-5, 'msg':'性别错误'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        elif not token:
+            d = {'code':-4, 'msg':'token非法'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        elif not code:
+            d = {'code':-2, 'msg':'验证码不正确'}
+            d = json.dumps(d)
+            self.write(d)
             self.finish()
         else:
-            url = 'http://%s:%s/regist' % (conf.dataserver_ip, conf.dataserver_port)
-            headers = self.request.headers
-            body = 'username=%s&password=%s' % (name, passwd)
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body=body,
-                    validate_cert=False)
-            r = resp.body
-            self.write(r)
-            self.finish()
+            secret = 'jly'
+            s = code + t_ + secret
+            m2 = hashlib.md5()   
+            m2.update(s)   
+            digest = m2.hexdigest()
+            if digest != token:
+                d = {'code':-4, 'msg':'token非法'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
+            else:
+                tn = int(time.time())
+                if tn - t_ > 120:
+                    d = {'code':-1, 'msg':'验证码超时'}
+                    d = json.dumps(d)
+                    self.write(d)
+                    self.finish()
+                else:
+                    url = 'http://%s:%s/regist' % (conf.dataserver_ip, conf.dataserver_port)
+                    headers = self.request.headers
+                    body = 'mobile=%s&password=%s&sex=%d' % (mobile, passwd1, sex)
+                    http_client = tornado.httpclient.AsyncHTTPClient()
+                    resp = yield tornado.gen.Task(
+                            http_client.fetch,
+                            url,
+                            method='POST',
+                            headers=headers,
+                            body=body,
+                            validate_cert=False)
+                    r = resp.body
+                    d = {}
+                    try:
+                        d = json.loads(r)
+                    except:
+                        d = {}
+                    if not d:
+                        d = {'code':-7, 'msg':'服务器错误'}
+                        d = json.dumps(d)
+                        self.write(d)
+                        self.finish()
+                    else:
+                        r = {'code': 0, 'msg':'ok'}
+                        if d['code'] == 0:
+                            r = {'code': 0, 'msg':'ok'}
+                        elif d['code'] == -1:
+                            r = {'code':-7, 'msg':'服务器错误'}
+                        else:
+                            r = {'code': -8, 'msg':'手机号已经被注册过了'}
+                        r = json.dumps(r)
+                        self.write(r)
+                        self.finish()
 
 class PersonalCenterHandler(BaseHandler):
     @tornado.web.authenticated
