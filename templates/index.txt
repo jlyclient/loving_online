@@ -107,6 +107,16 @@ statement数据结构如下:
      微信和QQ扫描二维码:没有注册则注册并登录，已经注册的直接登录
 
 手机注册:
+    获得验证码请求：POST /verify_code
+    参数：null
+    返回值：{'code':0, 'msg':'ok', 'token':xxxxxx}
+    其中：
+        code: 标识获取验证码状态
+                0：成功
+               -1：失败
+        msg: 对code的文字说明
+        token: 当且仅当code=0时有效,用作重置密码发送请求参数之一,见下面
+
     参数：mobile=13990906699&code=234570&sex=1&passwd1=xxx&passwd2=xxx&token=xxxxxxxxxx
     其中：
         mobile: 手机号码            //客户端需要校验是否有效手机号
@@ -126,22 +136,31 @@ statement数据结构如下:
 
 登录：
 手机登录：
-   参数：mobile=13977778888&passwd1=xxx&passwd2=xxx
+   参数：mobile=13977778888&password=xxx
    其中：
        mobile：手机号码            //客户端需要校验是否有效手机号
-       passwd1：第一次输入的密码
-       passwd2：第二次输入的密码   //两次密码需要在客户端校验是否一致
+       password：密码
    返回值: {'code':0, 'msg':'ok'}
    其中：
         code: 标识这次手机登录的状态
              0：成功
-            -1：失败  msg:'用户名或密码不正确'
+            -1：失败  msg:'手机号或密码不正确'
         msg: 对code的文字说明
 
 QQ、微信登录：
     直接扫描二维码，客户端无需操作
 
 找回密码：
+    获得验证码请求：POST /verify_code
+    参数：null
+    返回值：{'code':0, 'msg':'ok', 'token':xxxxxx}
+    其中：
+        code: 标识获取验证码状态
+                0：成功
+               -1：失败
+        msg: 对code的文字说明
+        token: 当且仅当code=0时有效,用作重置密码发送请求参数之一,见下面
+    
     手机找回
 POST请求参数：mobile=13899996666&code=xxx&passwd1=xxx&passwd2=xxx&token=xxx
     其中：
