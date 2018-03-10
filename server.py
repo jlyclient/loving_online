@@ -59,7 +59,7 @@ class IndexHandler(BaseHandler):
             else:
                 ctx = d.get('data', {})
         '''ctx section end'''
-
+             
         self.render('index.html', ctx=ctx)
 
 class IndexNewHandler(tornado.web.RequestHandler):
@@ -268,6 +268,42 @@ class LogoutHandler(BaseHandler):
     def get(self):
         self.clear_cookie('userid')
         self.redirect('/')
+
+class VerifyHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        p = '^(1[356789])[0-9]{9}$'
+        mobile  = self.get_argument('mobile', None)
+        if not mobile or not re.match(p, mobile):
+            d = {'code': -1, 'msg':'invalid phonenumber'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else:
+            url = 'http://%s:%s/verify' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=self.request.body + '&ip=%s'%str(self.request.remote_ip),
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {}
+            if not d or d['code'] == -1:
+                d = {'code':-1, 'msg':'failed'}
+            else:
+                d = {'code':0, 'msg':'ok', 'time':d['time'], 'token':d['token']}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
 
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -715,6 +751,7 @@ if __name__ == "__main__":
         ('/login', LoginHandler),
         ('/logout', LogoutHandler),
         ('/regist', RegistHandler),
+        ('/verify', VerifyHandler),
         ('/center', PersonalCenterHandler),
         ('/basic_edit', PersonalBasicEditHandler),
         ('/statement_edit', StatementEditHandler),
