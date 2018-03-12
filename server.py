@@ -272,7 +272,7 @@ class LogoutHandler(BaseHandler):
 class VerifyHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
-    def post(self):
+    def get(self):
         p = '^(1[356789])[0-9]{9}$'
         mobile  = self.get_argument('mobile', None)
         if not mobile or not re.match(p, mobile):
@@ -283,13 +283,14 @@ class VerifyHandler(tornado.web.RequestHandler):
         else:
             url = 'http://%s:%s/verify' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
+            body = "mobile=%s&ip=%s" % (mobile, self.request.remote_ip)
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
                     url,
                     method='POST',
                     headers=headers,
-                    body=self.request.body + '&ip=%s'%str(self.request.remote_ip),
+                    body=body,
                     validate_cert=False)
             r = resp.body
             d = {}
@@ -305,6 +306,102 @@ class VerifyHandler(tornado.web.RequestHandler):
             self.write(d)
             self.finish()
 
+class FindVerifyHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        p = '^(1[356789])[0-9]{9}$'
+        mobile  = self.get_argument('mobile', None)
+        if not mobile or not re.match(p, mobile):
+            d = {'code': -1, 'msg':'invalid phonenumber'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else:
+            url = 'http://%s:%s/find_verify' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = "mobile=%s&ip=%s" % (mobile, self.request.remote_ip)
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {}
+            if not d or d['code'] == -1:
+                d = {'code':-1, 'msg':'failed'}
+            else:
+                d = {'code':0, 'msg':'ok', 'time':d['time'], 'token':d['token']}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+
+class FindPasswordHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        mobile   = self.get_argument('mobile', None)
+        code     = self.get_argument('code',   None)
+        token    = self.get_argument('token',  None)
+        t_       = self.get_argument('time',   None)
+        passwd1  = self.get_argument('passwd1',None)
+        passwd2  = self.get_argument('passwd2',None)
+        d = {}
+        if not mobile:
+            d = {'code': -1, 'msg': 'mobile is null'}
+        elif not code:
+            d = {'code': -2, 'msg': 'code is null'}
+        elif not token or not t_:
+            d = {'code': -3, 'msg': 'parameter invalid'}
+        elif not passwd1 or not passwd2 or passwd1 != passwd2:
+            d = {'code': -4, 'msg': 'password error'}
+        else:
+            sec = 'jly'
+            s = code + t_ + sec
+            m2 = hashlib.md5()
+            m2.update(s)
+            digest = m2.hexdigest()
+            if digest != token:
+                d = {'code': -3, 'msg': 'parameter invalid'}
+            else:
+                tn = int(time.time())
+                if tn - int(t_) > 120:
+                    d = {'code': -5, 'msg': 'timeout'}
+                else:
+                    url = 'http://%s:%s/find_password' % (conf.dataserver_ip, conf.dataserver_port)
+                    headers = self.request.headers
+                    body = 'mobile=%s&password=%s' % (mobile, passwd1)
+                    http_client = tornado.httpclient.AsyncHTTPClient()
+                    resp = yield tornado.gen.Task(
+                            http_client.fetch,
+                            url,
+                            method='POST',
+                            headers=headers,
+                            body=body,
+                            validate_cert=False)
+                r = resp.body
+                D = {}
+                try:
+                    D = json.loads(r)
+                except:
+                    D = {}
+                if not D or D.get('code', -1) != 0:
+                    d = {'code': -6, 'msg': D.get('msg', 'failed')}
+                else:
+                    d = {'code': 0, 'msg':'ok'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
+
+
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -315,8 +412,9 @@ class RegistHandler(tornado.web.RequestHandler):
         sex       = int(self.get_argument('sex', 0))
         token     = self.get_argument('token', None)
         t_        = int(self.get_argument('time', 0))
-        if not mobile:
-            d = {'code':-6, 'msg':'手机号为空'}
+        p = '^(1[356789])[0-9]{9}$'
+        if not mobile or not re.match(p, mobile):
+            d = {'code':-6, 'msg':'mobile invalid'}
             d = json.dumps(d)
             self.write(d)
             self.finish()
@@ -752,6 +850,8 @@ if __name__ == "__main__":
         ('/logout', LogoutHandler),
         ('/regist', RegistHandler),
         ('/verify', VerifyHandler),
+        ('/find_verify', FindVerifyHandler),
+        ('/find_password', FindPasswordHandler),
         ('/center', PersonalCenterHandler),
         ('/basic_edit', PersonalBasicEditHandler),
         ('/statement_edit', StatementEditHandler),
