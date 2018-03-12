@@ -1,6 +1,6 @@
 // 所有页面共存的方法，例如 翻页,城市选择之类
 $(function() {
-    var uploader = '';
+    var uploader = null;
 
     // 首页城市选择器
     if ($('#city_1').length > 0) {
@@ -151,7 +151,9 @@ $(function() {
             $('.love_pay_content_1').show();
             $('.love_pay_content_2').hide();
         }
-        uploader.destroy();
+        if (uploader != null) {
+            uploader.destroy();
+        }
     });
      //充值金额选择
      $(document).on('click', '.love_rec_select span', function() {
