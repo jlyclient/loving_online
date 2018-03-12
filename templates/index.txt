@@ -7,7 +7,7 @@
 铃铛    url: /email
 用户名  url: /center
 退出登录url: /logout
-logo    url: /
+login   url: /
 
 首页下方foot处需要将工信部备案号和公安部备案号添加上去
 
@@ -47,7 +47,7 @@ parameters:    sex=1&limit=4&page=12&next=0
 parameters:    sex=1&limit=12&page=12&next=0
 2，最新注册女会员url: POST  /new
 parameters:    sex=2&limit=4&page=12&next=0
-   最新注册女会员url: POST  /new
+   最新注册女会员跟多url: POST  /new
 parameters:    sex=2&limit=12&page=12&next=0
 3，寻觅url:           POST  /find
 parameters: null
@@ -107,15 +107,16 @@ statement数据结构如下:
      微信和QQ扫描二维码:没有注册则注册并登录，已经注册的直接登录
 
 手机注册:
-    获得验证码请求：POST /verify_code
+    获得验证码请求：GET /verify_code
     参数：null
-    返回值：{'code':0, 'msg':'ok', 'token':xxxxxx}
+    返回值：{'code':0, 'msg':'ok', 'token':xxxxxx, 'time':xxx}
     其中：
         code: 标识获取验证码状态
                 0：成功
                -1：失败
         msg: 对code的文字说明
         token: 当且仅当code=0时有效,用作重置密码发送请求参数之一,见下面
+        time: 服务器收到发送验证码请求的时刻,单位秒
 
     参数：mobile=13990906699&code=234570&sex=1&passwd1=xxx&passwd2=xxx&token=xxxxxxxxxx
     其中：
@@ -125,6 +126,7 @@ statement数据结构如下:
         passwd1: 第一次输入的密码
         passwd2: 第二次输入的密码   //两次密码需要在客户端校验是否一致
         token: 当点击发送验证码时,发送请求收到的token
+        time:  服务器发送验证码的时刻单位为秒
     返回值: {'code':0, 'msg':'ok'}
     其中：
         code: 标识这次手机注册状态
@@ -132,6 +134,11 @@ statement数据结构如下:
               -1：失败  msg:'验证码超时'
               -2：失败  msg:'验证码不正确'
               -3：失败  msg:'两次密码不一致'
+              -4：失败  msg:'token非法'
+              -5: 失败  msg:'性别错误'
+              -6: 失败  msg:'手机号为空'
+              -7: 失败  msg:'服务器错误'
+              -8: 失败  msg:'手机号已经被注册过了'
         msg: 对code的文字说明
 
 登录：
@@ -140,20 +147,21 @@ statement数据结构如下:
    其中：
        mobile：手机号码            //客户端需要校验是否有效手机号
        password：密码
-   返回值: {'code':0, 'msg':'ok'}
+   返回值: {'code':0, 'msg':'ok', 'data':{'id':xxx, 'nick_name':xxx}}
    其中：
         code: 标识这次手机登录的状态
-             0：成功
-            -1：失败  msg:'手机号或密码不正确'
+             0：成功, data字段有效, 如果昵称为空则昵称的位置用：佳良缘号:id  替换
+            -1：失败  msg:'手机号或密码不正确', 没有data字段
+            -2:：失败 msg:'服务器出错',没有data字段
         msg: 对code的文字说明
 
 QQ、微信登录：
     直接扫描二维码，客户端无需操作
 
 找回密码：
-    获得验证码请求：POST /verify_code
-    参数：null
-    返回值：{'code':0, 'msg':'ok', 'token':xxxxxx}
+    获得验证码请求：GET /find_verify
+    参数：mobile=13788882222
+    返回值：{'code':0, 'msg':'ok', 'token':xxxxxx, 'time':xxxx}
     其中：
         code: 标识获取验证码状态
                 0：成功
@@ -161,14 +169,15 @@ QQ、微信登录：
         msg: 对code的文字说明
         token: 当且仅当code=0时有效,用作重置密码发送请求参数之一,见下面
     
-    手机找回
-POST请求参数：mobile=13899996666&code=xxx&passwd1=xxx&passwd2=xxx&token=xxx
+    手机找回: POST /find_password
+POST请求参数：mobile=13899996666&code=xxx&passwd1=xxx&passwd2=xxx&token=xxx&time=xxx
     其中：
          mobile:   手机号        //客户端需要校验是否有效手机号
          code:     验证码
          passwd1:  重置密码
          passwd2:  重置密码确认  //两个密码需要在客户端验证是否一致
          token:    当点击发送验证码时,发送请求收到的token
+         time:     GET /find_verify返回的time值
     返回值：{'code':0, 'msg':'ok'}
     其中：
         code: 标识这次手机找回密码的状态
