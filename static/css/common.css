@@ -394,7 +394,10 @@ header {
     top: 50%;
     margin-top: -44px;
 }
-
+.love_footer_img{
+    width: 14px;
+    margin-right: 4px;
+}
 .love_tools {
     width: 60px;
     height: 240px;
