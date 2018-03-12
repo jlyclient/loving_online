@@ -82,6 +82,21 @@ $(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
     });
+    //qq二维码注册
+    $(document).on('click', '.love_icon-qq', function() {
+        $('.love_dialog>div').addClass('d_n');
+        $('.love_dialog').find('.love_dialog_login_code').removeClass('d_n');
+        $('#love_login_code_header').html('qq二维码登录');
+        $('#love_login_code_way').html('请使用qq扫描图中二维码');
+    });
+    //微信二维码登录
+    $(document).on('click', '.love_icon-weixin-copy', function() {
+        $('.love_dialog>div').addClass('d_n');
+        $('.love_dialog').find('.love_dialog_login_code').removeClass('d_n');
+        $('#love_login_code_header').html('微信二维码登录');
+        $('#love_login_code_way').html('请使用微信扫描图中二维码');
+    });
+    
     //注册弹窗
     $(document).on('click', '.btn_dialog_reg', function() {
         $('.love_dialog>div').addClass('d_n');
