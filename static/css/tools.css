@@ -442,7 +442,58 @@
     font-size: 14px;
     color: rgba(255, 255, 255, .7)
 }
-
+.love_dialog_login_code{
+    padding-bottom:25px;
+}
+.love_dialog_code_header {
+    width:100%;
+    height: 76px;
+    padding:0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    color: #555555;
+}
+#love_login_code_btn {
+    cursor: pointer;
+    width:44px;
+}
+.love_dialog_code_line {
+    width:410px;
+    height:1px;
+    background: #d6d6d6;
+    margin:0 auto;
+}
+.love_dialog_code_img{
+    width:100%;
+    text-align: center;
+    padding:32px 0;
+}
+.love_dialog_code_img img{
+    width:174px;
+    margin:1px ;
+    border:1px solid #dedede;
+}
+#love_login_code_way{
+    color: #999999;
+    font-size: 14px;
+    margin:14px 0;
+}
+.love_dialog_code_footer{
+    width:174px;
+    margin:0 auto;
+    padding:24px 0;
+    display: flex;
+    justify-content: space-around;
+    color: #555555;
+    font-size: 14px;
+}
+.love_dialog_code_footer_line{
+    width:1px;
+    height:15px;
+    background: #555555;
+}
 .love_dialog_close {
     position: absolute;
     right: 15px;
@@ -510,7 +561,8 @@
 .love_dialog_login,
 .love_dialog_reg,
 .love_dialog_password_phone,
-.love_dialog_password_email {
+.love_dialog_password_email,
+.love_dialog_login_code {
     width: 490px;
 }
 
