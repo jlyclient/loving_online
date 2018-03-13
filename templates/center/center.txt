@@ -104,3 +104,89 @@ index.html中的“个人中心”
                        //             7=其他
         "car": 0       //车子         0=未填 1=已购 2=未购 3=需要时购
     }
+
+上传图片: //选择图片时能预览    头像图片右上角也需要有删除小图标
+    点击保存时 POST url: /upimg
+    请求参数:
+        图片参数&kind=1(kind=1上传头像 kind=2上传照片)
+    返回值:
+    {
+     'code':0,  //0=成功 -1=失败
+     'msg':'ok' //对code的解释
+    }
+
+上传照片: //选择图片时能预览
+    同上传图片
+
+    当上传9张照片时，上传的图片按钮不再显示
+    当从9张照片删除时，上传图片按钮显示
+
+删除照片:
+    点击删除时 有提示: 是否删除该图片 Y    N， 点击Y时:
+    请求POST url: /delimg
+    请求参数:
+        imgsrc=xxxxx (图片的src)
+
+编辑基本资料://性别不能改  其他属性没有填就显示“未填”
+    请求POST url: /editbasic
+    请求参数:
+       nick_name=xxx&aim=xxx&age=xxx&marriage=xxx&xingzuo=xxx&shuxiang=xxx&
+       blood=xxx&weight=xxx&height=xxx&degree=xxx&nation=xxx&cur1=xx&cur2=x&
+       ori1=xx&ori2=xx&motto=xx&hobby=数组json(16个元素长度)
+    返回值:
+    {
+        'code': 0,//=0成功
+        'msg': 'ok',
+    }
+    code:  0=成功
+          -1=服务器错误
+          -2=nick_name超过10个字符
+          -3=aim参数错误 (在0,1,2,3之间取值)
+          -4=age小于18岁 (必须大于18岁)
+          -5=marriage参数错误  (在0,1,2,3之间取值)
+          -6=xignzuo参数错误   (在0到12包括12之间取值)
+          -7=shuxiang参数错误  (在0到12包括12之间取值)
+          -8=blood   参数错误  (在0,1,2,3,4之间取值)
+          -9=weight  参数错误  (必须>=40kg)
+         -10=height  参数错误  (必须>=150cm)
+         -11=degree  参数错误  (在0~6之间取值)
+         -12=hobby   参数错误  (必须有16个0或1元素组成的数组)
+
+内心独白编辑: 
+    请求 POST url: /editstatement
+    参数: null
+    返回值:
+    {
+        'code': 0, //0=成功 -1=失败 服务器错误
+        'msg': 'ok'
+    }
+
+其他资料业务改动:
+    性格特征 月薪 所在的两行改为一行：
+    月薪   职业   购车  购房
+
+ps:mobile wx qq email已经验证过的就不能编辑了
+   判断是否验证过:
+   otherinfo数据结构中:
+   verify_m: 1 //mobile 验证过
+   verify_w: 1 //wx     验证过
+   verify_q: 1 //qq     验证过
+   verify_e: 1 //email  验证过
+   hint:在center get url=/center返回数据的时候,将上边字段嵌入对应的html位置上去即可
+请求 POST  url=/editother
+    请求参数:
+    salary=&work=&car=&house=&mobile=&wx=&qq=&email=&
+    返回值:
+    {
+        'code': 0,
+        'msg': 'ok'
+    }
+    code:  0 //编辑成功
+          -1 //salary 只能取(0~6)
+          -2 //work   只能取(0~7)
+          -3 //car    只能取(0~3)
+          -4 //house  只能取(0~3)
+          -5 //mobile 已经验证了
+          -6 //wx     已经验证了
+          -7 //qq     已经验证了
+          -8 //email  已经验证了
