@@ -59,8 +59,12 @@ class IndexHandler(BaseHandler):
             else:
                 ctx = d.get('data', {})
         '''ctx section end'''
-             
-        self.render('index.html', ctx=ctx)
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            sex_ = conf.male_name if user['sex'] == 1 else conf.female_name
+            name = name if name else sex_ + user['mobile'][-4:]
+        self.render('index.html', name=name)
 
 class IndexNewHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -255,9 +259,12 @@ class LoginHandler(tornado.web.RequestHandler):
                 try:
                     d = r['data']
                     user = d['user']
-                    key = 'user_%s_%s' % (user['mobile'], user['password'])
+                    sex_ = conf.male_name if user['sex'] == 1 else conf.female_name
+                    key = 'user_tel_%s_%s' % (user['mobile'], user['password'])
                     self.set_secure_cookie('userid', key)
-                    a = {'code': 0, 'msg': 'ok', 'data':{'id':user['id'], 'nick_name':user['nick_name']}}
+                    name = user['nick_name']
+                    name = name if name else sex_ + user['mobile'][-4:]
+                    a = {'code': 0, 'msg': 'ok', 'data':{'id':user['id'], 'nick_name':name}}
                 except:
                     a = {'code': -2, 'msg': '服务器错误'}
                 a = json.dumps(a)
@@ -496,6 +503,7 @@ class PersonalCenterHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
+        para = self.get_argument('data', None)
         '''ctx section begin '''
         cookie = self.get_secure_cookie('userid')
         ctx = {}
@@ -522,9 +530,47 @@ class PersonalCenterHandler(BaseHandler):
                 ctx = d.get('data', {})
         '''ctx section end'''
         if ctx and ctx.get('user', {}):
-            self.render('center/center.html', ctx=ctx)
+            user = ctx['user']
+            sex_ = conf.male_name if user['sex'] == 1 else conf.female_name
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('center/center.html', name=name)
         else:
             self.redirect('/')
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        d ={'code':-1, 'msg':'invalid request'}
+        if ctx and ctx.get('user', {}):
+            d = {'code': 0, 'msg':'ok', 'data': ctx}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
 class PersonalBasicEditHandler(BaseHandler):
     @tornado.web.authenticated

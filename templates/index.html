@@ -26,36 +26,7 @@
 </head>
 
 <body>
-    <header>
-        <div class="love love_header clear">
-            <a class="love_header_logo" href="index.html">
-                <img src="img/logo.png" alt="佳良缘">
-            </a>
-            <ul class="love_nav">
-                <li class="active">
-                    <a href="index.html">首页</a>
-                </li>
-                <li>
-                    <a href="dating/tryst.html">约会</a>
-                </li>
-                <li>
-                    <a href="seeking/seeking.html">征婚</a>
-                </li>
-                <li>
-                    <a href="self.html">自己找</a>
-                </li>
-                <li>
-                    <a href="center/center.html">个人中心</a>
-                </li>
-            </ul>
-            <div class="love_header_tools">
-                <a class="btn_dialog btn_recharge" data-flag="true" href="javascript:void(0);">充值</a>
-                <a class="btn_dialog btn_dialog_login" href="javascript:void(0);">登录</a>
-                <span>/</span>
-                <a class="btn_dialog btn_dialog_reg" href="javascript:void(0);">注册</a>
-            </div>
-        </div>
-    </header>
+{% include "./header.html" %}
 {% module xsrf_form_html() %}
     <section>
         <div id="slideBox" class="slideBox">

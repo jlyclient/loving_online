@@ -17,6 +17,8 @@ class Picconf():
         self.redis_password = p.get('redis', 'redis_password')
         self.redis_timeout = p.getint('redis', 'redis_timeout')
 
+        self.female_name = p.get('name', 'female_name')
+        self.male_name   = p.get('name', 'male_name')
         self.baidu_ak    = p.get('map', 'baidu_ak')
         self.baidu_url   = p.get('map', 'baidu_url')
 

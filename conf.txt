@@ -13,6 +13,9 @@ redis_db=0
 redis_password=jly2017___
 redis_timeout=1200
 
+[name]
+female_name='美女'
+male_name='帅哥'
 
 [map]
 baidu_ak=ZcGtYLWyENa3fubGAwXBA69DxFnVcXxV
