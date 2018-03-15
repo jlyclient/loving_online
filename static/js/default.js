@@ -1,6 +1,21 @@
+function get_cookie_by_name(name)
+{
+    var start = document.cookie.indexOf(name);
+    if (start != -1) {
+        var res = ""; 
+        var end  = document.cookie.indexOf(";", start+1);
+        if (end == -1) {
+            res = document.cookie.substring(start+name.length+1);
+        } else {
+            res = document.cookie.substring(start+name.length+1, end);
+        }   
+        return res;
+    }
+    return "";
+}
+var uploader = null;
 // 所有页面共存的方法，例如 翻页,城市选择之类
 $(function() {
-    var uploader = null;
 
     // 首页城市选择器
     if ($('#city_1').length > 0) {
@@ -196,6 +211,7 @@ $(function() {
         });
     });
     var phone_zheng = /^1[3|4|5|8][0-9]\d{4,8}$/;
+    phone_zheng = /^(1[356789])[0-9]{9}$/;
     // 登陆
     $(document).on('click', '#love_login_btn', function() {
         var user = $('#love_login_user').val();
@@ -204,11 +220,11 @@ $(function() {
         if (user != '' && password != '' && phone_zheng.test(user)) {
             $.ajax({
                 type:'POST',
-                url: '/find',
+                url: '/login',
                 data: {
                     "_xsrf":xsrf,
                     mobile: user,
-                    password: password,
+                    password: password
                 },
                 success: function(data) {
                     var boydata = JSON.parse(data);
@@ -321,22 +337,6 @@ function show_time() {
     setTimeout("show_time()", 1000);
 
 }
-function get_cookie_by_name(name)
-{
-    var start = document.cookie.indexOf(name);
-    if (start != -1) {
-        var res = ""; 
-        var end  = document.cookie.indexOf(";", start+1);
-        if (end == -1) {
-            res = document.cookie.substring(start+name.length+1);
-        } else {
-            res = document.cookie.substring(start+name.length+1, end);
-        }   
-        return res;
-    }   
-    return ""; 
-}
-
 // 关闭弹窗
 function close_popup() {
     $('body').css('overflow', 'auto');

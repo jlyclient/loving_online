@@ -77,6 +77,13 @@ function get_new_member(sex_, dom) {
             console.log('ajax请求失败：' + para);
         } 
     });
+
+    // 注册
+    $(document).on('click', '#love_regiest_btn', function() {
+        $('#love_register').find('input').map((data) => {
+            console.log(data);
+        });
+    });
 }
 function find_member(dom) {
     var xsrf = get_cookie_by_name('_xsrf');
@@ -143,8 +150,16 @@ $(function() {
         else
             $('.love_search_other').hide();
     });
+
+    var g_time=null, g_token=null;
     //获取动态码
     $(document).on('click', '.btn_ver', function() {
+        var mobile = $('#love_register').find('input:text[name = user]').val();
+        var pat = /^(1[356789])[0-9]{9}$/;
+        if (mobile == null || !pat.test(mobile)) {
+            alert('电话号码不正确');
+            return -1;
+        }
         var count = 60;
         var $this = $(this);
         $this.attr('disabled', true);
@@ -160,5 +175,22 @@ $(function() {
                 $this.attr('disabled', false);
             }
         }, 1000);
+        $.ajax({
+            type: 'GET',
+            url: '/verify_code',
+            data: {'mobile':mobile},
+            success:function(para) {
+                var d = JSON.parse(para);
+                if (d['code'] == 0) {
+                    g_time = d['time'];
+                    g_token = d['token'];
+                    alert(para);
+                } else {
+                    alert(d['msg']);
+                }
+            },
+            error: function(para) {
+            }
+        });
     });
 })

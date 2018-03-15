@@ -108,7 +108,7 @@ statement数据结构如下:
 
 手机注册:
     获得验证码请求：GET /verify_code
-    参数：null
+    参数：mobile=xxx
     返回值：{'code':0, 'msg':'ok', 'token':xxxxxx, 'time':xxx}
     其中：
         code: 标识获取验证码状态

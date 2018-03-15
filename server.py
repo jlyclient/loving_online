@@ -259,12 +259,13 @@ class LoginHandler(tornado.web.RequestHandler):
                 try:
                     d = r['data']
                     user = d['user']
-                    sex_ = conf.male_name if user['sex'] == 1 else conf.female_name
-                    key = 'user_tel_%s_%s' % (user['mobile'], user['password'])
+                    sex_ = str(conf.male_name) if user['sex'] == 1 else str(conf.female_name)
+                    print(sex_)
+                    key = 'userid_%d' % user['id']
                     self.set_secure_cookie('userid', key)
                     name = user['nick_name']
-                    name = name if name else sex_ + user['mobile'][-4:]
-                    a = {'code': 0, 'msg': 'ok', 'data':{'id':user['id'], 'nick_name':name}}
+                    name = name if len(name) else u'新用户%s' % user['mobile'][-3:]
+                    a = {'code': 0, 'msg': 'ok', 'data':{'nick_name':name}}
                 except:
                     a = {'code': -2, 'msg': '服务器错误'}
                 a = json.dumps(a)
@@ -277,6 +278,7 @@ class LogoutHandler(BaseHandler):
         self.redirect('/')
 
 class VerifyHandler(tornado.web.RequestHandler):
+    #获得验证码
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
@@ -312,6 +314,94 @@ class VerifyHandler(tornado.web.RequestHandler):
             d = json.dumps(d)
             self.write(d)
             self.finish()
+    #手机验证
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        mobile  = self.get_argument('mobile', None)
+        t_      = self.get_argument('time',   None)
+        code    = self.get_argument('code',   None)
+        token   = self.get_argument('token',  None)
+        cookie = self.get_secure_cookie('userid')
+        p = '^(1[356789])[0-9]{9}$'
+        if not mobile or not re.match(p, mobile) or not t_ or not token or not cookie:
+            d = {'code': -5, 'msg': 'request error'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else:
+            '''ctx section begin '''
+            ctx = {}
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+            '''ctx section end'''
+            if not ctx or not ctx.get('data'):
+                d = {'code': -4, 'msg': 'invalid request'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
+            else:
+                sec = 'jly'
+                s = code + t_ + sec
+                m2 = hashlib.md5()
+                m2.update(s)
+                digest = m2.hexdigest()
+                if digest != token:
+                    d = {'code': -2, 'msg':'code invalid'}
+                    d = json.dumps(d)
+                    self.write(d)
+                    self.finish()
+                else:
+                    t = int(time.time())
+                    if t-t_ > 120:
+                        d = {'code': -1, 'msg':'code timeout'}
+                        d = json.dumps(d)
+                        self.write(d)
+                        self.finish()
+                    else:
+                        url = 'http://%s:%s/verify_mobile' % (conf.dataserver_ip, conf.dataserver_port)
+                        uid = ctx['user']['id']
+                        headers = self.request.headers
+                        body = 'mobile=%s&uid=%d' % (mobile, uid)
+                        http_client = tornado.httpclient.AsyncHTTPClient()
+                        resp = yield tornado.gen.Task(
+                                http_client.fetch,
+                                url,
+                                method='POST',
+                                headers=headers,
+                                body=body,
+                                validate_cert=False)
+                        r = resp.body
+                        d, D = {}, {}
+                        try:
+                            D = json.loads(r)
+                        except:
+                            D = {}
+                        if D.get('code', -1) != 0:
+                            d = {'code': D.get('code', -1), 'msg': 'inner error'}
+                        else:
+                            d = {'code': 0, 'msg':'ok'}
+                        d = json.dumps(d)
+                        self.write(d)
+                        self.finish()
 
 class FindVerifyHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -622,16 +712,15 @@ class PersonalBasicEditHandler(BaseHandler):
             except:
                 d = {'code': -1, 'msg': '编辑失败!'}
             if d['code'] == 0:
-                name = d['data']['user']['nick_name']
-                passwd = d['data']['user']['password']
-                cookie = 'user_%s_%s' % (name, passwd)
-                self.set_secure_cookie('userid', cookie)
                 del d['data']
             d = json.dumps(d)
             self.write(d)
             self.finish()
         else:
-            self.redirect('/')
+            d = {'code': -1, 'msg': '编辑失败!'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
 
 class StatementEditHandler(BaseHandler):
     @tornado.web.authenticated
@@ -697,10 +786,6 @@ class OtherEditHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        wx    = self.get_argument('wx', None)
-        qq    = self.get_argument('qq', None)
-        email = self.get_argument('email', None)
-        mobile= self.get_argument('mobile', None)
         if not wx and not qq and not email and not mobile:
             self.write('请先编辑联系方式,再提交!');
             self.finish()
