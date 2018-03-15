@@ -230,7 +230,13 @@ $(function() {
                     var boydata = JSON.parse(data);
                     if (boydata['code'] == '0') {
                         alert('登陆成功');
-                        $('#login_name').html(boydata.data.nick_name);
+                        $('.love_header_tools').empty();
+                        var login = "<a id='love_recharge' class='btn_dialog btn_recharge' data-flag='true' href='javascript:void(0);'>充值</a>" +
+                "<dl id='love_islogin' class='love_header_tools_center'> " +
+                  "<dt><a id='login_name' href='/center'>" + boydata.data.nick_name + "</a></dt> " +
+                  "<dd><a class='/logout' href=''>退出登录</a></dd>" +
+                "</dl>";
+                        $('.love_header_tools').append(login);
                         close_popup(); // 关闭弹窗
                     } else if (boydata['code'] == '-1') {
                         alert('手机号或密码不正确');
@@ -311,7 +317,7 @@ $(function() {
         if (obj.mobile != '' && obj.code != '' && obj.password1 != '' && obj.password2 != '' && obj.password1 === obj.password2) {
             $.ajax({
                 type: 'POST',
-                url: '',
+                url: '/find_password',
                 data: {
                     "_xsrf":xsrf,
                     mobile: obj.mobile,

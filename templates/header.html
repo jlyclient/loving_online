@@ -23,14 +23,14 @@
             </ul>
             <div class="love_header_tools">
 {% if not name %}
-                <dl>
+                <dl id="love_nologin">
                     <a class="btn_dialog btn_dialog_login" href="javascript:void(0);">登录</a>
                     <span>/</span>
                     <a class="btn_dialog btn_dialog_reg" href="javascript:void(0);">注册</a>
                 </dl>
 {% else %}
-                <a class="btn_dialog btn_recharge" data-flag="true" href="javascript:void(0);">充值</a>
-                <dl class="love_header_tools_center">
+                <a id="love_recharge" class="btn_dialog btn_recharge" data-flag="true" href="javascript:void(0);">充值</a>
+                <dl id="love_islogin" class="love_header_tools_center">
                     <dt><a id="login_name" href="/center">走走停停</a></dt>
                     <dd><a class="/logout" href="">退出登录</a></dd>
                 </dl>
