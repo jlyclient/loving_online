@@ -296,6 +296,46 @@ $(function() {
         }
     });
 
+    // 找回密码
+    $(document).click('on', '#findpassword_btn', function() {
+        var obj = {
+            mobile: '',
+            code: '',
+            password1: '',
+            password2: '',
+        }
+        var xsrf = get_cookie_by_name('_xsrf');
+        $('#love_register').find('input').map((index, data) => {
+            obj[data.attr('name')] = $(data).val();
+        });
+        if (obj.mobile != '' && obj.code != '' && obj.password1 != '' && obj.password2 != '' && obj.password1 === obj.password2) {
+            $.ajax({
+                type: 'POST',
+                url: '',
+                data: {
+                    "_xsrf":xsrf,
+                    mobile: obj.mobile,
+                    code: obj.code,
+                    password1: obj.password1,
+                    password2: obj.password2,
+                    token: '',
+                    time: '',
+                },
+                success: function(data) {
+                    var boydata = JSON.parse(data);
+                    if (boydata['code'] == '0') {
+                        close_popup(); // 关闭弹窗
+                    } else {
+                        alert('数据获取失败！');
+                    }
+                },
+                error: function(para) {
+                    alert(para, 'ajax请求失败！');
+                }
+            })
+        }
+    })
+
 })
 
 //倒计时
