@@ -517,23 +517,23 @@
                 登录<em>（去找那个Ta）</em><span class="love_dialog_close btn_dialog_close"></span>
             </div>
             <div class="love_dialog_content">
-                <div class="love_login_text">
+                <div class="love_login_text" id="love_login">
                     <div class="tools_row">
                         <span class="tools_label">手机号：</span>
                         <div class="tools_input">
-                            <input type="text" placeholder="手机号">
+                            <input id="love_login_user" type="text" placeholder="手机号">
                         </div>
                     </div>
                     <div class="tools_row">
                         <span class="tools_label">密码：</span>
                         <div class="tools_input">
-                            <input type="password" placeholder="6-16位字母、数字和符号">
+                            <input id="love_login_password" type="password" placeholder="6-16位字母、数字和符号">
                         </div>
                     </div>
                     <div class="tools_row">
                         <span class="tools_label">&nbsp;</span>
                         <div class="tools_input">
-                            <button class="btn" type="button">登录</button>
+                            <button class="btn" id="love_login_btn" type="button">登录</button>
                             <p>
                                 <a class="btn_dialog_reg fl" href="javascript:void(0);">注册</a>
                                 <a class="btn_dialog_password_phone fr" href="javascript:void(0);">忘记密码</a>
@@ -627,7 +627,7 @@
                     <div class="tools_row">
                         <span class="tools_label">&nbsp;</span>
                         <div class="tools_input">
-                            <button class="btn" type="button">注册</button>
+                            <button class="btn" id="love_regiest_btn" type="button">注册</button>
                             <p>
                                 <a class="btn_dialog_login fr" href="javascript:void(0);">去登录</a>
                             </p>

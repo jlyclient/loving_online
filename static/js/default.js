@@ -204,6 +204,40 @@ $(function() {
             });
         });
     });
+    var phone_zheng = /^1[3|4|5|8][0-9]\d{4,8}$/;
+    // 登陆
+    $(document).on('click', '#love_login_btn', function() {
+        var user = $('#love_login_user').val();
+        var password = $("#love_login_password").val();
+        if (user != '' && password != '' && phone_zheng.test(user)) {
+            $.ajax({
+                type:'POST',
+                url: '/find',
+                data: {
+                    "_xsrf":xsrf,
+                    mobile: user,
+                    password: password,
+                },
+                success: function(data) {
+                    var boydata = JSON.parse(data);
+                    if (boydata['code'] == '0') {
+                        alert('登陆成功');
+                    } else if (boydata['code'] == '-1') {
+                        alert('手机号或密码不正确');
+                    } else {
+                        alert('服务器出错');
+                    }
+                    console.log(data);
+                },
+                error: function(para) {
+                    alert(para, 'ajax请求失败！');
+                }
+            })
+        } else {
+            alert('请输入完整并且正确的信息！');
+        }
+    });
+    
 })
 
 //倒计时
