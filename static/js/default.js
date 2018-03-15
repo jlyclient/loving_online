@@ -144,16 +144,7 @@ $(function() {
     });
     //弹窗关闭
     $(document).on('click', '.btn_dialog_close,.picScroll img', function() {
-        $('body').css('overflow', 'auto');
-        $('.love_dialog_mask').remove();
-        $('.love_dialog>div').addClass('d_n');
-        if ($('.love_dialog_rec').length > 0) {
-            $('.love_pay_content_1').show();
-            $('.love_pay_content_2').hide();
-        }
-        if (uploader != null) {
-            uploader.destroy();
-        }
+        close_popup();
     });
      //充值金额选择
      $(document).on('click', '.love_rec_select span', function() {
@@ -209,6 +200,7 @@ $(function() {
     $(document).on('click', '#love_login_btn', function() {
         var user = $('#love_login_user').val();
         var password = $("#love_login_password").val();
+        var xsrf = get_cookie_by_name('_xsrf');
         if (user != '' && password != '' && phone_zheng.test(user)) {
             $.ajax({
                 type:'POST',
@@ -222,6 +214,7 @@ $(function() {
                     var boydata = JSON.parse(data);
                     if (boydata['code'] == '0') {
                         alert('登陆成功');
+                        close_popup(); // 关闭弹窗
                     } else if (boydata['code'] == '-1') {
                         alert('手机号或密码不正确');
                     } else {
@@ -237,7 +230,55 @@ $(function() {
             alert('请输入完整并且正确的信息！');
         }
     });
-    
+
+     // 注册
+     $(document).on('click', '#love_regiest_btn', function() {
+        var obj = {
+            mobile: '',
+            code: '',
+            sex: '',
+            password1: '',
+            password2: '',
+            checked: false,
+        }
+        var xsrf = get_cookie_by_name('_xsrf');
+        $('#love_register').find('input').map((index, data) => {
+            if (data.attr('type') == 'text' || data.attr('type' == 'password')) {
+                obj[data.attr('name')] = $(data).val();
+            } else if (data.attr('type') == 'radio' && data.attr('checked') == 'true') {
+                obj.sex = data.attr('sex');
+            } else if (data.attr('type' == 'checkbox')) {
+                obj.checked = data.attr('checked');
+            }
+        });
+        if (obj.mobile != '' && obj.code != '' && obj.sex != '' && obj.password1 != '' && obj.password2 != '' && obj.password1 === obj.password2 && obj.checked == true) {
+            $.ajax({
+                type: 'POST',
+                url: '/regist',
+                data: {
+                    "_xsrf":xsrf,
+                    mobile: obj.mobile,
+                    code: obj.code,
+                    sex: obj.sex,
+                    password1: obj.password1,
+                    password2: obj.password2,
+                    token: '',
+                    time: '',
+                },
+                success: function(data) {
+                    var boydata = JSON.parse(data);
+                    if (boydata['code'] == '0') {
+                        close_popup(); // 关闭弹窗
+                    } else {
+                        alert('数据获取失败！');
+                    }
+                }
+            })
+        } else {
+            alert('请填写完整的信息！')
+        }
+    });
+
 })
 
 //倒计时
@@ -278,4 +319,33 @@ function show_time() {
     // 设置定时器
     setTimeout("show_time()", 1000);
 
+}
+function get_cookie_by_name(name)
+{
+    var start = document.cookie.indexOf(name);
+    if (start != -1) {
+        var res = ""; 
+        var end  = document.cookie.indexOf(";", start+1);
+        if (end == -1) {
+            res = document.cookie.substring(start+name.length+1);
+        } else {
+            res = document.cookie.substring(start+name.length+1, end);
+        }   
+        return res;
+    }   
+    return ""; 
+}
+
+// 关闭弹窗
+function close_popup() {
+    $('body').css('overflow', 'auto');
+        $('.love_dialog_mask').remove();
+        $('.love_dialog>div').addClass('d_n');
+        if ($('.love_dialog_rec').length > 0) {
+            $('.love_pay_content_1').show();
+            $('.love_pay_content_2').hide();
+        }
+        if (uploader != null) {
+            uploader.destroy();
+        }
 }

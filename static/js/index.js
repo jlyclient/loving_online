@@ -77,13 +77,6 @@ function get_new_member(sex_, dom) {
             console.log('ajax请求失败：' + para);
         } 
     });
-
-    // 注册
-    $(document).on('click', '#love_regiest_btn', function() {
-        $('#love_register').find('input').map((data) => {
-            console.log(data);
-        });
-    });
 }
 function find_member(dom) {
     var xsrf = get_cookie_by_name('_xsrf');
