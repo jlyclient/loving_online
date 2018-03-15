@@ -307,8 +307,8 @@ class VerifyHandler(tornado.web.RequestHandler):
                 d = json.loads(r)
             except:
                 d = {}
-            if not d or d['code'] == -1:
-                d = {'code':-1, 'msg':'failed'}
+            if not d or d['code'] < 0:
+                d = {'code':-1, 'msg': 'failed' if not d else d.get('msg', 'failed')}
             else:
                 d = {'code':0, 'msg':'ok', 'time':d['time'], 'token':d['token']}
             d = json.dumps(d)
@@ -980,7 +980,7 @@ if __name__ == "__main__":
         ('/login', LoginHandler),
         ('/logout', LogoutHandler),
         ('/regist', RegistHandler),
-        ('/verify', VerifyHandler),
+        ('/verify_code', VerifyHandler),
         ('/find_verify', FindVerifyHandler),
         ('/find_password', FindPasswordHandler),
         ('/center', PersonalCenterHandler),
