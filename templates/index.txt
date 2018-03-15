@@ -118,6 +118,7 @@ statement数据结构如下:
         token: 当且仅当code=0时有效,用作重置密码发送请求参数之一,见下面
         time: 服务器收到发送验证码请求的时刻,单位秒
 
+    注册请求: POST /regist
     参数：mobile=13990906699&code=234570&sex=1&passwd1=xxx&passwd2=xxx&token=xxxxxxxxxx
     其中：
         mobile: 手机号码            //客户端需要校验是否有效手机号
@@ -143,6 +144,7 @@ statement数据结构如下:
 
 登录：
 手机登录：
+   POST 请求 /login
    参数：mobile=13977778888&password=xxx
    其中：
        mobile：手机号码            //客户端需要校验是否有效手机号
