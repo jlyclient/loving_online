@@ -214,6 +214,7 @@ $(function() {
                     var boydata = JSON.parse(data);
                     if (boydata['code'] == '0') {
                         alert('登陆成功');
+                        $('#login_name').html(boydata.data.nick_name);
                         close_popup(); // 关闭弹窗
                     } else if (boydata['code'] == '-1') {
                         alert('手机号或密码不正确');
