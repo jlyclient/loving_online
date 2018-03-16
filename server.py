@@ -62,7 +62,7 @@ class IndexHandler(BaseHandler):
         name = None
         if ctx.get('user'): 
             user = ctx['user']
-            sex_ = conf.male_name if user['sex'] == 1 else conf.female_name
+            sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
         self.render('index.html', name=name)
 
@@ -226,7 +226,8 @@ class LoginHandler(tornado.web.RequestHandler):
     def post(self):
         mobile = self.get_argument('mobile', None)
         passwd = self.get_argument('password', None)
-        if not mobile or not passwd:
+        p = '^(1[356789])[0-9]{9}$'
+        if not mobile or not re.match(p, mobile) or not passwd:
             r = {'code':-1, 'msg':'', 'data':{}}
             r = json.dumps(r)
             self.write(r)
@@ -307,8 +308,10 @@ class VerifyHandler(tornado.web.RequestHandler):
                 d = json.loads(r)
             except:
                 d = {}
-            if not d or d['code'] < 0:
-                d = {'code':-1, 'msg': 'failed' if not d else d.get('msg', 'failed')}
+            if not d:
+                d = {'code':-1, 'msg': '服务器错误'}
+            elif d['code'] < 0:
+                d = {'code':-1, 'msg': d['msg']}
             else:
                 d = {'code':0, 'msg':'ok', 'time':d['time'], 'token':d['token']}
             d = json.dumps(d)
@@ -498,20 +501,20 @@ class FindPasswordHandler(tornado.web.RequestHandler):
         self.finish()
 
 
-
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
         mobile    = self.get_argument('mobile', None)
-        passwd1   = self.get_argument('passwd1', None)
-        passwd2   = self.get_argument('passwd2', None)
+        passwd1   = self.get_argument('password1', None)
+        passwd2   = self.get_argument('password2', None)
         sex       = int(self.get_argument('sex', 0))
         token     = self.get_argument('token', None)
+        code      = self.get_argument('code',  None)
         t_        = int(self.get_argument('time', 0))
         p = '^(1[356789])[0-9]{9}$'
         if not mobile or not re.match(p, mobile):
-            d = {'code':-6, 'msg':'mobile invalid'}
+            d = {'code':-6, 'msg':'手机号不正确'}
             d = json.dumps(d)
             self.write(d)
             self.finish()
@@ -537,7 +540,7 @@ class RegistHandler(tornado.web.RequestHandler):
             self.finish()
         else:
             secret = 'jly'
-            s = code + t_ + secret
+            s = '%s%d%s' % (code, t_, secret)
             m2 = hashlib.md5()   
             m2.update(s)   
             digest = m2.hexdigest()
@@ -579,7 +582,7 @@ class RegistHandler(tornado.web.RequestHandler):
                     else:
                         r = {'code': 0, 'msg':'ok'}
                         if d['code'] == 0:
-                            r = {'code': 0, 'msg':'ok'}
+                            r = {'code': 0, 'msg':'注册成功'}
                         elif d['code'] == -1:
                             r = {'code':-7, 'msg':'服务器错误'}
                         else:

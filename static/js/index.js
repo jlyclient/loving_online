@@ -135,6 +135,7 @@ function find_member(dom) {
         } 
     })
 }
+var g_time=0, g_token=0;
 $(function() {
     // 最新注册男会员
     get_new_member(1, 'love_row_boy');
@@ -151,20 +152,19 @@ $(function() {
             $('.love_search_other').hide();
     });
 
-    var g_time=null, g_token=null;
     //获取动态码
     $(document).on('click', '.btn_ver', function() {
-        var mobile = $('#love_register').find('input:text[name = user]').val();
+        var mobile = $('#love_register').find('input:text[name=mobile]').val();
         var pat = /^(1[356789])[0-9]{9}$/;
         if (mobile == null || !pat.test(mobile)) {
             alert('电话号码不正确');
             return -1;
         }
-        var count = 60;
+        var count = 120;
         var $this = $(this);
         $this.attr('disabled', true);
         $this.text(count + 's后重发');
-        $this.parent().append("<p>验证码1分钟内有效</p>");
+        $this.parent().append("<p>验证码2分钟内有效</p>");
         var interval = setInterval(function() {
             if (count - 1 > 0) {
                 count--;
@@ -193,4 +193,5 @@ $(function() {
             }
         });
     });
+    //注册函数在default.js中
 })

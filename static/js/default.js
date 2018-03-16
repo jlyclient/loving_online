@@ -266,12 +266,12 @@ $(function() {
         }
         var xsrf = get_cookie_by_name('_xsrf');
         $('#love_register').find('input').map((index, data) => {
-            if (data.attr('type') == 'text' || data.attr('type' == 'password')) {
-                obj[data.attr('name')] = $(data).val();
-            } else if (data.attr('type') == 'radio' && data.attr('checked') == 'true') {
-                obj.sex = data.attr('sex');
-            } else if (data.attr('type' == 'checkbox')) {
-                obj.checked = data.attr('checked');
+            if (data.type == 'text' || data.type == 'password') {
+                obj[data.name] = data.value;
+            } else if (data.type == 'radio' && data.checked == true) {
+                obj.sex = $(data).attr('sex');
+            } else if (data.type == 'checkbox') {
+                obj.checked = data.checked;
             }
         });
         if (obj.mobile != '' && obj.code != '' && obj.sex != '' && obj.password1 != '' && obj.password2 != '' && obj.password1 === obj.password2 && obj.checked == true) {
@@ -285,18 +285,19 @@ $(function() {
                     sex: obj.sex,
                     password1: obj.password1,
                     password2: obj.password2,
-                    token: '',
-                    time: '',
+                    token: g_token, //在index.js中定义
+                    time: g_time,   //在index.js中定义
                 },
                 success: function(data) {
                     var boydata = JSON.parse(data);
                     if (boydata['code'] == '0') {
                         close_popup(); // 关闭弹窗
                     } else {
-                        alert('数据获取失败！');
+                        alert(boydata['msg']);
                     }
                 }
-            })
+            });
+            gt_time = g_token = 0;
         } else {
             alert('请填写完整的信息！')
         }
@@ -332,7 +333,7 @@ $(function() {
                     if (boydata['code'] == '0') {
                         close_popup(); // 关闭弹窗
                     } else {
-                        alert('数据获取失败！');
+                        alert(boydata['msg']);
                     }
                 },
                 error: function(para) {
