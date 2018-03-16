@@ -77,13 +77,6 @@ function get_new_member(sex_, dom) {
             console.log('ajax请求失败：' + para);
         } 
     });
-
-    // 注册
-    $(document).on('click', '#love_regiest_btn', function() {
-        $('#love_register').find('input').map((data) => {
-            console.log(data);
-        });
-    });
 }
 function find_member(dom) {
     var xsrf = get_cookie_by_name('_xsrf');
@@ -135,7 +128,6 @@ function find_member(dom) {
         } 
     })
 }
-var g_time=0, g_token=0;
 $(function() {
     // 最新注册男会员
     get_new_member(1, 'love_row_boy');
@@ -151,47 +143,4 @@ $(function() {
         else
             $('.love_search_other').hide();
     });
-
-    //获取动态码
-    $(document).on('click', '.btn_ver', function() {
-        var mobile = $('#love_register').find('input:text[name=mobile]').val();
-        var pat = /^(1[356789])[0-9]{9}$/;
-        if (mobile == null || !pat.test(mobile)) {
-            alert('电话号码不正确');
-            return -1;
-        }
-        var count = 120;
-        var $this = $(this);
-        $this.attr('disabled', true);
-        $this.text(count + 's后重发');
-        $this.parent().append("<p>验证码2分钟内有效</p>");
-        var interval = setInterval(function() {
-            if (count - 1 > 0) {
-                count--;
-                $this.text(count + 's后重发');
-            } else {
-                clearInterval(interval);
-                $this.text('获取验证码');
-                $this.attr('disabled', false);
-            }
-        }, 1000);
-        $.ajax({
-            type: 'GET',
-            url: '/verify_code',
-            data: {'mobile':mobile},
-            success:function(para) {
-                var d = JSON.parse(para);
-                if (d['code'] == 0) {
-                    g_time = d['time'];
-                    g_token = d['token'];
-                    alert(para);
-                } else {
-                    alert(d['msg']);
-                }
-            },
-            error: function(para) {
-            }
-        });
-    });
-    //注册函数在default.js中
 })

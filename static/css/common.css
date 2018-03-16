@@ -84,7 +84,7 @@ header {
     line-height: 26px;
     margin-top: 25px;
     border: 1px solid transparent;
-    background: #ffffff;
+    /* background: #ffffff; */
     padding: 0 15px;
 }
 

@@ -343,6 +343,15 @@ $(function() {
         }
     })
 
+    // 注册发送验证码
+    $(document).click('on', '#regiest', function() {
+        send_verify('regiest');
+    })
+    // 找回密码发送验证码
+    $(document).click('on', '#find_password', function() {
+        send_verify('find_password');
+    })
+
 })
 
 //倒计时
@@ -397,3 +406,47 @@ function close_popup() {
             uploader.destroy();
         }
 }
+var g_time=null, g_token=null;
+// 发送验证码
+function send_verify(type) {
+    // type为  regrets find_password
+    var mobile = $('#love_register').find('input:text[name = user]').val();
+    var pat = /^(1[356789])[0-9]{9}$/;
+    if (mobile == null || !pat.test(mobile)) {
+        alert('电话号码不正确');
+        return -1;
+    }
+    $.ajax({
+        type: 'GET',
+        url: '/verify_code',
+        data: {'mobile':mobile},
+        success:function(para) {
+            var d = JSON.parse(para);
+            if (d['code'] == 0) {
+                g_time = d['time'];
+                g_token = d['token'];
+                alert(para);
+                var count = 60;
+                var $this = $(this);
+                $this.attr('disabled', true);
+                $this.text(count + 's后重发');
+                $this.parent().append("<p>验证码1分钟内有效</p>");
+                var interval = setInterval(function() {
+                    if (count - 1 > 0) {
+                        count--;
+                        $this.text(count + 's后重发');
+                    } else {
+                        clearInterval(interval);
+                        $this.text('获取验证码');
+                        $this.attr('disabled', false);
+                    }
+                }, 1000);
+            } else {
+                alert(d['msg']);
+            }
+        },
+        error: function(para) {
+        }
+    });
+}
+
