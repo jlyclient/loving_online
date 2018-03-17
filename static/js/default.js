@@ -282,7 +282,7 @@ $(function() {
         var xsrf = get_cookie_by_name('_xsrf');
         $('#love_register').find('input').map((index, data) => {
             if (data.type == 'text' || data.type == 'password') {
-                obj[data.attr('name')] = data.value;
+                obj[$(data).attr('name')] = data.value;
             } else if (data.type == 'radio' && data.checked == true) {
                 obj.sex = $(data).attr('sex');
             } else if (data.type == 'checkbox') {
