@@ -304,7 +304,8 @@ $(function() {
     });
 
     // 找回密码
-    $(document).click('on', '#findpassword_btn', function() {
+//    $(document).click('on', '#findpassword_btn', function() {
+      $('#findpassword_btn').click(function() {
         var obj = {
             mobile: '',
             code: '',
@@ -312,8 +313,8 @@ $(function() {
             password2: '',
         }
         var xsrf = get_cookie_by_name('_xsrf');
-        $('#love_register').find('input').map((index, data) => {
-            obj[data.attr('name')] = $(data).val();
+        $('#love_findpassword').find('input').map((index, data) => {
+            obj[$(data).attr('name')] = $(data).val();
         });
         if (obj.mobile != '' && obj.code != '' && obj.password1 != '' && obj.password2 != '' && obj.password1 === obj.password2) {
             $.ajax({
@@ -325,8 +326,8 @@ $(function() {
                     code: obj.code,
                     password1: obj.password1,
                     password2: obj.password2,
-                    token: '',
-                    time: '',
+                    token: g_token,
+                    time: g_time,
                 },
                 success: function(data) {
                     var boydata = JSON.parse(data);
@@ -342,16 +343,23 @@ $(function() {
             })
         }
     })
-
+/**
     // 注册发送验证码
     $(document).click('on', '#regiest', function() {
-        send_verify('regiest');
+        send_verify(1);
     })
     // 找回密码发送验证码
     $(document).click('on', '#find_password', function() {
-        send_verify('find_password');
+        send_verify(2);
     })
-
+*/
+    // 注册发送验证码
+    $('#regist').click(function() {
+        send_verify(1);
+    });
+    $('#find_password').click(function() {
+        send_verify(2);
+    });
 })
 
 //倒计时
@@ -409,16 +417,25 @@ function close_popup() {
 var g_time=null, g_token=null;
 // 发送验证码
 function send_verify(type) {
+    if (type != 1 && type != 2) {
+        return -1;
+    }
     // type为  regrets find_password
-    var mobile = $('#love_register').find('input:text[name = user]').val();
+    var mobile = '';
+    if (type == 1) {
+        mobile = $('#love_register').find('input:text[name=mobile]').val();
+    } else {
+        mobile = $('#love_findpassword').find('input:text[name=mobile]').val();
+    }
     var pat = /^(1[356789])[0-9]{9}$/;
     if (mobile == null || !pat.test(mobile)) {
         alert('电话号码不正确');
         return -1;
     }
+    var url = type == 1 ? '/verify_code' : '/find_verify';
     $.ajax({
         type: 'GET',
-        url: '/verify_code',
+        url: url,
         data: {'mobile':mobile},
         success:function(para) {
             var d = JSON.parse(para);

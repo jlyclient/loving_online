@@ -108,7 +108,8 @@ statement数据结构如下:
 
 手机注册:
     获得验证码请求：GET /verify_code
-    参数：mobile=xxx
+    参数：mobile=xxx&kind=1    //kind=1表示手机注册获得验证码
+                               //kind=2表示手机找回密码获得验证码
     返回值：{'code':0, 'msg':'ok', 'token':xxxxxx, 'time':xxx}
     其中：
         code: 标识获取验证码状态
@@ -188,6 +189,7 @@ POST请求参数：mobile=13899996666&code=xxx&passwd1=xxx&passwd2=xxx&token=xxx
               -2：失败  msg:'验证码不正确'
               -3：失败  msg:'验证码过期'
               -4：失败  msg:'两次密码不一致'
+              -5：失败  msg:'系统错误'
 邮箱找回：暂时不支持
 
 

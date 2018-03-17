@@ -286,7 +286,7 @@ class VerifyHandler(tornado.web.RequestHandler):
         p = '^(1[356789])[0-9]{9}$'
         mobile  = self.get_argument('mobile', None)
         if not mobile or not re.match(p, mobile):
-            d = {'code': -1, 'msg':'invalid phonenumber'}
+            d = {'code': -1, 'msg':'电话号码不正确'}
             d = json.dumps(d)
             self.write(d)
             self.finish()
@@ -413,7 +413,7 @@ class FindVerifyHandler(tornado.web.RequestHandler):
         p = '^(1[356789])[0-9]{9}$'
         mobile  = self.get_argument('mobile', None)
         if not mobile or not re.match(p, mobile):
-            d = {'code': -1, 'msg':'invalid phonenumber'}
+            d = {'code': -1, 'msg':'电话号码不正确'}
             d = json.dumps(d)
             self.write(d)
             self.finish()
@@ -435,8 +435,10 @@ class FindVerifyHandler(tornado.web.RequestHandler):
                 d = json.loads(r)
             except:
                 d = {}
-            if not d or d['code'] == -1:
-                d = {'code':-1, 'msg':'failed'}
+            if not d:
+                d = {'code':-1, 'msg': '服务器错误'}
+            elif d['code'] < 0:
+                d = {'code':-1, 'msg': d['msg']}
             else:
                 d = {'code':0, 'msg':'ok', 'time':d['time'], 'token':d['token']}
             d = json.dumps(d)
@@ -455,13 +457,13 @@ class FindPasswordHandler(tornado.web.RequestHandler):
         passwd2  = self.get_argument('passwd2',None)
         d = {}
         if not mobile:
-            d = {'code': -1, 'msg': 'mobile is null'}
+            d = {'code': -1, 'msg': '手机号不能为空'}
         elif not code:
-            d = {'code': -2, 'msg': 'code is null'}
+            d = {'code': -2, 'msg': '验证码不能为空'}
         elif not token or not t_:
-            d = {'code': -3, 'msg': 'parameter invalid'}
+            d = {'code': -3, 'msg': '非法请求'}
         elif not passwd1 or not passwd2 or passwd1 != passwd2:
-            d = {'code': -4, 'msg': 'password error'}
+            d = {'code': -4, 'msg': '两次密码不一致'}
         else:
             sec = 'jly'
             s = code + t_ + sec
@@ -469,11 +471,11 @@ class FindPasswordHandler(tornado.web.RequestHandler):
             m2.update(s)
             digest = m2.hexdigest()
             if digest != token:
-                d = {'code': -3, 'msg': 'parameter invalid'}
+                d = {'code': -3, 'msg': '非法请求'}
             else:
                 tn = int(time.time())
                 if tn - int(t_) > 120:
-                    d = {'code': -5, 'msg': 'timeout'}
+                    d = {'code': -5, 'msg': '验证码超时'}
                 else:
                     url = 'http://%s:%s/find_password' % (conf.dataserver_ip, conf.dataserver_port)
                     headers = self.request.headers
@@ -492,10 +494,12 @@ class FindPasswordHandler(tornado.web.RequestHandler):
                     D = json.loads(r)
                 except:
                     D = {}
-                if not D or D.get('code', -1) != 0:
-                    d = {'code': -6, 'msg': D.get('msg', 'failed')}
+                if not D:
+                    d = {'code': -5, 'msg': '系统错误'}
+                elif D['code'] != 0:
+                    d = D
                 else:
-                    d = {'code': 0, 'msg':'ok'}
+                    d = {'code': 0, 'msg':'密码重置成功'}
         d = json.dumps(d)
         self.write(d)
         self.finish()
