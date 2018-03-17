@@ -48,7 +48,7 @@ $(function() {
 
 
      //分页
-     $(document).on('click', '.love_page>div span', function() {
+     $(".love_page>div span").click(function() {
         var _text = $(this).attr('class');
         if (_text && (_text.indexOf('icon') > 0 || _text.indexOf('love_total') > 0 || _text.indexOf('love_page_more') > 0))
             return false;
@@ -56,12 +56,12 @@ $(function() {
             $(this).parent().find('span').removeClass('active');
             $(this).addClass('active');
         }
-    });
+     });
 
      //返回顶部
-     $(document).on('click', '.love_back_top', function() {
+     $(".love_back_top").click(function() {
         $('html , body').animate({ scrollTop: 0 }, 'slow');
-    });
+     });
 
     //滚动监听，判断什么时候显示返回顶部
     $(window).scroll(function() {
@@ -73,106 +73,114 @@ $(function() {
     });
 
     //显示弹窗遮罩层
-    $(document).on('click', '.btn_dialog', function() {
+    $(".btn_dialog").click(function() {
         if ($('body').find('.love_dialog_mask').length > 0)
-            return false;
-        else
-            $('body').css('overflow', 'hidden').append('<div class="love_dialog_mask"></div>');
+        return false;
+    else
+        $('body').css('overflow', 'hidden').append('<div class="love_dialog_mask"></div>');
     });
 
     //私信提醒弹窗
-    $(document).on('click', '.btn_dialog_alert', function() {
+    $(".btn_dialog_alert").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_alert').removeClass('d_n');
-    });
+    })
 
     //私信内容弹窗
-    $(document).on('click', '.btn_go_letter', function() {
+    $(".btn_go_letter").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_letter').removeClass('d_n');
-    });
+    })
 
     //登录弹窗
-    $(document).on('click', '.btn_dialog_login', function() {
-        console.log('login');
+    $(".btn_dialog_login").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
     });
     
     //qq二维码登录弹窗
-    $(document).on('click', '.love_icon-qq', function() {
-        console.log('click');
+    $(".love_icon-qq").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_login_code').removeClass('d_n');
         $('#love_login_code_header').html('QQ二维码登陆');
         $('#love_login_code_way').html('请使用QQ扫描图中二维码');
-    })
+    });
+
     //微信二维码登录
-    $(document).on('click', '.love_icon-weixin-copy', function() {
+    $(".love_icon-weixin-copy").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_login_code').removeClass('d_n');
         $('#love_login_code_header').html('微信二维码登陆');
         $('#love_login_code_way').html('请使用微信扫描图中二维码');
-    })
+    });
     
     //注册弹窗
-    $(document).on('click', '.btn_dialog_reg', function() {
+    $('.btn_dialog_reg').click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_reg').removeClass('d_n');
     });
+
     //手机号找回密码弹窗
-    $(document).on('click', '.btn_dialog_password_phone', function() {
+    $(".btn_dialog_password_phone").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_password_phone').removeClass('d_n');
-    });
+    })
 
     //邮箱找回密码弹窗
-    $(document).on('click', '.btn_dialog_password_email', function() {
+    $(".btn_dialog_password_email").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_password_email').removeClass('d_n');
-    });
+    })
+
     //回复消息弹窗
-    $(document).on('click', '.btn_message', function() {
+    $(".btn_message").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_message').removeClass('d_n');
     });
+
     //发信弹窗
-    $(document).on('click', '.btn_send', function() {
+    $(".btn_send").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_message').removeClass('d_n');
     });
 
     //查看消息弹窗
-    $(document).on('click', '.btn_see', function() {
+    $(".btn_see").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_see').removeClass('d_n');
     });
+
     //充值弹窗
-    $(document).on('click', '.btn_recharge', function() {
+    $(".btn_recharge").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_rec').removeClass('d_n');
     });
+
     //充值二维码弹窗
-    $(document).on('click', '.btn_pay_submit', function() {
+    $(".btn_pay_submit").click(function() {
         $('.love_pay_content_1').hide();
         $('.love_pay_content_2').show();
     });
+ 
+
     //弹窗关闭
-    $(document).on('click', '.btn_dialog_close,.picScroll img', function() {
+    $(".btn_dialog_close,.picScroll img").click(function() {
         close_popup();
     });
+
      //充值金额选择
-     $(document).on('click', '.love_rec_select span', function() {
+     $(".love_rec_select span").click(function() {
         $(this).addClass('active').siblings('span').removeClass('active');
-    });
+     })
 
     //充值方式选择
-    $(document).on('click', '.love_pay', function() {
+    $(".love_pay").click(function() {
         $(this).addClass('active').siblings('.love_pay').removeClass('active');
-    });
+    })
+
 
        //图片上传弹窗
-       $(document).on('click', '.btn_dialog_img', function() {
+    $(".btn_dialog_img").click(function(){
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_img').removeClass('d_n');
         uploader = WebUploader.create({
@@ -209,11 +217,11 @@ $(function() {
                 $('.love_img_show img').attr('src', src);
             });
         });
-    });
-    var phone_zheng = /^1[3|4|5|8][0-9]\d{4,8}$/;
-    phone_zheng = /^(1[356789])[0-9]{9}$/;
+    })
+
+    var phone_zheng = /^(1[356789])[0-9]{9}$/;
     // 登陆
-    $(document).on('click', '#love_login_btn', function() {
+    $("#love_login_btn").click(function() {
         var user = $('#love_login_user').val();
         var password = $("#love_login_password").val();
         var xsrf = get_cookie_by_name('_xsrf');
@@ -229,7 +237,6 @@ $(function() {
                 success: function(data) {
                     var boydata = JSON.parse(data);
                     if (boydata['code'] == '0') {
-                        alert('登陆成功');
                         $('.love_header_tools').empty();
                         var login = "<a id='love_recharge' class='btn_dialog btn_recharge' data-flag='true' href='javascript:void(0);'>充值</a>" +
                 "<dl id='love_islogin' class='love_header_tools_center'> " +
@@ -252,10 +259,10 @@ $(function() {
         } else {
             alert('请输入完整并且正确的信息！');
         }
-    });
+    })
 
      // 注册
-     $(document).on('click', '#love_regiest_btn', function() {
+     $("#love_regiest_btn").click(function() {
         var obj = {
             mobile: '',
             code: '',
@@ -301,10 +308,9 @@ $(function() {
         } else {
             alert('请填写完整的信息！')
         }
-    });
+     })
 
     // 找回密码
-//    $(document).click('on', '#findpassword_btn', function() {
       $('#findpassword_btn').click(function() {
         var obj = {
             mobile: '',
@@ -355,10 +361,20 @@ $(function() {
 */
     // 注册发送验证码
     $('#regist').click(function() {
-        send_verify(1);
+        if (phone_zheng.test($('#love_findpasswor').find('input:text').attr('name') === 'mobile')) {
+            send_verify(1);
+        } else {
+            alert('请填写正确的手机号格式！');
+        }
+        
     });
+    // 找回密码发送验证码
     $('#find_password').click(function() {
-        send_verify(2);
+        if (phone_zheng.test($('#love_findpassword').find('input:text').attr('name') === 'mobile')) {
+            send_verify(2);
+        } else {
+            alert('请填写正确的手机号格式！');
+        }
     });
 })
 
@@ -444,7 +460,12 @@ function send_verify(type) {
                 g_token = d['token'];
                 alert(para);
                 var count = 60;
-                var $this = $(this);
+                var $this;
+                if (type === 1) {
+                    $this = $("#regist");
+                } else {
+                    $this = $("#find_password");
+                }
                 $this.attr('disabled', true);
                 $this.text(count + 's后重发');
                 $this.parent().append("<p>验证码1分钟内有效</p>");
