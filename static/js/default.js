@@ -256,9 +256,15 @@ $(function() {
                     alert(para, 'ajax请求失败！');
                 }
             })
-        } else {
-            alert('请输入完整并且正确的信息！');
+        } else if(user === '' || !phone_zheng.test(user)) {
+            $("#love_login .love_err_message").eq(0).css({ display: 'block'});
+        } else if (password === '') {
+            $("#love_login .love_err_message").eq(1).css({ display: 'block'});
         }
+    });
+
+    $('input').change(function() {
+        $('.love_err_message').css({ display: 'none'});
     })
 
      // 注册
@@ -305,10 +311,23 @@ $(function() {
                 }
             });
             gt_time = g_token = 0;
-        } else {
-            alert('请填写完整的信息！')
+        } else if (obj.mobile === '') {
+            $("#love_register .love_err_message").eq(0).css({ dispaly: 'block'});
+        } else if (obj.code === '') {
+            $("#love_register .love_err_message").eq(1).css({ dispaly: 'block'});
+        } else if (obj.password1 === '') {
+            $("#love_register .love_err_message").eq(2).css({ dispaly: 'block'});
         }
      })
+
+     // 注册再次输入密码
+    $("#love_register input:password[name = password2]").change(function(e) {
+        if (e.target.value !== $("#love_register input:password[name = password1]").val()) {
+            $("#love_register .love_err_message").eq(3).css({ dispaly: 'block'});
+        } else {
+            $("#love_register .love_err_message").eq(3).css({ dispaly: 'none'});
+        }
+    })
 
     // 找回密码
       $('#findpassword_btn').click(function() {
@@ -347,8 +366,23 @@ $(function() {
                     alert(para, 'ajax请求失败！');
                 }
             })
+        } else if (obj.mobile === '') {
+            $("#love_findpassword .love_err_message").eq(0).css({ dispaly: 'block'});
+        } else if (obj.code === '') {
+            $("#love_findpassword .love_err_message").eq(1).css({ dispaly: 'block'});
+        } else if (obj.password1 === '') {
+            $("#love_findpassword .love_err_message").eq(2).css({ dispaly: 'block'});
         }
     })
+     // 找回密码再次输入密码
+    $("#love_findpassword input:password[name = password2]").change(function(e) {
+        if (e.target.value !== $("#love_register input:password[name = password1]").val()) {
+            $("#love_findpassword .love_err_message").eq(3).css({ dispaly: 'block'});
+        } else {
+            $("#love_findpassword .love_err_message").eq(3).css({ dispaly: 'none'});
+        }
+    })
+
 /**
     // 注册发送验证码
     $(document).click('on', '#regiest', function() {
