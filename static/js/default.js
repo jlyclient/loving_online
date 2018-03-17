@@ -267,7 +267,7 @@ $(function() {
 
     $('input').change(function() {
         $('.love_err_message').css({ display: 'none'});
-    })
+    });
 
      // 注册
      $("#love_regiest_btn").click(function() {
@@ -282,7 +282,7 @@ $(function() {
         var xsrf = get_cookie_by_name('_xsrf');
         $('#love_register').find('input').map((index, data) => {
             if (data.type == 'text' || data.type == 'password') {
-                obj[data.name] = data.value;
+                obj[data.attr('name')] = data.value;
             } else if (data.type == 'radio' && data.checked == true) {
                 obj.sex = $(data).attr('sex');
             } else if (data.type == 'checkbox') {
