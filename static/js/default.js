@@ -256,9 +256,11 @@ $(function() {
                     alert(para, 'ajax请求失败！');
                 }
             })
-        } else if(user === '' || !phone_zheng.test(user)) {
+        } 
+        if(user === '' || !phone_zheng.test(user)) {
             $("#love_login .love_err_message").eq(0).css({ display: 'block'});
-        } else if (password === '') {
+        } 
+        if (password === '') {
             $("#love_login .love_err_message").eq(1).css({ display: 'block'});
         }
     });
@@ -311,11 +313,14 @@ $(function() {
                 }
             });
             gt_time = g_token = 0;
-        } else if (obj.mobile === '') {
+        } 
+        if (obj.mobile === '') {
             $("#love_register .love_err_message").eq(0).css({ dispaly: 'block'});
-        } else if (obj.code === '') {
+        }
+        if (obj.code === '') {
             $("#love_register .love_err_message").eq(1).css({ dispaly: 'block'});
-        } else if (obj.password1 === '') {
+        }
+        if (obj.password1 === '') {
             $("#love_register .love_err_message").eq(2).css({ dispaly: 'block'});
         }
      });
@@ -366,11 +371,14 @@ $(function() {
                     alert(para, 'ajax请求失败！');
                 }
             })
-        } else if (obj.mobile === '') {
+        }
+        if (obj.mobile === '') {
             $("#love_findpassword .love_err_message").eq(0).css({ dispaly: 'block'});
-        } else if (obj.code === '') {
+        } 
+        if (obj.code === '') {
             $("#love_findpassword .love_err_message").eq(1).css({ dispaly: 'block'});
-        } else if (obj.password1 === '') {
+        }
+        if (obj.password1 === '') {
             $("#love_findpassword .love_err_message").eq(2).css({ dispaly: 'block'});
         }
     })
