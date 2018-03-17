@@ -13,6 +13,14 @@
 .tools_row {
     width: 100%;
     margin-bottom: 20px;
+    position: relative;
+}
+.love_err_message {
+    position: absolute;
+    color: red;
+    bottom: 0px;
+    left: 85px;
+    font-size: 12px;
 }
 
 
