@@ -217,7 +217,7 @@ $(function() {
                 $('.love_img_show img').attr('src', src);
             });
         });
-    })
+    });
 
     var phone_zheng = /^(1[356789])[0-9]{9}$/;
     // 登陆
@@ -259,7 +259,7 @@ $(function() {
         } else {
             alert('请输入完整并且正确的信息！');
         }
-    })
+    });
 
      // 注册
      $("#love_regiest_btn").click(function() {
@@ -292,8 +292,8 @@ $(function() {
                     sex: obj.sex,
                     password1: obj.password1,
                     password2: obj.password2,
-                    token: g_token, //在index.js中定义
-                    time: g_time,   //在index.js中定义
+                    token: g_token,
+                    time: g_time,
                 },
                 success: function(data) {
                     var boydata = JSON.parse(data);
@@ -308,7 +308,7 @@ $(function() {
         } else {
             alert('请填写完整的信息！')
         }
-     })
+     });
 
     // 找回密码
       $('#findpassword_btn').click(function() {
@@ -349,32 +349,13 @@ $(function() {
             })
         }
     })
-/**
-    // 注册发送验证码
-    $(document).click('on', '#regiest', function() {
-        send_verify(1);
-    })
-    // 找回密码发送验证码
-    $(document).click('on', '#find_password', function() {
-        send_verify(2);
-    })
-*/
     // 注册发送验证码
     $('#regist').click(function() {
-        if (phone_zheng.test($('#love_findpasswor').find('input:text').attr('name') === 'mobile')) {
-            send_verify(1);
-        } else {
-            alert('请填写正确的手机号格式！');
-        }
-        
+        send_verify(1);
     });
     // 找回密码发送验证码
     $('#find_password').click(function() {
-        if (phone_zheng.test($('#love_findpassword').find('input:text').attr('name') === 'mobile')) {
-            send_verify(2);
-        } else {
-            alert('请填写正确的手机号格式！');
-        }
+        send_verify(2);
     });
 })
 
@@ -458,7 +439,6 @@ function send_verify(type) {
             if (d['code'] == 0) {
                 g_time = d['time'];
                 g_token = d['token'];
-                alert(para);
                 var count = 60;
                 var $this;
                 if (type === 1) {

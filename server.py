@@ -265,7 +265,7 @@ class LoginHandler(tornado.web.RequestHandler):
                     key = 'userid_%d' % user['id']
                     self.set_secure_cookie('userid', key)
                     name = user['nick_name']
-                    name = name if len(name) else u'新用户%s' % user['mobile'][-3:]
+                    name = name if len(name) else u'新用户%s' % user['mobile'][-4:]
                     a = {'code': 0, 'msg': 'ok', 'data':{'nick_name':name}}
                 except:
                     a = {'code': -2, 'msg': '服务器错误'}
@@ -453,8 +453,8 @@ class FindPasswordHandler(tornado.web.RequestHandler):
         code     = self.get_argument('code',   None)
         token    = self.get_argument('token',  None)
         t_       = self.get_argument('time',   None)
-        passwd1  = self.get_argument('passwd1',None)
-        passwd2  = self.get_argument('passwd2',None)
+        passwd1  = self.get_argument('password1',None)
+        passwd2  = self.get_argument('password2',None)
         d = {}
         if not mobile:
             d = {'code': -1, 'msg': '手机号不能为空'}
@@ -488,18 +488,18 @@ class FindPasswordHandler(tornado.web.RequestHandler):
                             headers=headers,
                             body=body,
                             validate_cert=False)
-                r = resp.body
-                D = {}
-                try:
-                    D = json.loads(r)
-                except:
+                    r = resp.body
                     D = {}
-                if not D:
-                    d = {'code': -5, 'msg': '系统错误'}
-                elif D['code'] != 0:
-                    d = D
-                else:
-                    d = {'code': 0, 'msg':'密码重置成功'}
+                    try:
+                        D = json.loads(r)
+                    except:
+                        D = {}
+                    if not D:
+                        d = {'code': -5, 'msg': '系统错误'}
+                    elif D['code'] != 0:
+                        d = D
+                    else:
+                        d = {'code': 0, 'msg':'密码重置成功'}
         d = json.dumps(d)
         self.write(d)
         self.finish()
