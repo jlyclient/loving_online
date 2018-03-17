@@ -628,7 +628,8 @@ class PersonalCenterHandler(BaseHandler):
         '''ctx section end'''
         if ctx and ctx.get('user', {}):
             user = ctx['user']
-            sex_ = conf.male_name if user['sex'] == 1 else conf.female_name
+            sex_ = u'新用户'
+            name = user['nick_name']
             name = name if name else sex_ + user['mobile'][-4:]
             self.render('center/center.html', name=name)
         else:
