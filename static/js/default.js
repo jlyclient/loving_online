@@ -407,6 +407,7 @@ $(function() {
         }
          
     });
+})
 
 //倒计时
 function show_time() {
@@ -516,4 +517,3 @@ function send_verify(type) {
         }
     });
 }
-
