@@ -10,12 +10,7 @@ $(function() {
     var blood = ['未填','A','B','AB','O'];
     var house = ['未填','已购','未购','需要时购'];
     var work = ['未填','学生','老师','工程师','商务人士','个体老师','白领人士','其他'];
-    //arr[0]: 爬山  //arr[1]: 摄影  //arr[2]: 音乐  //arr[3]: 电影
-        //arr[4]: 旅游  //arr[5]: 游戏  //arr[6]: 健身  //arr[7]: 美食 
-        //arr[8]: 跑步  //arr[9]: 逛街  //arr[10]:唱歌  //arr[11]:跳舞 
-        //arr[12]:扑克  //arr[13]:麻将  //arr[14]:网购  //arr[15]:看书
-        //arr[i] =0没有这个喜好 =1有这个喜好
-    var intrsting = ['爬山','摄影','音乐','电影','旅游','游戏','健身','美食','跑步','逛街','唱歌','跳舞','扑克','麻将','网购','看书'];
+    var interesting = ['爬山','摄影','音乐','电影','旅游','游戏','健身','美食','跑步','逛街','唱歌','跳舞','扑克','麻将','网购','看书'];
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         type:'POST',
@@ -38,6 +33,12 @@ $(function() {
 
     // 获取个人资料
     var centermes = '';
+    var center_interest = '';
+    for(var i = 0; i < centermes.hobby.arr.length; i ++) {
+        if(centermes.hobby.arr == 1) {
+            center_interest += '<em>'+ interesting[i] +'</em>';
+        }
+    };
     centermes += '<div class="love_mater_right"> '+
     '<h2>'+ centermes.user.nick_name +'<span>（'+ sex[centermes.user.sex] +'）</span></h2>'+
     '<div class="love_mater_detail">'+
@@ -60,11 +61,7 @@ $(function() {
         '<span class="text_over2">'+ centermes.statement.motto +'</span>'+
     '</p>'+
     '<p>'+
-        '<span>兴趣：</span>'+
-        '<em>爬山</em>'+
-        '<em>画画</em>'+
-        '<em>旅行</em>'+
-        '<em>健身</em>'+
+        '<span>兴趣：</span>'+ center_interest
     '</p>'+
 '</div>';
    $('#love_center_right').append(centermes);
