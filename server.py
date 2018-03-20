@@ -718,8 +718,6 @@ class PersonalBasicEditHandler(BaseHandler):
                 d = json.loads(r)
             except:
                 d = {'code': -1, 'msg': '编辑失败!'}
-            if d['code'] == 0:
-                del d['data']
             d = json.dumps(d)
             self.write(d)
             self.finish()
@@ -793,64 +791,60 @@ class OtherEditHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        if not wx and not qq and not email and not mobile:
-            self.write('请先编辑联系方式,再提交!');
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        if ctx and ctx.get('user'):
+            url = 'http://%s:%s/other_edit' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            ctx_ = json.dumps(ctx)
+            body = self.request.body + '&ctx=%s' % ctx_
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {'code': -1, 'msg': '编辑失败!'}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '编辑失败!'}
+            if d.get('code', -1) == 0:
+                d = {'code': 0, 'msg': '编辑成功!'}
+                d = json.dumps(d)
+            else:
+                d = {'code': -1, 'msg': '编辑失败!'}
+                d = json.dumps(d)
+            self.write(d)
             self.finish()
         else:
-            '''ctx section begin '''
-            cookie = self.get_secure_cookie('userid')
-            ctx = {}
-            if cookie:
-                url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
-                headers = self.request.headers
-                http_client = tornado.httpclient.AsyncHTTPClient()
-                resp = yield tornado.gen.Task(
-                        http_client.fetch,
-                        url,
-                        method='POST',
-                        headers=headers,
-                        body='cookie=%s'%cookie,
-                        validate_cert=False)
-                b = resp.body
-                d = {}
-                try:
-                    d = json.loads(b)
-                except:
-                    d = {}
-                if d.get('code', -1) == -1:
-                    ctx = {}
-                else:
-                    ctx = d.get('data', {})
-            '''ctx section end'''
-            if ctx and ctx.get('user'):
-                url = 'http://%s:%s/other_edit' % (conf.dataserver_ip, conf.dataserver_port)
-                headers = self.request.headers
-                ctx_ = json.dumps(ctx)
-                body = self.request.body + '&ctx=%s' % ctx_
-                http_client = tornado.httpclient.AsyncHTTPClient()
-                resp = yield tornado.gen.Task(
-                        http_client.fetch,
-                        url,
-                        method='POST',
-                        headers=headers,
-                        body=body,
-                        validate_cert=False)
-                r = resp.body
-                d = {'code': -1, 'msg': '编辑失败!'}
-                try:
-                    d = json.loads(r)
-                except:
-                    d = {'code': -1, 'msg': '编辑失败!'}
-                if d.get('code', -1) == 0:
-                    d = {'code': 0, 'msg': '编辑成功!'}
-                    d = json.dumps(d)
-                else:
-                    d = {'code': -1, 'msg': '编辑失败!'}
-                    d = json.dumps(d)
-                self.write(d)
-                self.finish()
-            else:
-                self.redirect('/')
+            self.redirect('/')
 
 class PublishHandler(BaseHandler):
     @tornado.web.authenticated
@@ -991,8 +985,8 @@ if __name__ == "__main__":
         ('/find_verify', FindVerifyHandler),
         ('/find_password', FindPasswordHandler),
         ('/center', PersonalCenterHandler),
-        ('/basic_edit', PersonalBasicEditHandler),
-        ('/statement_edit', StatementEditHandler),
+        ('/editbasic', PersonalBasicEditHandler),
+        ('/editstatement', StatementEditHandler),
         ('/other_edit', OtherEditHandler),
        #('/publish', PublishHandler),#对外公开 隐藏
         ('/fileupload', FileUploadHandler),
