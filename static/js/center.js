@@ -22,6 +22,7 @@ $(function() {
             var centerdata = JSON.parse(data);
             if (centerdata.code === '0') {
                 centerobj = centerdata.data;
+                console.log(centerobj);
             } else {
                 alert(centerobj.msg.reason);
             }
