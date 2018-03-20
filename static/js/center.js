@@ -20,7 +20,7 @@ $(function() {
         },
         success: function(data) {
             var centerdata = JSON.parse(data);
-            if (centerdata.code === '0') {
+            if (centerdata.code === 0) {
                 centerobj = centerdata.data;
                 console.log(centerobj);
             } else {

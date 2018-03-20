@@ -264,7 +264,6 @@ $(function() {
             $("#love_login .love_err_message").eq(1).css({ display: 'block'});
         }
     });
-
     $('input').change(function() {
         $('.love_err_message').css({ display: 'none'});
     });
@@ -390,7 +389,6 @@ $(function() {
             $("#love_findpassword .love_err_message").eq(3).css({ dispaly: 'none'});
         }
     })
-
     // 注册发送验证码
     $('#regist').click(function() {
         if (phone_zheng.test($('#love_register').find('input:text[name=mobile]').val())) {
@@ -408,7 +406,7 @@ $(function() {
             $("#love_findpassword .love_err_message").eq(0).css({ dispaly: 'block'});
         }
          
-    });
+    }
 })
 
 //倒计时
