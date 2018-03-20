@@ -59,7 +59,7 @@ $(function() {
     $("#love_heart_content").html(centerobj.statement.content);
 
     // 其他资料
-    var love_material =;
+    var love_material = '';
     love_material += '<div class="love_col love_col_4">月薪：'+ salary[centerobj.user.salary] +'</div>'+
     '<div class="love_col love_col_4">职业：'+ work[centerobj.user.work]+'</div>'+
     '<div class="love_col love_col_4">购车：'+ house[centerobj.user.car] +'</div>'+
