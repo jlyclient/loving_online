@@ -211,37 +211,11 @@ ps:mobile wx qq email已经验证过的就不能编辑了
           -3 //car    只能取(0~3)
           -4 //house  只能取(0~3)
 
-    手机号验证:
-        点击手机号右侧的“验证”按钮，显示和找回密码的界面一样
-        请求验证码: GET /verify&mobile=xxx
-        返回值:
-        {
-            'code': 0,  //0=成功 -1=失败 此时token和time未定义
-            'msg': 'ok', //reason
-            'token': xxx,
-            'time': xxx
-        }
-        提交验证码和手机号: POST /verify
-        请求参数：{'code':xxx, 'token':xxx, 'time':xxx}
-        返回值：
-        {
-            'code': 0,
-            'msg': 'ok'
-        }
-        code: 标识这次手机验证状态
-               0：成功
-              -1：失败  msg:'验证码超时'
-              -2：失败  msg:'验证码不正确'
-              -3：失败  msg:'手机号不正确'
-              -4：失败  msg:'非法请求(未登录用户)'
-              -5：失败  msg:'提交参数不正确'
-              -6：失败  msg:'服务器内部错误'
     微信和QQ验证:
         点击微信和qq右侧的“验证”按钮，扫描弹出的二维码，界面和wx qq登录一样
     邮箱验证:
         弹框，输入邮箱号，点击发送验证链接即可
-        请求方法:  GET /verify_email?uid=123
-                   uid: 用户的id
+        请求方法:  GET /verify_other?num=email&kind=3
         返回值:   {
                     'code': 0,  //0=成功  -1=30秒内只能发送一次
                     'msg': 'ok' //  成功     30秒内只能发送一次
