@@ -38,7 +38,7 @@ $(function() {
         '<span>意向：'+ aim[centerobj.user.aim] +'</span>'+
         '<span>年龄：'+ centerobj.user.age +'</span>'+
         '<span>婚姻：'+ marriage[centerobj.user.marriage] +'</span>'+
-        '<span>星座：'+ xingxuo[centerobj.user.xingzuo] +'</span>'+
+        '<span>星座：'+ xingzuo[centerobj.user.xingzuo] +'</span>'+
         '<span>属相：'+ shengxiao[centerobj.user.shengxiao] +'</span>'+
         '<span>血型：'+ blood[centerobj.user.blood] +'</span>'+
         '<span>体重：'+ centerobj.user.weight +'KG</span>'+
