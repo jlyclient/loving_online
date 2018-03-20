@@ -600,7 +600,6 @@ class PersonalCenterHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
-        para = self.get_argument('data', None)
         '''ctx section begin '''
         cookie = self.get_secure_cookie('userid')
         ctx = {}
@@ -663,7 +662,7 @@ class PersonalCenterHandler(BaseHandler):
             else:
                 ctx = d.get('data', {})
         '''ctx section end'''
-        d ={'code':-1, 'msg':'invalid request'}
+        d ={'code':-1, 'msg':'请先登录'}
         if ctx and ctx.get('user', {}):
             d = {'code': 0, 'msg':'ok', 'data': ctx}
         d = json.dumps(d)

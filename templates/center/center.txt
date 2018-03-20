@@ -27,7 +27,9 @@ index.html中的“个人中心”
                   'pic': {},
                   'statement': {},
                   'hobby':{},
-                  'otherinfo':{}
+                  'otherinfo':{},
+                  'account': {'id':123, 'num': 1000}
+                             //用户id    账户余额(1000豆)  account不为空
                 }
     }
     //ps: 在使用data['pic'], data['statement'], data['hobby'], data['otherinfo']数据的时候，需要判断该该数据是否为空
@@ -113,8 +115,9 @@ index.html中的“个人中心”
         图片参数&kind=1(kind=1上传头像 kind=2上传照片)
     返回值:
     {
-     'code':0,  //0=成功 -1=失败
-     'msg':'ok' //对code的解释
+     'code':0,   //0=成功 -1=失败
+     'msg':'ok', //对code的解释
+     'data': {'seq': 5} //seq 第几张图片 0=头像 1~9照片
     }
 
 上传照片: //选择图片时能预览
@@ -127,7 +130,15 @@ index.html中的“个人中心”
     点击删除时 有提示: 是否删除该图片 Y    N， 点击Y时:
     请求POST url: /delimg
     请求参数:
-        imgsrc=xxxxx (图片的src)
+        seq=5(图片的序号)
+    返回值:
+    {
+        'code': 0,
+        'msg': 'ok'
+    }
+    code=0,   msg=删除成功
+    code=-1,  msg=请先登录
+    code=-2,  msg=请求参数不正确
 
 编辑基本资料://性别不能改  其他属性没有填就显示“未填”
     请求POST url: /editbasic
@@ -135,6 +146,17 @@ index.html中的“个人中心”
        nick_name=xxx&aim=xxx&age=xxx&marriage=xxx&xingzuo=xxx&shuxiang=xxx&
        blood=xxx&weight=xxx&height=xxx&degree=xxx&nation=xxx&cur1=xx&cur2=x&
        ori1=xx&ori2=xx&motto=xx&hobby=数组json(16个元素长度)
+    nick_name:  <=12字符
+    aim:  0~3      0=未填 1=交友 2=征婚 3=聊天
+    age: >=18
+    marriage: 0~3  0=未填 1=单身 2=离异 3=丧偶
+    xingzuo: 0~12  0=未填 1~12依次顺排星座
+    shuxiang: 0~12 0=未填1~12依次顺排生肖
+    blood: 0~4     0=未填 1=A 2=B 3=AB 4=O
+    weight: >=40
+    height: >=150
+    degree: 0~5    0=保密 1= <=高中 2=中专/大专 3=本科 4=研究生 5=博士及博士后
+    nation: 0~56   0=保密 1~56百度民族顺序
     返回值:
     {
         'code': 0,//=0成功
@@ -142,7 +164,7 @@ index.html中的“个人中心”
     }
     code:  0=成功
           -1=服务器错误
-          -2=nick_name超过10个字符
+          -2=nick_name超过12个字符
           -3=aim参数错误 (在0,1,2,3之间取值)
           -4=age小于18岁 (必须大于18岁)
           -5=marriage参数错误  (在0,1,2,3之间取值)
