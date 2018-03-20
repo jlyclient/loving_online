@@ -22,17 +22,7 @@ $(function() {
             var centerdata = JSON.parse(data);
             if (centerdata.code === 0) {
                 centerobj = centerdata.data;
-                console.log(centerobj);
-            } else {
-                alert(centerobj.msg.reason);
-            }
-        },
-        error: function(para) {
-            alert(para, 'ajax请求失败！');
-        }
-    });
-
-    // 获取个人资料
+                 // 获取个人资料
     var centermes = '';
     var center_interest = '';
     console.log(centerobj);
@@ -67,19 +57,17 @@ $(function() {
     '</p>'+
 '</div>';
    $('#love_center_right').append(centermes);
+    // 内心独白
+    $("#love_heart_content").html(centerobj.statement.content);
 
-   // 内心独白
-   $("#love_heart_content").html(centerobj.statement.content);
-
-   // 其他资料
-   var love_material;
-   love_material += '<div class="love_col love_col_4">月薪：'+ salary[centerobj.user.salary] +'</div>'+
-   '<div class="love_col love_col_4">职业：'+ work[centerobj.user.work]+'</div>'+
-   '<div class="love_col love_col_4">购车：'+ house[centerobj.user.car] +'</div>'+
-   '<div class="love_col love_col_4">购房：'+ house[centerobj.user.house] +'</div>';
-   $("#love_material").append(love_material);
-
-   // 其他资料账号相关
+    // 其他资料
+    var love_material;
+    love_material += '<div class="love_col love_col_4">月薪：'+ salary[centerobj.user.salary] +'</div>'+
+    '<div class="love_col love_col_4">职业：'+ work[centerobj.user.work]+'</div>'+
+    '<div class="love_col love_col_4">购车：'+ house[centerobj.user.car] +'</div>'+
+    '<div class="love_col love_col_4">购房：'+ house[centerobj.user.house] +'</div>';
+    $("#love_material").append(love_material);
+    // 其他资料账号相关
    var love_account;
    love_account += '<div class="love_col love_col_5">'+
    '手机：' + centerobj.otherinfo.mobile +' '+
@@ -110,7 +98,17 @@ $(function() {
 '</div>';
    $("#love_account").append(love_account);
 
+                console.log(centerobj);
+            } else {
+                alert(centerobj.msg.reason);
+            }
+        },
+        error: function(para) {
+            alert(para, 'ajax请求失败！');
+        }
+    });
 
+   
 
     //编辑个人资料兴趣选择效果
     $(document).on('click', '.tools_span_select span', function() {
