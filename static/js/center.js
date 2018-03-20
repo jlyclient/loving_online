@@ -31,8 +31,7 @@ $(function() {
             center_interest += '<em>'+ interesting[i] +'</em>';
         }
     };
-    centermes += '<h2>'+ centerobj.user.nick_name +'<span>（'+ sex[centerobj.user.sex] +'）</span></h2>'+
-    '<div class="love_mater_detail">'+
+    centermes += '<h2>'+ centerobj.user.nick_name +'<span>（'+ sex[centerobj.user.sex] +'）</span></h2><div class="love_mater_detail">'+
         '<span>征友状态：'+ centerobj.user.state === 0 ? '征友进行中' : '找到意中人' +'</span>'+
         '<span>意向：'+ aim[centerobj.user.aim] +'</span>'+
         '<span>年龄：'+ centerobj.user.age +'</span>'+
@@ -44,9 +43,8 @@ $(function() {
         '<span>身高：'+ centerobj.user.height +'CM</span>'+
         '<span>学历：'+ degreearr[centerobj.user.degree] +'</span>'+
         '<span>民族：'+ centerobj.user.nation +'</span>'+
-        '<span>现居：'+ centerobj.user.curr_loc1  +'/' + centerobj.user.curr_loc2 +'</span>'+
-        '<span>籍贯：'+ centerobj.user.ori_loc1 + '/' + centerobj.user.ori_loc2 +'</span>'+
-    '</div>'+
+        '<span>现居：'+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +'</span>'+
+        '<span>籍贯：'+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +'</span></div>'+
     '<p>'+
         '<span>简介：</span>'+
         '<span class="text_over2">'+ centerobj.statement.motto +'</span>'+
@@ -54,13 +52,14 @@ $(function() {
     '<p>'+
         '<span>兴趣：</span>'+ center_interest
     '</p>';
+
    $('#love_center_right').append(centermes);
     // 内心独白
     console.log(centerobj.statement.content, '----');
     $("#love_heart_content").html(centerobj.statement.content);
 
     // 其他资料
-    var love_material = '';
+    var love_material =;
     love_material += '<div class="love_col love_col_4">月薪：'+ salary[centerobj.user.salary] +'</div>'+
     '<div class="love_col love_col_4">职业：'+ work[centerobj.user.work]+'</div>'+
     '<div class="love_col love_col_4">购车：'+ house[centerobj.user.car] +'</div>'+
