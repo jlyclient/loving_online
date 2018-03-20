@@ -23,78 +23,82 @@ $(function() {
             if (centerdata.code === 0) {
                 centerobj = centerdata.data;
                  // 获取个人资料
-    var centermes = '';
-    var center_interest = '';
-    console.log(centerobj);
-    for(var i = 0; i < centerobj.hobby.arr.length; i ++) {
-        if(centerobj.hobby.arr == 1) {
-            center_interest += '<em>'+ interesting[i] +'</em>';
-        }
-    };
-    centermes += '<h2>'+ centerobj.user.nick_name +'<span>（'+ sex[centerobj.user.sex] +'）</span></h2><div class="love_mater_detail">'+
-        '<span>征友状态：'+ centerobj.user.state === 0 ? '征友进行中' : '找到意中人' +'</span>'+
-        '<span>意向：'+ aim[centerobj.user.aim] +'</span>'+
-        '<span>年龄：'+ centerobj.user.age +'</span>'+
-        '<span>婚姻：'+ marriage[centerobj.user.marriage] +'</span>'+
-        '<span>星座：'+ xingzuo[centerobj.user.xingzuo] +'</span>'+
-        '<span>属相：'+ shengxiao[centerobj.user.shengxiao] +'</span>'+
-        '<span>血型：'+ blood[centerobj.user.blood] +'</span>'+
-        '<span>体重：'+ centerobj.user.weight +'KG</span>'+
-        '<span>身高：'+ centerobj.user.height +'CM</span>'+
-        '<span>学历：'+ degreearr[centerobj.user.degree] +'</span>'+
-        '<span>民族：'+ centerobj.user.nation +'</span>'+
-        '<span>现居：'+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +'</span>'+
-        '<span>籍贯：'+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +'</span></div>'+
-    '<p>'+
-        '<span>简介：</span>'+
-        '<span class="text_over2">'+ centerobj.statement.motto +'</span>'+
-    '</p>'+
-    '<p>'+
-        '<span>兴趣：</span>'+ center_interest
-    '</p>';
+                var centermes = '';
+                var center_interest = '';
+                console.log(centerobj);
+                for(var i = 0; i < centerobj.hobby.arr.length; i ++) {
+                    if(centerobj.hobby.arr == 1) {
+                        center_interest += '<em>'+ interesting[i] +'</em>';
+                    }
+                };
+                centermes += '<h2>'+ centerobj.user.nick_name +
+                 '<span>（'+ sex[centerobj.user.sex] +'）</span>'+
+                '</h2>'+
+                '<div class="love_mater_detail">'+
+                    '<span>征友状态：'+ centerobj.user.state === 0 ? '征友进行中' : '找到意中人' +'</span>'+
+                    '<span>意向：'+ aim[centerobj.user.aim] +'</span>'+
+                    '<span>年龄：'+ centerobj.user.age +'</span>'+
+                    '<span>婚姻：'+ marriage[centerobj.user.marriage] +'</span>'+
+                    '<span>星座：'+ xingzuo[centerobj.user.xingzuo] +'</span>'+
+                    '<span>属相：'+ shengxiao[centerobj.user.shengxiao] +'</span>'+
+                    '<span>血型：'+ blood[centerobj.user.blood] +'</span>'+
+                    '<span>体重：'+ centerobj.user.weight +'KG</span>'+
+                    '<span>身高：'+ centerobj.user.height +'CM</span>'+
+                    '<span>学历：'+ degreearr[centerobj.user.degree] +'</span>'+
+                    '<span>民族：'+ centerobj.user.nation +'</span>'+
+                    '<span>现居：'+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +'</span>'+
+                    '<span>籍贯：'+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +'</span>'+
+                '</div>'+
+                '<p>'+
+                    '<span>简介：</span>'+
+                    '<span class="text_over2">'+ centerobj.statement.motto +'</span>'+
+                '</p>'+
+                '<p>'+
+                    '<span>兴趣：</span>'+ center_interest +
+                '</p>';
 
-   $('#love_center_right').append(centermes);
-    // 内心独白
-    console.log(centerobj.statement.content, '----');
-    $("#love_heart_content").html(centerobj.statement.content);
+                $('#love_center_right').append(centermes);
+                // 内心独白
+                console.log(centerobj.statement.content, '----');
+                $("#love_heart_content").html(centerobj.statement.content);
 
-    // 其他资料
-    var love_material = '';
-    love_material += '<div class="love_col love_col_4">月薪：'+ salary[centerobj.user.salary] +'</div>'+
-    '<div class="love_col love_col_4">职业：'+ work[centerobj.user.work]+'</div>'+
-    '<div class="love_col love_col_4">购车：'+ house[centerobj.user.car] +'</div>'+
-    '<div class="love_col love_col_4">购房：'+ house[centerobj.user.house] +'</div>';
-    $("#love_material").append(love_material);
-    // 其他资料账号相关
-   var love_account = '';
-   love_account += '<div class="love_col love_col_5">'+
-   '手机：' + centerobj.otherinfo.mobile +' '+
-   '<div class="love_other_tools">'+
-       '<button class="btn_center">'+ centerobj.otherinfo.public_m === 0 ? '对外隐藏' : '对外公开' +'</button>'+
-   '</div>'+
-'</div>'+
-'<div class="love_col love_col_5">'+
-   '邮箱：'+ centerobj.otherinfo.email +''+
-   '<div class="love_other_tools">'+
-       '<button class="btn_center">'+ centerobj.otherinfo.public_e === 0 ? '对外隐藏' : '对外公开' +'</button>'+
-       '<button class="btn_center btn_center_plain">'+ centerobj.otherinfo.verify_e === 0 ? '验证邮箱' : '解绑1' +'</button>'+
-   '</div>'+
-'</div>'+
-'<div class="love_col love_col_5">'+
-   '微信：'+ centerobj.otherinfo.wx +''+
-   '<div class="love_other_tools">'+
-       '<button class="btn_center">'+ centerobj.otherinfo.public_w === 0 ? '对外隐藏' : '对外公开' +'</button>'+
-       '<button class="btn_center">'+ centerobj.otherinfo.verify_w === 0 ? '验证微信' : '解绑2' +'</button>'+
-   '</div>'+
-'</div>'+
-'<div class="love_col love_col_5">'+
-   'QQ：'+ centerobj.otherinfo.qq +''+
-   '<div class="love_other_tools">'+
-       '<button class="btn_center">'+ centerobj.otherinfo.public_q === 0 ? '对外隐藏' : '对外公开' +'</button>'+
-       '<button class="btn_center btn_center_plain">'+ centerobj.otherinfo.verify_q === 0 ? '验证qq' : '解绑3' +'</button>'+
-   '</div>'+
-'</div>';
-   $("#love_account").append(love_account);
+                // 其他资料
+                var love_material = '';
+                love_material += '<div class="love_col love_col_4">月薪：'+ salary[centerobj.user.salary] +'</div>'+
+                '<div class="love_col love_col_4">职业：'+ work[centerobj.user.work]+'</div>'+
+                '<div class="love_col love_col_4">购车：'+ house[centerobj.user.car] +'</div>'+
+                '<div class="love_col love_col_4">购房：'+ house[centerobj.user.house] +'</div>';
+                $("#love_material").append(love_material);
+                    // 其他资料账号相关
+                var love_account = '';
+                love_account += '<div class="love_col love_col_5">'+
+                '手机：' + centerobj.otherinfo.mobile +
+                '<div class="love_other_tools">'+
+                    '<button class="btn_center">'+ centerobj.otherinfo.public_m === 0 ? '对外隐藏' : '对外公开' +'</button>'+
+                '</div>'+
+                '</div>'+
+                '<div class="love_col love_col_5">'+
+                '邮箱：'+ centerobj.otherinfo.email +
+                '<div class="love_other_tools">'+
+                    '<button class="btn_center">'+ centerobj.otherinfo.public_e === 0 ? '对外隐藏' : '对外公开' +'</button>'+
+                    '<button class="btn_center btn_center_plain">'+ centerobj.otherinfo.verify_e === 0 ? '验证邮箱' : '解绑1' +'</button>'+
+                '</div>'+
+                '</div>'+
+                '<div class="love_col love_col_5">'+
+                '微信：'+ centerobj.otherinfo.wx +
+                '<div class="love_other_tools">'+
+                    '<button class="btn_center">'+ centerobj.otherinfo.public_w === 0 ? '对外隐藏' : '对外公开' +'</button>'+
+                    '<button class="btn_center">'+ centerobj.otherinfo.verify_w === 0 ? '验证微信' : '解绑2' +'</button>'+
+                '</div>'+
+                '</div>'+
+                '<div class="love_col love_col_5">'+
+                'QQ：'+ centerobj.otherinfo.qq +
+                '<div class="love_other_tools">'+
+                    '<button class="btn_center">'+ centerobj.otherinfo.public_q === 0 ? '对外隐藏' : '对外公开' +'</button>'+
+                    '<button class="btn_center btn_center_plain">'+ centerobj.otherinfo.verify_q === 0 ? '验证qq' : '解绑3' +'</button>'+
+                '</div>'+
+                '</div>';
+                $("#love_account").append(love_account);
 
                 console.log(centerobj);
             } else {
