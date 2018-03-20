@@ -406,8 +406,7 @@ $(function() {
             $("#love_findpassword .love_err_message").eq(0).css({ dispaly: 'block'});
         }
          
-    }
-})
+    });
 
 //倒计时
 function show_time() {

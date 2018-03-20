@@ -35,7 +35,7 @@ $(function() {
     // 获取个人资料
     var centermes = '';
     var center_interest = '';
-    console.log(centerobj.hobby);
+    console.log(centerobj);
     for(var i = 0; i < centerobj.hobby.arr.length; i ++) {
         if(centerobj.hobby.arr == 1) {
             center_interest += '<em>'+ interesting[i] +'</em>';
