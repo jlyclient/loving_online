@@ -846,6 +846,73 @@ class OtherEditHandler(BaseHandler):
         else:
             self.redirect('/')
 
+class VerifyOther(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        kind  = self.get_argument('kind', None)
+        num   = self.get_argument('num',  None)
+        d = {}
+        if not kind or not num:
+            d = {'code': -1, 'msg': '参数不正确'}
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if kind and cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        if not kind:
+            d = json.dumps(d)
+        elif ctx and ctx.get('user'):
+            url = 'http://%s:%s/verify_other' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            ctx_ = json.dumps(ctx)
+            body = self.request.body + '&ctx=%s&kind=%s&num' % (ctx_, kind, num)
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {'code': -1, 'msg': '验证失败!'}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '验证失败!'}
+            if d.get('code', -1) == 0:
+                d = {'code': 0, 'msg': '验证成功!'}
+                d = json.dumps(d)
+            else:
+                d = {'code': -1, 'msg': '编辑失败!'}
+                d = json.dumps(d)
+        else:
+            d = {'code':-1, 'msg': '请先登录'}
+            d = json.dumps(d)
+        self.write(d)
+        self.finish()
 class PublishHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -988,6 +1055,7 @@ if __name__ == "__main__":
         ('/editbasic', PersonalBasicEditHandler),
         ('/editstatement', StatementEditHandler),
         ('/other_edit', OtherEditHandler),
+        ('/verify_other', VerifyOther),#验证微信、QQ和邮箱
        #('/publish', PublishHandler),#对外公开 隐藏
         ('/fileupload', FileUploadHandler),
         ('/mysee', MySeeHandler),
