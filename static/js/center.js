@@ -255,6 +255,25 @@ $(function() {
         })
     });
 
+    $("#love_white_statement").click(function() {
+        $.ajax({
+            type:'POST',
+            url: '/editstatement',
+            data: {
+                "_xsrf":xsrf,
+                content: $("#love_white_edittext").val(),
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+                if (jsondata['code'] == 0) {
+                    $('.love_heart_before').show();
+                    $('.love_heart_after').hide();
+                }
+            }
+        })
+    })
+
 })
 function get_cookie_by_name(name)
 {
