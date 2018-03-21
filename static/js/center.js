@@ -66,12 +66,21 @@ $(function() {
                 $("#love_heart_content").html(centerobj.statement.content);
 
                 // 其他资料
-                var love_material = '';
-                love_material += '<div class="love_col love_col_4">月薪：'+ salary[centerobj.otherinfo.salary] +'</div>'+
-                '<div class="love_col love_col_4">职业：'+ work[centerobj.otherinfo.work]+'</div>'+
-                '<div class="love_col love_col_4">购车：'+ house[centerobj.otherinfo.car] +'</div>'+
-                '<div class="love_col love_col_4">购房：'+ house[centerobj.otherinfo.house] +'</div>';
-                $("#love_material").append(love_material);
+                // var love_material = '';
+                // love_material += '<div class="love_col love_col_4">'+
+                // '月薪：'+ salary[centerobj.otherinfo.salary] +'</div>'+
+                // '<div class="love_col love_col_4">职业：'+ work[centerobj.otherinfo.work]+'</div>'+
+                // '<div class="love_col love_col_4">购车：'+ house[centerobj.otherinfo.car] +'</div>'+
+                // '<div class="love_col love_col_4">购房：'+ house[centerobj.otherinfo.house] +'</div>';
+                $("#love_material").append('<div class="love_col love_col_4">月薪：'+ 
+                salary[centerobj.otherinfo.salary] +
+                '</div><div class="love_col love_col_4">职业：'+
+                 work[centerobj.otherinfo.work]+
+                 '</div><div class="love_col love_col_4">购车：'+ 
+                 house[centerobj.otherinfo.car] +
+                 '</div><div class="love_col love_col_4">购房：'+
+                  house[centerobj.otherinfo.house] +
+                  '</div>');
                     // 其他资料账号相关
                 var love_accountmobile = '', love_accountemail = '', love_accountwx = '', love_accountqq = '';
                 love_accountmobile = '<div class="love_col love_col_5">手机：' + centerobj.otherinfo.mobile +
