@@ -32,9 +32,9 @@ $(function() {
                     }
                 };
                 centermestitle += '<h2>'+ centerobj.user.nick_name +
-                '<span>（'+ sex[centerobj.user.sex] +'）</span>'+
-               '</h2>';
-                centermes += '<div class="love_mater_detail">'+
+                    '<span>（'+ sex[centerobj.user.sex] +'）</span>'+
+                '</h2>';
+                centermescon += '<div class="love_mater_detail">'+
                     '<span>征友状态：'+ centerobj.user.state === 0 ? '征友进行中' : '找到意中人' +'</span>'+
                     '<span>意向：'+ aim[centerobj.user.aim] +'</span>'+
                     '<span>年龄：'+ centerobj.user.age +'</span>'+
