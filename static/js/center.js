@@ -153,6 +153,24 @@ $(function() {
     });
      //基本资料
      $(document).on('click', '.love_mater_edit', function() {
+        $("#love_editcenter_box").find('input').map((index, data) => {
+            $(data).val(centerobj.user[$(data).attr('name')]);
+        }); 
+        $("#love_editcenter_box").find('select').map((index, data) => {
+            $(data).find('option').map((indexs, datas) => {
+                if ($(datas).attr('value') == centerobj.user[$(data).attr('name')]) {
+                    $(datas).checked();
+                }
+            })
+        });
+        $("#love_editcenter_box").val(centerobj.statement.motto);
+        $(".love_tools_intersting").find('span').map((index, data) => {
+            centerobj.hobby.arr.map((indexs, datas) => {
+                if (indexs == 1) {
+                    $(data).addClass('active');
+                }
+            })
+        });
         $('.love_mater_before').hide();
         $('.love_mater_after').show();
     });
@@ -194,10 +212,10 @@ $(function() {
             height: '',
             degree: 0,
             nation: 0,
-            cur1: '',
-            cur2: '',
-            ori1: '',
-            ori2: '',
+            curr_loc1: '',
+            curr_loc2: '',
+            ori_loc1: '',
+            ori_loc2: '',
             motto: '',
             hobby: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         };
@@ -234,10 +252,10 @@ $(function() {
                 height: obj.height,
                 degree: obj.degree,
                 nation: obj.nation,
-                cur1: obj.cur1,
-                cur2: obj.cur2,
-                ori1: obj.ori1,
-                ori2: obj.ori2,
+                curr_loc1: obj.curr_loc1,
+                curr_loc2: obj.curr_loc2,
+                ori_loc1: obj.ori_loc1,
+                ori_loc2: obj.ori_loc2,
                 motto: obj.motto,
                 hobby: obj.hobby,
             },
@@ -247,6 +265,7 @@ $(function() {
                 if (jsondata['code'] == 0) {
                     $('.love_mater_before').show();
                     $('.love_mater_after').hide();
+                    window.location.reload();
                 }
             },
             error: function(para) {
@@ -269,6 +288,7 @@ $(function() {
                 if (jsondata['code'] == 0) {
                     $('.love_heart_before').show();
                     $('.love_heart_after').hide();
+                    window.location.reload();
                 }
             }
         })
