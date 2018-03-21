@@ -205,12 +205,16 @@ $(function() {
             obj[$(data).attr('name')] = $(data).val();
         });
         $("#love_editcenter_box").find('select').map((index, data) => {
-            obj[$(data).attr('name')] = Number($(data).find("option:checked").attr("value"));
+            if($(data).attr('name') == 'cur1' || $(data).attr('name') == 'cur2' || $(data).attr('name') == 'ori1' || $(data).attr('name') =='ori2') {
+                obj[$(data).attr('name')] = $(data).find("option:checked").attr("value");
+            } else {
+                obj[$(data).attr('name')] = Number($(data).find("option:checked").attr("value"));
+            }
         });
         obj.motto = $("#love_editcenter_box").find("textarea").eq(0).val();
         $(".love_tools_intersting").find('span').map((index, data) => {
             if($(data).attr('class') == 'active') {
-                obj.hobby = obj.hobby.splice(index, 1, 1);
+                obj.hobby.splice(index, 1, 1);
             }
         });
         console.log(obj);
