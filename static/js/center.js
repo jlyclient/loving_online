@@ -91,21 +91,21 @@ $(function() {
                 centerobj.otherinfo.email +
                     '<div class="love_other_tools"><button class="btn_center">'+ 
                     (centerobj.otherinfo.public_e === 0 ? '对外隐藏' : '对外公开') +
-                    '</button><button class="btn_center btn_center_plain">'+ (centerobj.otherinfo.verify_e === 0 ? '验证邮箱' : '解绑1') +
+                    '</button><button class="btn_center btn_center_plain">'+ (centerobj.otherinfo.verify_e === 0 ? '验证' : '解绑') +
                     '</button></div></div>';
-                love_accountwx = '<div class="love_col love_col_5">'+
-                    '微信：'+ centerobj.otherinfo.wx +
-                    '<div class="love_other_tools">'+
-                        '<button class="btn_center">'+ centerobj.otherinfo.public_w === 0 ? '对外隐藏' : '对外公开' +'</button>'+
-                        '<button class="btn_center">'+ centerobj.otherinfo.verify_w === 0 ? '验证微信' : '解绑2' +'</button>'+
-                    '</div>'+
-                '</div>';
+                love_accountwx = '<div class="love_col love_col_5">微信：'+ 
+                centerobj.otherinfo.wx +
+                    '<div class="love_other_tools"><button class="btn_center">'+ 
+                    (centerobj.otherinfo.public_w === 0 ? '对外隐藏' : '对外公开') +
+                    '</button><button class="btn_center">'+ 
+                    (centerobj.otherinfo.verify_w === 0 ? '验证' : '解绑') +
+                    '</button></div></div>';
                 love_accountqq = '<div class="love_col love_col_5">QQ：'+ 
                 centerobj.otherinfo.qq +
                     '<div class="love_other_tools"><button class="btn_center">'+ 
                     (centerobj.otherinfo.public_q === 0 ? '对外隐藏' : '对外公开') +
                     '</button><button class="btn_center btn_center_plain">'+ 
-                    (centerobj.otherinfo.verify_q === 0 ? '验证qq' : '解绑3') +
+                    (centerobj.otherinfo.verify_q === 0 ? '验证qq' : '解绑') +
                     '</button></div></div>';
                 $("#love_account").append(love_accountmobile += love_accountemail += love_accountwx += love_accountqq);
                 console.log(centerobj);
