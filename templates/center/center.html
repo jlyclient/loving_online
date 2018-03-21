@@ -103,7 +103,7 @@
                             <p><span>温馨提示：</span></p>
                             <p><span>资料越完善，越能更快更好的被ta看见哦</span></p>
                         </div>
-                        <div class="love_mater_right">
+                        <div class="love_mater_right" id="love_editcenter_box">
                             <div class="love_row">
                                 <div class="love_col love_col_3">
                                     <div class="tools_row">
@@ -124,14 +124,6 @@
                                 </div>
                             </div>
                             <div class="love_mater_detail">
-                                <!-- <div>
-                                    <span class="love_bold">粉丝：1000人</span>
-                                    <span class="love_bold">余额：1000爱豆</span>
-                                    <span class="love_bold">我关注的：30人</span>
-                                    <span class="love_bold">我点赞的人：55人</span>
-                                    <span class="love_bold">查看过你：606人</span>
-                                    <span class="love_bold">附近的人：600人</span>
-                                </div> -->
                                 <div class="love_row mt-20">
                                     <div class="love_col love_col_3">
                                         <div class="tools_row">
@@ -162,7 +154,7 @@
                                         <div class="tools_row">
                                             <span class="tools_label">年龄：</span>
                                             <div class="tools_input">
-                                                <input name="age" type="text" value="20岁">
+                                                <input name="age" type="number" min="18" value="20岁">
                                             </div>
                                         </div>
                                     </div>
@@ -207,7 +199,7 @@
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
                                                 <select name="shuxiang" id="">
-                                                   <option value="1">叔</option>
+                                                   <option value="1">鼠</option>
                                                    <option value="2">牛</option>
                                                    <option value="3">虎</option>
                                                    <option value="4">兔</option>
@@ -241,7 +233,7 @@
                                         <div class="tools_row">
                                             <span class="tools_label">体重：</span>
                                             <div class="tools_input">
-                                                <input name="weight" type="text" value="45KG">
+                                                <input name="weight" type="number" value="45">
                                             </div>
                                         </div>
                                     </div>
@@ -249,7 +241,7 @@
                                         <div class="tools_row">
                                             <span class="tools_label">身高：</span>
                                             <div class="tools_input">
-                                                <input name="height" type="text" value="160CM">
+                                                <input name="height" type="number" value="160">
                                             </div>
                                         </div>
                                     </div>
@@ -282,11 +274,11 @@
                                                 <span class="tools_label">现居：</span>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="curr_loc1" id="" class="prov"></select>
+                                                    <select name="cur1" id="" class="prov"></select>
                                                 </div>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="curr_loc2" id="" class="city"></select>
+                                                    <select name="cur2" id="" class="city"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -297,11 +289,11 @@
                                                 <span class="tools_label">籍贯：</span>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="ori_loc1" id="" class="prov"></select>
+                                                    <select name="ori1" id="" class="prov"></select>
                                                 </div>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="ori_loc2" id="" class="city"></select>
+                                                    <select name="ori2" id="" class="city"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -311,12 +303,12 @@
                             <div class="tools_row love_center_textarea">
                                 <span class="tools_label">爱情座右铭：</span>
                                 <div class="tools_textarea">
-                                    <textarea name="motto" id="" maxlength="64" placeholder="不超过64个字符~">爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力…</textarea>
+                                    <textarea name="motto" id="" maxlength="64" placeholder="不超过64个字符~"></textarea>
                                 </div>
                             </div>
                             <div class="tools_row">
                                 <span class="tools_label">兴趣：</span>
-                                <div class="tools_span_select">
+                                <div class="tools_span_select love_tools_intersting">
                                     <span>爬山</span>
                                     <span class="active">摄影</span>
                                     <span class="active">听音乐</span>
@@ -368,7 +360,7 @@
                         </div>
                     </div>
                     <div class="love_center_group">
-                        <button class="btn" type="button">确定</button>
+                        <button class="btn" id="edit_lovecenter" type="button">确定</button>
                         <button class="btn btn_blue love_mater_back" type="button">取消</button>
                     </div>
                 </div>

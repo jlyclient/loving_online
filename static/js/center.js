@@ -180,6 +180,77 @@ $(function() {
         $('.love_other_after').hide();
     });
 
+    // 确认修改个人资料
+    $("#edit_lovecenter").click(function() {
+        const obj = {
+            nick_name: '',
+            aim: 0,
+            age: '',
+            marriage: 0,
+            xingzuo: 0,
+            shuxiang: 0,
+            blood: 0,
+            weight: '',
+            height: '',
+            degree: 0,
+            nation: 0,
+            cur1: '',
+            cur2: '',
+            ori1: '',
+            ori2: '',
+            motto: '',
+            hobby: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        };
+        $("#love_editcenter_box").find('input').map((index, data) => {
+            obj[$(data).attr('name')] = $(data).val();
+        });
+        $("#love_editcenter_box").find('select').map((index, data) => {
+            obj[$(data).attr('name')] = Number($(data).find("option:checked").attr("value"));
+        });
+        obj.motto = $("#love_editcenter_box").find("textarea").eq(0).val();
+        $(".love_tools_intersting").find('span').map((index, data) => {
+            if($(data).attr('class') == 'active') {
+                obj.hobby = obj.hobby.splice(index, 1, 1);
+            }
+        });
+        console.log(obj);
+        $.ajax({
+            type:'POST',
+            url: '/editbasic',
+            data: {
+                "_xsrf":xsrf,
+                nick_name: obj.nick_name,
+                aim: obj.aim,
+                age: obj.age,
+                marriage: obj.marriage,
+                xingzuo: obj.xingzuo,
+                shuxiang: obj.shuxiang,
+                blood: obj.blood,
+                weight: obj.weight,
+                height: obj.height,
+                degree: obj.degree,
+                nation: obj.nation,
+                cur1: obj.cur1,
+                cur2: obj.cur2,
+                ori1: obj.ori1,
+                ori2: obj.ori2,
+                motto: obj.motto,
+                hobby: obj.hobby,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+                if (jsondata['code'] == 0) {
+                    $('.love_mater_before').show();
+                    $('.love_mater_after').hide();
+                }
+            },
+            error: function(para) {
+                alert(para, 'ajax请求失败！');
+            }
+        })
+    });
+
 })
 function get_cookie_by_name(name)
 {
