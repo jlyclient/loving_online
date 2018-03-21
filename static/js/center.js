@@ -105,7 +105,7 @@ $(function() {
                     '<div class="love_other_tools"><button class="btn_center">'+ 
                     (centerobj.otherinfo.public_q === 0 ? '对外隐藏' : '对外公开') +
                     '</button><button class="btn_center btn_center_plain">'+ 
-                    (centerobj.otherinfo.verify_q === 0 ? '验证qq' : '解绑') +
+                    (centerobj.otherinfo.verify_q === 0 ? '验证' : '解绑') +
                     '</button></div></div>';
                 $("#love_account").append(love_accountmobile += love_accountemail += love_accountwx += love_accountqq);
                 console.log(centerobj);
