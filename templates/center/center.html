@@ -57,6 +57,7 @@
             </div>
             <div class="love_mater_before">
                 <div class="love_mater love_mater_box love_center_mater_box">
+                    <a class="love_center_edit love_mater_edit" href="javascript:void(0);">编辑</a>
                     <div class="love_center_mater">
                         <div class="love_mater_left">
                             <div class="love_mater_img love_mater_photo move">
@@ -89,7 +90,6 @@
                             </div>
                         </div>
                     </div>
-                    <a class="love_center_edit love_mater_edit" href="javascript:void(0);">编辑</a>
                 </div>
             </div>
             <div class="love_mater_after love_edit">
@@ -110,7 +110,7 @@
                                     <div class="tools_row">
                                         <span class="tools_label">昵称：</span>
                                         <div class="tools_input">
-                                            <input type="text" value="巴拉难斗地主">
+                                            <input name="nick_name" type="text" value="巴拉难斗地主">
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                                     <span class="tools_label">征友状态：</span>
                                                     <div class="tools_select">
                                                             <div class="tools_select_text"></div>
-                                                            <select name="" id="">
+                                                            <select name="state" id="">
                                                                         <option value="21" checked>征友进行中</option>
                                                                         <option value="22">找到意中人</option>
                                                                     </select>
@@ -150,7 +150,7 @@
                                         <div class="tools_row">
                                             <span class="tools_label">意向：</span>
                                             <div class="tools_input">
-                                                <input type="text" value="交友">
+                                                <input name="aim" type="text" value="交友">
                                             </div>
                                         </div>
                                     </div>
@@ -158,7 +158,7 @@
                                         <div class="tools_row">
                                             <span class="tools_label">年龄：</span>
                                             <div class="tools_input">
-                                                <input type="text" value="20岁">
+                                                <input name="age" type="text" value="20岁">
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +167,7 @@
                                             <span class="tools_label">婚姻：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select name="" id="">
+                                                <select name="marriage" id="">
                                                             <option value="19" checked>未婚</option>
                                                             <option value="20">已婚</option>
                                                         </select>
@@ -179,7 +179,7 @@
                                             <span class="tools_label">星座：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select name="" id="">
+                                                <select name="xingzuo" id="">
                                                             <option value="19">双子座</option>
                                                         </select>
                                             </div>
@@ -190,7 +190,7 @@
                                             <span class="tools_label">属相：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select name="" id="">
+                                                <select name="shuxiang" id="">
                                                             <option value="20">狗</option>
                                                         </select>
                                             </div>
@@ -201,7 +201,7 @@
                                             <span class="tools_label">血型：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select name="" id="">
+                                                <select name="blood" id="">
                                                             <option value="20">O</option>
                                                         </select>
                                             </div>
@@ -211,7 +211,7 @@
                                         <div class="tools_row">
                                             <span class="tools_label">体重：</span>
                                             <div class="tools_input">
-                                                <input type="text" value="45KG">
+                                                <input name="weight" type="text" value="45KG">
                                             </div>
                                         </div>
                                     </div>
@@ -219,7 +219,7 @@
                                         <div class="tools_row">
                                             <span class="tools_label">身高：</span>
                                             <div class="tools_input">
-                                                <input type="text" value="160CM">
+                                                <input name="height" type="text" value="160CM">
                                             </div>
                                         </div>
                                     </div>
@@ -228,7 +228,7 @@
                                             <span class="tools_label">学历：</span>
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
-                                                <select name="" id="">
+                                                <select name="degree" id="">
                                                             <option value="20">本科</option>
                                                         </select>
                                             </div>
@@ -238,7 +238,7 @@
                                         <div class="tools_row">
                                             <span class="tools_label">民族：</span>
                                             <div class="tools_input">
-                                                <input type="text" value="汉族">
+                                                <input name="nation" type="text" value="汉族">
                                             </div>
                                         </div>
                                     </div>
@@ -248,11 +248,11 @@
                                                 <span class="tools_label">现居：</span>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="" id="" class="prov"></select>
+                                                    <select name="curr_loc1" id="" class="prov"></select>
                                                 </div>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="" id="" class="city"></select>
+                                                    <select name="curr_loc2" id="" class="city"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -263,11 +263,11 @@
                                                 <span class="tools_label">籍贯：</span>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="" id="" class="prov"></select>
+                                                    <select name="ori_loc1" id="" class="prov"></select>
                                                 </div>
                                                 <div class="tools_select">
                                                     <div class="tools_select_text"></div>
-                                                    <select name="" id="" class="city"></select>
+                                                    <select name="ori_loc2" id="" class="city"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -277,7 +277,7 @@
                             <div class="tools_row love_center_textarea">
                                 <span class="tools_label">爱情座右铭：</span>
                                 <div class="tools_textarea">
-                                    <textarea name="" id="" placeholder="不超过64个字符~">爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力…</textarea>
+                                    <textarea name="motto" id="" maxlength="64" placeholder="不超过64个字符~">爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力爱一个人意味着什么呢？这意味着为他的幸福而高兴，为使他能够幸福而去做需要做的一切，并从这当中得到快乐。一般的宿命，就是我们总会遇见一些人遭遇一些事。然后，看着命中注定的事发生，却无能为力…</textarea>
                                 </div>
                             </div>
                             <div class="tools_row">
@@ -355,7 +355,7 @@
             <div class="love_heart_after love_after">
                 <div class="love_mater love_heart love_heart_edit">
                     <div class="tools_textarea">
-                        <textarea name="" id="" placeholder="不超过500字~">1、160~170cm。2、身体健康无不良习惯。3、不爱八卦逛淘宝。4、会点心、烤曲奇、做蛋糕，愿意每天在男人做菜前备好料、做完菜收拾桌子洗碗。5、告诉你不方便接电话的时候不追问。6、主动有情趣，懂男人的需要。7、在男人事业不顺时懂得怎么安慰他、鼓励他，不拖后腿，为他着想。8、每次约会不作不生气，规划好什么玩什么。9、收入不能少于男人的75%。10、坚持锻炼身体。11、自己最好有车。</textarea>
+                        <textarea name="content" id="" maxlength="500" placeholder="不超过500字~">1、160~170cm。2、身体健康无不良习惯。3、不爱八卦逛淘宝。4、会点心、烤曲奇、做蛋糕，愿意每天在男人做菜前备好料、做完菜收拾桌子洗碗。5、告诉你不方便接电话的时候不追问。6、主动有情趣，懂男人的需要。7、在男人事业不顺时懂得怎么安慰他、鼓励他，不拖后腿，为他着想。8、每次约会不作不生气，规划好什么玩什么。9、收入不能少于男人的75%。10、坚持锻炼身体。11、自己最好有车。</textarea>
                     </div>
                     <div class="love_center_group">
                         <button class="btn" type="button">确定</button>
@@ -421,7 +421,7 @@
                                 <div class="tools_row">
                                     <span class="tools_label">月薪情况：</span>
                                     <div class="tools_input">
-                                        <input type="text" value="8000-10000">
+                                        <input name="salary" type="text" value="8000-10000">
                                     </div>
                                 </div>
                             </div>
@@ -429,7 +429,7 @@
                                 <div class="tools_row">
                                     <span class="tools_label">职业：</span>
                                     <div class="tools_input">
-                                        <input type="text" value="无">
+                                        <input name="work" type="text" value="无">
                                     </div>
                                 </div>
                             </div>
@@ -437,7 +437,7 @@
                                 <div class="tools_row">
                                     <span class="tools_label">购车情况：</span>
                                     <div class="tools_input">
-                                        <input type="text" value="已购">
+                                        <input name="car" type="text" value="已购">
                                     </div>
                                 </div>
                             </div>
@@ -445,7 +445,7 @@
                                 <div class="tools_row">
                                     <span class="tools_label">购房情况：</span>
                                     <div class="tools_input">
-                                        <input type="text">
+                                        <input name="house" type="text">
                                     </div>
                                 </div>
                             </div>
@@ -454,7 +454,7 @@
                             <div class="love_col love_col_5">
                                 <span class="tools_label">手机：</span>
                                 <div class="tools_input">
-                                    <input type="text" value="18900026767">
+                                    <input name="mobile" type="text" value="18900026767">
                                 </div>
                                 <div class="love_other_tools">
                                     <button class="btn_center">对外公开</button>
@@ -464,7 +464,7 @@
                             <div class="love_col love_col_5">
                                 <span class="tools_label">邮箱：</span>
                                 <div class="tools_input">
-                                    <input type="text" value="189000@qq.com">
+                                    <input name="email" type="text" value="189000@qq.com">
                                 </div>
                                 <div class="love_other_tools">
                                     <button class="btn_center">对外公开</button>
@@ -474,7 +474,7 @@
                             <div class="love_col love_col_5">
                                 <span class="tools_label">微信：</span>
                                 <div class="tools_input">
-                                    <input type="text">
+                                    <input name="wx" type="text">
                                 </div>
                                 <div class="love_other_tools">
                                     <button class="btn_center">去绑定</button>
@@ -483,7 +483,7 @@
                             <div class="love_col love_col_5">
                                 <span class="tools_label">QQ：</span>
                                 <div class="tools_input">
-                                    <input type="text" value="189000587948">
+                                    <input name="qq" type="text" value="189000587948">
                                 </div>
                                 <div class="love_other_tools">
                                     <button class="btn_center">对外公开</button>
