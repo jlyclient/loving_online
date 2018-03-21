@@ -34,22 +34,22 @@ $(function() {
                 centermestitle += '<h2>'+ centerobj.user.nick_name +
                     '<span>（'+ sex[centerobj.user.sex] +'）</span>'+
                 '</h2>';
-                centermescon += '<div class="love_mater_detail">'+
-                    '<span>征友状态：'+ centerobj.user.state === 0 ? '征友进行中' : '找到意中人' + '</span>'+
-                    '<span>意向：'+ aim[centerobj.user.aim] +'</span>'+
-                    '<span>年龄：'+ centerobj.user.age +'</span>'+
-                    '<span>婚姻：'+ marriage[centerobj.user.marriage] +'</span>'+
-                    '<span>星座：'+ xingzuo[centerobj.user.xingzuo] +'</span>'+
-                    '<span>属相：'+ shengxiao[centerobj.user.shengxiao] +'</span>'+
-                    '<span>血型：'+ blood[centerobj.user.blood] +'</span>'+
-                    '<span>体重：'+ centerobj.user.weight +'KG</span>'+
-                    '<span>身高：'+ centerobj.user.height +'CM</span>'+
-                    '<span>学历：'+ degreearr[centerobj.user.degree] +'</span>'+
-                    '<span>民族：'+ centerobj.user.nation +'</span>'+
-                    '<span>现居：'+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +'</span>'+
-                    '<span>籍贯：'+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +'</span>'+
-                '</div>';
-                centerintroduction = '<p>'+
+                centermescon += "<div class='love_mater_detail'>"+
+                    "<span>征友状态："+ centerobj.user.state === 0 ? '征友进行中' : '找到意中人' + "</span>"+
+                    "<span>意向："+ aim[centerobj.user.aim] +"</span>"+
+                    "<span>年龄："+ centerobj.user.age +"</span>"+
+                    "<span>婚姻："+ marriage[centerobj.user.marriage] +"</span>"+
+                    "<span>星座："+ xingzuo[centerobj.user.xingzuo] +"</span>"+
+                    "<span>属相："+ shengxiao[centerobj.user.shengxiao] +"</span>"+
+                    "<span>血型："+ blood[centerobj.user.blood] +"</span>"+
+                    "<span>体重："+ centerobj.user.weight +"KG</span>"+
+                    "<span>身高："+ centerobj.user.height +"CM</span>"+
+                    "<span>学历："+ degreearr[centerobj.user.degree] +"</span>"+
+                    "<span>民族："+ centerobj.user.nation +"</span>"+
+                    "<span>现居："+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +"</span>"+
+                    "<span>籍贯："+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +"</span>"+
+                "</div>";
+                centerintroduction += '<p>'+
                     '<span>简介：</span>'+
                     '<span class="text_over2">'+ centerobj.statement.motto +'</span>'+
                 '</p>'+
