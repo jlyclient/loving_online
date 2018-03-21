@@ -23,7 +23,7 @@ $(function() {
             if (centerdata.code === 0) {
                 centerobj = centerdata.data;
                  // 获取个人资料
-                var centermestitle = '', centermescon = '';
+                var centermestitle = '', centermescon = '', centerintroduction = '';
                 var center_interest = '';
                 console.log(centerobj);
                 for(var i = 0; i < centerobj.hobby.arr.length; i ++) {
@@ -35,7 +35,7 @@ $(function() {
                     '<span>（'+ sex[centerobj.user.sex] +'）</span>'+
                 '</h2>';
                 centermescon += '<div class="love_mater_detail">'+
-                    '<span>征友状态：'+ centerobj.user.state === 0 ? '征友进行中' : '找到意中人' +'</span>'+
+                    '<span>征友状态：'+ centerobj.user.state === 0 ? '征友进行中' : '找到意中人' + '</span>'+
                     '<span>意向：'+ aim[centerobj.user.aim] +'</span>'+
                     '<span>年龄：'+ centerobj.user.age +'</span>'+
                     '<span>婚姻：'+ marriage[centerobj.user.marriage] +'</span>'+
@@ -48,8 +48,8 @@ $(function() {
                     '<span>民族：'+ centerobj.user.nation +'</span>'+
                     '<span>现居：'+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +'</span>'+
                     '<span>籍贯：'+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +'</span>'+
-                '</div>'+
-                '<p>'+
+                '</div>';
+                centerintroduction = '<p>'+
                     '<span>简介：</span>'+
                     '<span class="text_over2">'+ centerobj.statement.motto +'</span>'+
                 '</p>'+
@@ -57,7 +57,7 @@ $(function() {
                     '<span>兴趣：</span>'+ center_interest +
                 '</p>';
 
-                $('#love_center_right').append(centermestitle + centermes);
+                $('#love_center_right').append(centermestitle + centermescon + centerintroduction);
                 // 内心独白
                 console.log(centerobj.statement.content, '----');
                 $("#love_heart_content").html(centerobj.statement.content);
