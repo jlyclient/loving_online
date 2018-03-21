@@ -159,7 +159,7 @@ $(function() {
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
                 if ($(datas).attr('value') == centerobj.user[$(data).attr('name')]) {
-                    $(datas).checked();
+                    datas.checked = true;
                 }
             })
         });
