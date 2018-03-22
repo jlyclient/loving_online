@@ -257,7 +257,7 @@ $(function() {
                 ori_loc1: obj.ori_loc1,
                 ori_loc2: obj.ori_loc2,
                 motto: obj.motto,
-                hobby: obj.hobby,
+                hobby: JSON.stringify(obj.hobby),
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
