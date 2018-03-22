@@ -177,7 +177,8 @@ $(function() {
                     } else {
                         $(datas).prev().html(Number($(datas).attr('value')));
                     }
-                    console.log(selectobj,$(data).attr('name'), Number($(datas).attr('value')));
+                    console.log(selectobj,$(data).attr('name'), Number($(datas).attr('value')));                    
+                    $(datas).attr('selected', true);
                 }
             })
         });
