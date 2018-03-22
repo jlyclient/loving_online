@@ -164,13 +164,12 @@ $(function() {
             })
         });
         $("#love_editcenter_box").find('textarea').eq(0).val(centerobj.statement.motto);
-        for (var i = 0; i < $(".love_tools_intersting").find('span').length; i++) {
-            for(var j = 0; j < centerobj.hobby.arr.length; j++) {
-                if (centerobj.hobby.arr[j] === 1) {
-                    $(".love_tools_intersting").find('span').eq(i).addClass('active');
-                } else {
-                    $(".love_tools_intersting").find('span').eq(i).removeClass('active');
-                }
+        for(var j = 0; j < centerobj.hobby.arr.length; j++) {
+            console.log(centerobj.hobby.arr[j], $(".love_tools_intersting").find('span').eq(i));
+            if (centerobj.hobby.arr[j] === 1) {
+                $(".love_tools_intersting").find('span').eq(j).addClass('active');
+            } else {
+                $(".love_tools_intersting").find('span').eq(j).removeClass('active');
             }
         }
         // $(".love_tools_intersting").find('span').map((index, data) => {
