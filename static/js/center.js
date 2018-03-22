@@ -2,7 +2,7 @@ $(function() {
     var centerobj = {};
     var salary = ['未填', '2000以下', '2000~5000', '5000~10000', '10000~20000', '20000~50000', '50000以上']; // 薪资水平
     var aim = ['未填', '交友', '征婚', '聊天']; // 交友目的
-    var degreearr = ['保密', '高中及以下', '中专/大专', '本科', '研究生', '博士及博士后']; // 学历
+    var degree = ['保密', '高中及以下', '中专/大专', '本科', '研究生', '博士及博士后']; // 学历
     var sex = ['未填', '男', '女'];  // 性别
     var shengxiao = ['未填','鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪']; // 生肖
     var marriage = ['未填','单身','离异','丧偶'];
@@ -12,6 +12,17 @@ $(function() {
     var work = ['未填','学生','老师','工程师','商务人士','个体老师','白领人士','其他'];
     var interesting = ['爬山','摄影','音乐','电影','旅游','游戏','健身','美食','跑步','逛街','唱歌','跳舞','扑克','麻将','网购','看书'];
     var xsrf = get_cookie_by_name('_xsrf');
+    var selectobj = {
+        salary: salary,
+        aim: aim,
+        degree: degree,
+        shengxiao: shengxiao,
+        marriage: marriage,
+        xingzuo: xingzuo,
+        blood: blood,
+        house: house,
+        work: work,
+    }
     $.ajax({
         type:'POST',
         url: '/center',
@@ -46,7 +57,7 @@ $(function() {
                     "<span>血型："+ blood[centerobj.user.blood] +"</span>"+
                     "<span>体重："+ centerobj.user.weight +"KG</span>"+
                     "<span>身高："+ centerobj.user.height +"CM</span>"+
-                    "<span>学历："+ degreearr[centerobj.user.degree] +"</span>"+
+                    "<span>学历："+ degree[centerobj.user.degree] +"</span>"+
                     "<span>民族："+ centerobj.user.nation +"</span>"+
                     "<span>现居："+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +"</span>"+
                     "<span>籍贯："+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +"</span>"+
@@ -159,7 +170,7 @@ $(function() {
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
-                    $(datas).prev().html($(data).attr('name')[Number($(datas).attr('value'))]);
+                    $(datas).prev().html(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);
                     $(datas).attr('selected', true);
                     console.log($(data).attr('name')[Number($(datas).attr('value'))]);
                 }
