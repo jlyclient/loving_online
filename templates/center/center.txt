@@ -116,8 +116,7 @@ index.html中的“个人中心”
     返回值:
     {
      'code':0,   //0=成功 -1=失败
-     'msg':'ok', //对code的解释
-     'data': {'seq': 5} //seq 第几张图片 0=头像 1~9照片
+     'msg':'ok'  //对code的解释
     }
 
 上传照片: //选择图片时能预览
@@ -130,7 +129,7 @@ index.html中的“个人中心”
     点击删除时 有提示: 是否删除该图片 Y    N， 点击Y时:
     请求POST url: /delimg
     请求参数:
-        seq=5(图片的序号)
+        图片的src
     返回值:
     {
         'code': 0,
@@ -196,7 +195,7 @@ ps:mobile wx qq email已经验证过的就不能编辑了
    verify_w: 1 //wx     验证过
    verify_q: 1 //qq     验证过
    verify_e: 1 //email  验证过
-   hint:在center get url=/center返回数据的时候,将上边字段嵌入对应的html位置上去即可
+
 请求 POST  url=/editother
     请求参数:
     salary=&work=&car=&house=
@@ -216,9 +215,74 @@ ps:mobile wx qq email已经验证过的就不能编辑了
     邮箱验证:
         弹框，输入邮箱号，点击发送验证链接即可
         请求方法:  GET /verify_other?num=email&kind=3
+        kind: =1验证微信 =2验证qq =3验证email
+        num: 微信号或qq号或邮箱号
         返回值:   {
                     'code': 0,  //0=成功  -1=30秒内只能发送一次
                     'msg': 'ok' //  成功     30秒内只能发送一次
                   }
           
     一种联系方式验证完之后，“绑定”变为“已验证”
+
+我看过谁:
+   请求url:  POST /isee
+   请求参数:
+        page=20&next=0&limit=20
+        page: 一个页面最多展示多少人
+        next: 请求第几个页面，从0开始
+        limit: 一次请求最多请求多少个人的数据，如果超过page，则直接按page取值
+   返回值:
+   {
+       'code': 0,  //=0成功  !=0 data无效
+       'msg': 'ok',
+       'count': 100, //人总数
+       'data':[
+                {
+                    'date':xxx,  //日期 2018/01/09
+                    'arr':[
+                            {
+                               'id': 7, //用户的id
+                               'nick_name': '夏天未迁',
+                               'sex': 1,  //  1=男 2=女,
+                               'age': 18,
+                               'curr_loc1': '四川',
+                               'curr_loc2': '成都',
+                               'src':  'aefed/fffa1/e0f1a.jpg', //头像缩略图src
+                               'time': '07:35'
+                            },
+                            ...
+                          ]
+                },
+              ...
+              ]
+   }
+谁看过我:
+   请求url:  POST /seeme
+   请求参数和返回值同“我看过谁”
+
+
+我关注的:
+   请求url:  POST /icare
+   请求参数:  page=20&next=0&limit=20
+        page: 一个页面最多展示多少人
+        next: 请求第几个页面，从0开始
+        limit: 一次请求最多请求多少个人的数据，如果超过page，则直接按page取值
+
+   返回值:
+   {
+       'code': 0,  //=0成功  !=0 data无效
+       'msg': 'ok',
+       'count': 100, //人总数
+       'data': [
+                {
+                    'nick_name': '夏天未迁',  //昵称
+                    'age': 18,
+                    'sex': 1,     //1=男 2女
+                    'curr_loc1': '四川',
+                    'curr_loc2': '成都',
+                    'src':  'aefed/fffa1/e0f1a.jpg', //头像缩略图src
+                    'time': '2018/01/08 17:40'
+                },
+                ...
+               ]
+   }
