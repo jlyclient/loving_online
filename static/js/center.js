@@ -162,6 +162,7 @@ $(function() {
                 console.log($(datas).attr('value'), centerobj.user[$(data).attr('name')], '---------');
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
                     datas.selected = true;
+                    console.log(datas);
                 }
             })
         });
