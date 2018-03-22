@@ -173,7 +173,7 @@ $(function() {
             $(data).find('option').map((indexs, datas) => {
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
                     if (selectobj[$(data).attr('name')]) {
-                        $(datas).prev().html(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);
+                        $(datas).parent().prev().html(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);
                     } else {
                         $(datas).prev().html(Number($(datas).attr('value')));
                     }
