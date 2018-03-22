@@ -23,6 +23,7 @@ $(function() {
         house: house,
         work: work,
         state: ['征友进行中', '找到意中人'],
+        nation: ['汉族', '其他'],
     }
     $.ajax({
         type:'POST',
@@ -171,9 +172,12 @@ $(function() {
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
+                    if (selectobj[$(data).attr('name')]) {
+                        $(datas).prev().html(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);
+                    } else {
+                        $(datas).prev().html(Number($(datas).attr('value')));
+                    }
                     console.log(selectobj,$(data).attr('name'), Number($(datas).attr('value')));
-                    $(datas).prev().html(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);
-                    $(datas).attr('selected', true);
                 }
             })
         });
