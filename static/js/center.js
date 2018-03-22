@@ -265,7 +265,7 @@ $(function() {
                 if (jsondata['code'] == 0) {
                     $('.love_mater_before').show();
                     $('.love_mater_after').hide();
-                    window.location.reload();
+                    // window.location.reload();
                 }
             },
             error: function(para) {
