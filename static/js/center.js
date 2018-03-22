@@ -22,6 +22,7 @@ $(function() {
         blood: blood,
         house: house,
         work: work,
+        state: ['征友进行中', '找到意中人'],
     }
     $.ajax({
         type:'POST',
