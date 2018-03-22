@@ -158,12 +158,10 @@ $(function() {
         }); 
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
-                console.log(index, data, indexs, datas);
-                console.log($(datas).attr('value'), centerobj.user[$(data).attr('name')], '---------');
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
                     $(datas).prev().html($(data).attr('name')[Number($(datas).attr('value'))]);
                     $(datas).attr('selected', true);
-                    console.log(datas);
+                    console.log($(data).attr('name')[Number($(datas).attr('value'))]);
                 }
             })
         });
