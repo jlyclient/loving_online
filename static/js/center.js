@@ -170,7 +170,7 @@ $(function() {
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
-                    console.log(selectobj[$(data).attr('name')], Number($(datas).attr('value')));
+                    console.log(selectobj,$(data).attr('name'), Number($(datas).attr('value')));
                     $(datas).prev().html(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);
                     $(datas).attr('selected', true);
                 }
