@@ -166,10 +166,11 @@ $(function() {
         $("#love_editcenter_box").find('textarea').eq(0).val(centerobj.statement.motto);
         $(".love_tools_intersting").find('span').map((index, data) => {
             centerobj.hobby.arr.map((indexs, datas) => {
-                if (indexs == 1) {
+                console.log(index, data);
+                if (datas === 1) {
                     $(data).addClass('active');
                 }
-            })
+            });
         });
         $('.love_mater_before').hide();
         $('.love_mater_after').show();
