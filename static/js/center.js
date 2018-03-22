@@ -158,6 +158,8 @@ $(function() {
         }); 
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
+                console.log(index, data, indexs, datas);
+                console.log($(datas).attr('value'), centerobj.user[$(data).attr('name')], '---------');
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
                     datas.selected = true;
                 }
