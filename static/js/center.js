@@ -223,7 +223,7 @@ $(function() {
             obj[$(data).attr('name')] = $(data).val();
         });
         $("#love_editcenter_box").find('select').map((index, data) => {
-            if($(data).attr('name') == 'cur1' || $(data).attr('name') == 'cur2' || $(data).attr('name') == 'ori1' || $(data).attr('name') =='ori2') {
+            if($(data).attr('name') == 'curr_loc1' || $(data).attr('name') == 'curr_loc2' || $(data).attr('name') == 'ori_loc1' || $(data).attr('name') =='ori_loc2') {
                 obj[$(data).attr('name')] = $(data).find("option:checked").attr("value");
             } else {
                 obj[$(data).attr('name')] = Number($(data).find("option:checked").attr("value"));
