@@ -164,6 +164,7 @@ $(function() {
             nextCell: ".next"
         });
     });
+
      //基本资料
      $(document).on('click', '.love_mater_edit', function() {
         $("#love_editcenter_box").find('input').map((index, data) => {
@@ -175,7 +176,7 @@ $(function() {
                     if (selectobj[$(data).attr('name')]) {
                         $(datas).parent().prev().html(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);
                     } else {
-                        $(datas).prev().html(Number($(datas).attr('value')));
+                        $(datas).parent().prev().html(Number($(datas).attr('value')));
                     }
                     console.log(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);                    
                     $(datas).attr('selected', true);
@@ -253,9 +254,9 @@ $(function() {
         });
         $("#love_editcenter_box").find('select').map((index, data) => {
             if($(data).attr('name') == 'curr_loc1' || $(data).attr('name') == 'curr_loc2' || $(data).attr('name') == 'ori_loc1' || $(data).attr('name') =='ori_loc2') {
-                obj[$(data).attr('name')] = $(data).find("option:checked").attr("value");
+                obj[$(data).attr('name')] = $(data).find("option:selected").attr("value");
             } else {
-                obj[$(data).attr('name')] = Number($(data).find("option:checked").attr("value"));
+                obj[$(data).attr('name')] = Number($(data).find("option:selected").attr("value"));
             }
         });
         obj.motto = $("#love_editcenter_box").find("textarea").eq(0).val();
