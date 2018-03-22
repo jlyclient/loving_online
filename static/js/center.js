@@ -158,14 +158,14 @@ $(function() {
         }); 
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
-                if ($(datas).attr('value') == centerobj.user[$(data).attr('name')]) {
+                if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
                     datas.checked = true;
                 }
             })
         });
         $("#love_editcenter_box").find('textarea').eq(0).val(centerobj.statement.motto);
         for(var j = 0; j < centerobj.hobby.arr.length; j++) {
-            console.log(centerobj.hobby.arr[j], $(".love_tools_intersting").find('span').eq(i));
+            console.log(centerobj.hobby.arr[j], $(".love_tools_intersting").find('span').eq(j));
             if (centerobj.hobby.arr[j] === 1) {
                 $(".love_tools_intersting").find('span').eq(j).addClass('active');
             } else {
@@ -275,7 +275,7 @@ $(function() {
                 if (jsondata['code'] == 0) {
                     $('.love_mater_before').show();
                     $('.love_mater_after').hide();
-                    // window.location.reload();
+                    window.location.reload();
                 }
             },
             error: function(para) {
