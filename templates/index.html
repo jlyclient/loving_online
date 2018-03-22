@@ -626,6 +626,46 @@
             </div>
         </div>
 
+        <!--修改密码-->
+        <div class="love_dialog_modifypassword d_n">
+            <div class="love_dialog_header">
+                修改密码<span class="love_dialog_close btn_dialog_close"></span>
+            </div>
+            <div class="love_dialog_content">
+                <div class="love_login_text love_reg_text" id="love_modify_password">
+                    <div class="tools_row">
+                        <span class="tools_label">手机号：</span>
+                        <div class="tools_input">
+                            <input name="mobile" type="text" placeholder="手机号">
+                        </div>
+                        <div class="love_err_message">手机号格式不正确请重新输入！</div>
+                    </div>
+                    <div class="tools_row">
+                        <span class="tools_label">密码：</span>
+                        <div class="tools_input">
+                            <input name="password1" type="password" placeholder="6-16位字母、数字和符号">
+                        </div>
+                        <div class="love_err_message">密码不能为空！</div>
+                    </div>
+                    <div class="tools_row">
+                        <span class="tools_label">确认密码：</span>
+                        <div class="tools_input">
+                            <input name="password2" type="password" placeholder="请重复密码">
+                        </div>
+                        <div class="love_err_message">两次输入密码不一致！</div>
+                    </div>
+                    <div class="tools_row">
+                        <span class="tools_label">&nbsp;</span>
+                        <div class="tools_input tools_input_submit">
+                            <button id="changepassword_btn" class="btn" type="button">确定</button>
+                            <button class="btn btn_plain btn_dialog_close" type="button">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- 手机找回密码 -->
         <div class="love_dialog_password love_dialog_password_phone d_n">
             <div class="love_dialog_header">

@@ -98,6 +98,12 @@ $(function() {
         $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
     });
     
+    // 修改密码弹窗
+    $(".btn_dialog_password").click(function() {
+        $('.love_dialog>div').addClass('d_n');
+        $('.love_dialog').find('.love_dialog_modifypassword').removeClass('d_n');
+    })
+    
     //qq二维码登录弹窗
     $(".love_icon-qq").click(function() {
         $('.love_dialog>div').addClass('d_n');
@@ -407,6 +413,27 @@ $(function() {
         }
          
     });
+    
+    // 确认修改密码
+    $("#changepassword_btn").click(function() {
+        var obj = {mobile: '', password1: '', password2: ''};
+        $("#love_modify_password").find('input').map((index, data) => {
+            obj[$(data).attr('name')] = $(data).val();
+        });
+        if (obj.mobile !== '' && phone_zheng.test(obj.mobile) && obj.password1 !== '' && obj.password2 !== '' && obj.password1 === obj.password2 ) {
+            // 满足修改密码的所有条件
+            
+        }
+        if (obj.mobile === '' || !phone_zheng.test(obj.mobile)) {
+            $("#love_modify_password .love_err_message").eq(0).css({ dispaly: 'block'});
+        }
+        if (obj.password1 === '') {
+            $("#love_modify_password .love_err_message").eq(1).css({ dispaly: 'block'});
+        }
+        if (obj.password2 === '' || obj.password1 !== obj.password2) {
+            $("#love_modify_password .love_err_message").eq(3).css({ dispaly: 'block'});
+        }
+    })
 })
 
 //倒计时
