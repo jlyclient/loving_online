@@ -166,7 +166,7 @@ $(function() {
         $("#love_editcenter_box").find('textarea').eq(0).val(centerobj.statement.motto);
         $(".love_tools_intersting").find('span').map((index, data) => {
             centerobj.hobby.arr.map((indexs, datas) => {
-                console.log(index, data);
+                console.log(indexs, datas);
                 if (datas === 1) {
                     $(data).addClass('active');
                 }
