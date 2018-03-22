@@ -161,7 +161,7 @@ $(function() {
                 console.log(index, data, indexs, datas);
                 console.log($(datas).attr('value'), centerobj.user[$(data).attr('name')], '---------');
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
-                    datas.selected = true;
+                    $(datas).selected = true;
                     console.log(datas);
                 }
             })
