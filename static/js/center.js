@@ -167,8 +167,10 @@ $(function() {
         $(".love_tools_intersting").find('span').map((index, data) => {
             centerobj.hobby.arr.map((indexs, datas) => {
                 console.log(indexs, datas, index, data);
-                if (datas === 1) {
+                if (indexs === 1) {
                     $(data).addClass('active');
+                } else {
+                    $(data).removeClass('active');
                 }
             });
         });
