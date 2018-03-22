@@ -235,7 +235,7 @@ $(function() {
                 obj.hobby.splice(index, 1, 1);
             }
         });
-        console.log(obj);
+        console.log(obj,JSON.stringify(obj.hobby));
         $.ajax({
             type:'POST',
             url: '/editbasic',
