@@ -224,13 +224,24 @@ ps:mobile wx qq email已经验证过的就不能编辑了
           
     一种联系方式验证完之后，“绑定”变为“已验证”
 
+    手机、微信、QQ、邮箱公开:
+    请求url: POST /public
+    请求参数: kind=1&action=1
+    kind:  =1手机 =2微信 =3QQ =4邮箱
+    action: =0非公开  =1公开
+    返回值:
+    {
+        'code': 0,
+        'msg': 'ok'
+    }
+    code: =0    成功设置
+          =-1   参数不对
+          =-2   请先登录
+          =-3   服务器错误
+
 我看过谁:
    请求url:  POST /isee
-   请求参数:
-        page=20&next=0&limit=20
-        page: 一个页面最多展示多少人
-        next: 请求第几个页面，从0开始
-        limit: 一次请求最多请求多少个人的数据，如果超过page，则直接按page取值
+   请求参数: null
    返回值:
    {
        'code': 0,  //=0成功  !=0 data无效

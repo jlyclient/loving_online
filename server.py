@@ -15,7 +15,6 @@ from tornado.web import StaticFileHandler
 from tornado.options import define, options
 
 from conf import conf
-from cache import cache
 
 define("port", default=conf.sys_port, help="run on the given port", type=int)
 
@@ -913,19 +912,22 @@ class VerifyOther(BaseHandler):
             d = json.dumps(d)
         self.write(d)
         self.finish()
-class PublishHandler(BaseHandler):
+class PublicHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
+        #kind:  =1手机 =2微信 =3QQ =4邮箱
         kind     = self.get_argument('kind',   None)
+        #=0非公开  =1公开
         action   = self.get_argument('action', None)
         if not kind or not action:
-            d = {'code': -1, 'msg': '不合法提交!'}
+            d = {'code': -1, 'msg': '参数不对!'}
             d = json.dumps(d)
             self.write(d)
-        elif kind not in ['1', '2', '3', '4']:#手机 qq wx email
-            d = {'code': -1, 'msg': '不合法提交!'}
+        #手机 wx qq email
+        elif kind not in ['1', '2', '3', '4'] or action not in ['1','2']:
+            d = {'code': -1, 'msg': '参数不对!'}
             d = json.dumps(d)
             self.write(d)
         else:
@@ -955,7 +957,7 @@ class PublishHandler(BaseHandler):
                     ctx = d.get('data', {})
             '''ctx section end'''
             if ctx and ctx.get('user'):
-                url = 'http://%s:%s/publish' % (conf.dataserver_ip, conf.dataserver_port)
+                url = 'http://%s:%s/public' % (conf.dataserver_ip, conf.dataserver_port)
                 headers = self.request.headers
                 ctx_ = json.dumps(ctx)
                 body = self.request.body + '&ctx=%s' % ctx_
@@ -972,17 +974,20 @@ class PublishHandler(BaseHandler):
                 try:
                     d = json.loads(r)
                 except:
-                    d = {'code': -1, 'msg': 'failed'}
+                    d = {'code': -2, 'msg': '请先登录'}
                 if d.get('code', -1) == 0:
-                    d = {'code': 0, 'msg': 'success!'}
+                    d = {'code': 0, 'msg': 'ok!'}
                     d = json.dumps(d)
                 else:
-                    d = {'code': -1, 'msg': 'failed'}
+                    d = {'code': -2, 'msg': '请先登录'}
                     d = json.dumps(d)
                 self.write(d)
                 self.finish()
             else:
-                self.redirect('/')
+                d = {'code': -2, 'msg':'请先登录'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
 
 class FileUploadHandler(BaseHandler):
     @tornado.web.authenticated
@@ -992,14 +997,37 @@ class FileUploadHandler(BaseHandler):
         print('aaaa')
         self.finish()
 
-class MySeeHandler(BaseHandler):
+class ISeeHandler(BaseHandler):
     @tornado.web.authenticated
-    def get(self):
-        ctx = self.get_ctx('userid')
-        if ctx:
-            self.render('center/mySee.html', ctx=ctx)
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        cookie = self.get_secure_cookie('userid')
+        if cookie:
+            uid = cookie.split('_')[1]
+            if not uid:
+                d = {'code': -1, 'msg': '请先登录'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
+            else:
+                url = 'http://%s:%s/isee' % (conf.dataserver_ip, conf.dataserver_port)
+                headers = self.request.headers
+                body = self.request.body + '&uid=%s' % uid 
+                http_client = tornado.httpclient.AsyncHTTPClient()
+                resp = yield tornado.gen.Task(
+                        http_client.fetch,
+                        url,
+                        method='POST',
+                        headers=headers,
+                        body=body,
+                        validate_cert=False)
+                r = resp.body
         else:
-            self.redirect('/')
+            d = {'code': -1, 'msg': '请先登录'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
 
 class SeeMeHandler(BaseHandler):
     @tornado.web.authenticated
@@ -1056,9 +1084,9 @@ if __name__ == "__main__":
         ('/editstatement', StatementEditHandler),
         ('/other_edit', OtherEditHandler),
         ('/verify_other', VerifyOther),#验证微信、QQ和邮箱
-       #('/publish', PublishHandler),#对外公开 隐藏
+        ('/public', PublicHandler),#对外公开 隐藏
         ('/fileupload', FileUploadHandler),
-        ('/mysee', MySeeHandler),
+        ('/isee', ISeeHandler),
         ('/seeme', SeeMeHandler),
         ('/icare', ICareHandler),
         ('/careme', CareMeHandler),
