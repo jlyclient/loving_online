@@ -80,6 +80,7 @@ class IndexNewHandler(tornado.web.RequestHandler):
             self.finish()
         else:
             url = 'http://%s:%s/new' % (conf.dataserver_ip, conf.dataserver_port)
+            print('url=%s'%url)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -90,6 +91,7 @@ class IndexNewHandler(tornado.web.RequestHandler):
                     body=self.request.body,
                     validate_cert=False)
             data = resp.body
+            print(data)
             r = {}
             try:
                 r = json.loads(data)
@@ -1031,12 +1033,36 @@ class ISeeHandler(BaseHandler):
 
 class SeeMeHandler(BaseHandler):
     @tornado.web.authenticated
-    def get(self):
-        ctx = self.get_ctx('userid')
-        if ctx:
-            self.render('center/seeMe.html', ctx=ctx)
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        cookie = self.get_secure_cookie('userid')
+        if cookie:
+            uid = cookie.split('_')[1]
+            if not uid:
+                d = {'code': -1, 'msg': '请先登录'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
+            else:
+                url = 'http://%s:%s/seeme' % (conf.dataserver_ip, conf.dataserver_port)
+                headers = self.request.headers
+                body = self.request.body + '&uid=%s' % uid 
+                http_client = tornado.httpclient.AsyncHTTPClient()
+                resp = yield tornado.gen.Task(
+                        http_client.fetch,
+                        url,
+                        method='POST',
+                        headers=headers,
+                        body=body,
+                        validate_cert=False)
+                r = resp.body
         else:
-            self.redirect('/')
+            d = {'code': -1, 'msg': '请先登录'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+
 
 class ICareHandler(BaseHandler):
     @tornado.web.authenticated
