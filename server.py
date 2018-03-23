@@ -1,4 +1,8 @@
 #-*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 import tornado.httpclient
 import tornado.httpserver
 import tornado.ioloop
