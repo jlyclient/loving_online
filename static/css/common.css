@@ -1880,3 +1880,25 @@ header {
 .love_see_links a:hover {
     color: #f13973;
 }
+
+#city_1 select{
+    width: 80px;
+    position: relative;
+    display: inline-block;
+}
+
+#love_oth_edit select{
+    width: 160px;
+}
+
+.love_bind_err{
+    display: none;
+    color: #aeaeae;
+    font-size: 14px;
+    position: relative;
+    text-align: center;
+}
+#love_user_pic>div{
+    height: 160px;
+    margin-bottom: 20px;
+}

@@ -91,6 +91,7 @@ var pro_city_data = {"citylist":[{"p":"北京","c":[{"n":"东城区"},{"n":"西�
 				temp_html+="<option value='"+dist.s+"'>"+dist.s+"</option>";
 			});
 			dist_obj.html(temp_html).attr("disabled",false).css({"display":"","visibility":""});
+			
 		};
 
 		var init=function(){
@@ -123,6 +124,7 @@ var pro_city_data = {"citylist":[{"p":"北京","c":[{"n":"东城区"},{"n":"西�
 			// 选择省份时发生事件
 			prov_obj.bind("change",function(){
 				cityStart();
+				$(city_obj).prev().html(city_json.citylist[prov_obj.get(0).selectedIndex].c[0].n);
 			});
 
 			// 选择市级时发生事件

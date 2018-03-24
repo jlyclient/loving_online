@@ -12,6 +12,7 @@ $(function() {
     var work = ['未填','学生','老师','工程师','商务人士','个体老师','白领人士','其他'];
     var interesting = ['爬山','摄影','音乐','电影','旅游','游戏','健身','美食','跑步','逛街','唱歌','跳舞','扑克','麻将','网购','看书'];
     var xsrf = get_cookie_by_name('_xsrf');
+    var email_zheng = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
     var selectobj = {
         salary: salary,
         aim: aim,
@@ -21,9 +22,10 @@ $(function() {
         xingzuo: xingzuo,
         blood: blood,
         house: house,
+        car: house,
         work: work,
         state: ['征友进行中', '找到意中人'],
-        nation: ['汉族', '其他'],
+        nation: ['未填', '汉族', '其他'],
     }
     $.ajax({
         type:'POST',
@@ -75,7 +77,6 @@ $(function() {
 
                 $('#love_center_right').append(centermestitle + centermescon + centerintroduction);
                 // 内心独白
-                console.log(centerobj.statement.content, '----');
                 $("#love_heart_content").html(centerobj.statement.content);
 
                 // 其他资料
@@ -97,31 +98,55 @@ $(function() {
                     // 其他资料账号相关
                 var love_accountmobile = '', love_accountemail = '', love_accountwx = '', love_accountqq = '';
                 love_accountmobile = '<div class="love_col love_col_5">手机：' + centerobj.otherinfo.mobile +
-                    '<div class="love_other_tools"><button class="btn_center">'+ 
+                    '<div class="love_other_tools"><button name="1" public="public_m" ' +
+                    (centerobj.otherinfo.public_m === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
+                    '>'+ 
                         (centerobj.otherinfo.public_m === 0 ? '对外隐藏' : '对外公开' +'</button>')+
-                    '</div></div>';
+                    '</button></div></div>';
                 love_accountemail = '<div class="love_col love_col_5">邮箱：'+ 
                 centerobj.otherinfo.email +
-                    '<div class="love_other_tools"><button class="btn_center">'+ 
+                    '<div class="love_other_tools"><button name="4" public="public_e" '+
+                    (centerobj.otherinfo.public_e === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
+                    '>'+ 
                     (centerobj.otherinfo.public_e === 0 ? '对外隐藏' : '对外公开') +
-                    '</button><button class="btn_center btn_center_plain">'+ (centerobj.otherinfo.verify_e === 0 ? '验证' : '解绑') +
+                    '</button><button id="love_bind_email" '+
+                    (centerobj.otherinfo.verify_e === 0 ? "class ='btn_center'" : "class ='btn_center btn_center_plain'") +
+                    '>'+
+                    (centerobj.otherinfo.verify_e === 0 ? '验证' : '解绑') +
                     '</button></div></div>';
                 love_accountwx = '<div class="love_col love_col_5">微信：'+ 
                 centerobj.otherinfo.wx +
-                    '<div class="love_other_tools"><button class="btn_center">'+ 
+                    '<div class="love_other_tools"><button name="2" public="public_w" '+
+                    (centerobj.otherinfo.public_w === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
+                    '>'+ 
                     (centerobj.otherinfo.public_w === 0 ? '对外隐藏' : '对外公开') +
-                    '</button><button class="btn_center">'+ 
+                    '</button><button id="love_bind_wx"  ' +
+                    (centerobj.otherinfo.verify_w === 0 ? "class ='btn_center'" : "class ='btn_center btn_center_plain'") 
+                    +'>'+ 
                     (centerobj.otherinfo.verify_w === 0 ? '验证' : '解绑') +
                     '</button></div></div>';
                 love_accountqq = '<div class="love_col love_col_5">QQ：'+ 
                 centerobj.otherinfo.qq +
-                    '<div class="love_other_tools"><button class="btn_center">'+ 
+                    '<div class="love_other_tools"><button name="3" public="public_q" '+
+                    (centerobj.otherinfo.public_q === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
+                    '>'+ 
                     (centerobj.otherinfo.public_q === 0 ? '对外隐藏' : '对外公开') +
-                    '</button><button class="btn_center btn_center_plain">'+ 
+                    '</button><button id="love_bind_qq"  '+ 
+                    (centerobj.otherinfo.verify_q === 0 ? "class ='btn_center'" : "class ='btn_center btn_center_plain'") +'>'+ 
                     (centerobj.otherinfo.verify_q === 0 ? '验证' : '解绑') +
                     '</button></div></div>';
                 $("#love_account").append(love_accountmobile += love_accountemail += love_accountwx += love_accountqq);
                 console.log(centerobj);
+
+                var user_pic = "";
+                for(var i = 0; i < centerobj.pic.arr.length; i++ ) {
+                    user_pic += '<div class="love_col love_col_2"><div class="love_photo"><p><span class="love_icon love_icon-delete"></span></p><img src='+ centerobj.pic.arr[i] +'></div></div>';
+                }
+                $("#love_user_pic").prepend(user_pic);
+                if(centerobj.pic.arr.length === 9) {
+                    $(".love_upload_btn").css({display: 'none'});
+                }
+
             } else {
                 alert(centerobj.msg.reason);
             }
@@ -169,19 +194,36 @@ $(function() {
      $(document).on('click', '.love_mater_edit', function() {
         $("#love_editcenter_box").find('input').map((index, data) => {
             $(data).val(centerobj.user[$(data).attr('name')]);
+            if ($(data).attr("name") == 'sex') {
+                $(data).val(sex[centerobj.user[$(data).attr('name')]]);
+            }
         }); 
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
                     if (selectobj[$(data).attr('name')]) {
                         $(datas).parent().prev().html(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);
-                    } else {
-                        $(datas).parent().prev().html(Number($(datas).attr('value')));
                     }
-                    console.log(selectobj[$(data).attr('name')][Number($(datas).attr('value'))]);                    
+                    // else {
+                    //     console.log(centerobj.user,$(datas).attr('value'),  '--------');
+                    //     $(datas).parent().prev().html($(datas).attr('value'));
+                    // }      
+                    // $("#city_1").citySelect({prov:centerobj.user.curr_loc1, city: centerobj.user.curr_loc2});            
                     $(datas).attr('selected', true);
                 }
-            })
+            });
+            if($(data).attr("name") === 'curr_loc1' || $(data).attr("name") === 'curr_loc2' || $(data).attr("name") === 'ori_loc1' ||$(data).attr("name") === 'ori_loc2') {
+                $(data).prev().html(centerobj.user[$(data).attr("name")]);
+            }
+            $("#city_3").citySelect({
+                prov: centerobj.user.curr_loc1,
+                city: centerobj.user.curr_loc2,
+            });
+            $("#city_4").citySelect({
+                prov: centerobj.user.ori_loc1,
+                city: centerobj.user.ori_loc2,
+            });
+
         });
         $("#love_editcenter_box").find('textarea').eq(0).val(centerobj.statement.motto);
         for(var j = 0; j < centerobj.hobby.arr.length; j++) {
@@ -210,17 +252,27 @@ $(function() {
     });
     //内心独白
     $(document).on('click', '.love_white_edit', function() {
-        $('.love_heart_before').hide();
-        $('.love_heart_after').show();
+        $('#love_material').hide();
+        $('#love_oth_edit').show();
+        $("#love_white_edittext").val(centerobj.statement.content);
     });
     $(document).on('click', '.love_white_back', function() {
         $('.love_heart_before').show();
         $('.love_heart_after').hide();
     });
+
     //其他信息
     $(document).on('click', '.love_oth_edit', function() {
         $('.love_other_before').hide();
         $('.love_other_after').show();
+        $("#love_oth_edit").find("select").map((index, data) => {
+            $(data).find('option').map((indexs, datas) => {
+                if(centerobj.otherinfo[$(data).attr("name")] == $(datas).attr("value")) {
+                    $(data).prev().html(selectobj[$(data).attr("name")][Number($(datas).attr("value"))]);
+                    $(datas).attr('selected', true);
+                }
+            });
+        })
     });
 
     $(document).on('click', '.love_other_back', function() {
@@ -322,6 +374,122 @@ $(function() {
                 }
             }
         })
+    });
+
+    // 确认修改其他资料
+    $(".love_other_sure").click(function() {
+        var obj = {
+            salary: 0,
+            work: 0,
+            car: 0,
+            house: 0,
+        }
+        $("#love_oth_edit").find("select").map((index, data) => {
+            obj[$(data).attr("name")] = Number($(data).find("option:selected").attr("value"));
+        });
+        $.ajax({
+            type:'POST',
+            url: '/other_edit',
+            data: {
+                "_xsrf":xsrf,
+                salary: obj.salary,
+                work: obj.work,
+                car: obj.car,
+                house: obj.house,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                if(jsondata.code === 0) {
+                    $('.love_other_before').show();
+                    $('.love_other_after').hide();
+                    window.location.reload();
+                }
+                console.log(jsondata);
+            },
+            error: function(para) {
+                console.log(para);
+                alert('ajax', para);
+            },
+        });
+    });
+    // 对外公开
+    $("#love_account").on('click', '.btn_center' , function() {
+        if($(this).attr('name')) {
+            $.ajax({
+                type:'POST',
+                url: '/public',
+                data: {
+                    "_xsrf":xsrf,
+                    kind: Number($(this).attr("name")),
+                    action: Number(centerobj.otherinfo[$(this).attr('public')]) === 0 ? 1 : 0,
+                },
+                success: function(data) {
+                    var jsondata = JSON.parse(data);
+                    console.log(jsondata);
+                    if(jsondata.code == 0) {
+                        window.location.reload();
+                    }
+                },
+                error: function(para){
+                    console.log(para);
+                }
+            })
+        }
+        console.log($(this).attr("id"));
+        if($(this).attr("id") === "love_bind_email") {
+            // 绑定微信
+            $('.love_dialog>div').addClass('d_n');
+            $('.love_dialog').find('.love_dialog_email').removeClass('d_n');
+        }
+        if ($(this).attr("id") === 'love_bind_wx') {
+            // 验证微信
+            $('.love_dialog>div').addClass('d_n');
+            $('.love_dialog').find('.love_dialog_login_code').removeClass('d_n');
+            $("#love_login_code_header").html('微信二维码验证');
+            $("#love_login_code_way").html("请使用微信扫描图中二维码");
+        }
+        if ($(this).attr("id") === 'love_bind_qq') {
+            // 绑定qq
+            $('.love_dialog>div').addClass('d_n');
+            $('.love_dialog').find('.love_dialog_login_code').removeClass('d_n');
+            $("#love_login_code_header").html('QQ二维码验证');
+            $("#love_login_code_way").html("请使用QQ扫描图中二维码");
+        }
+    });
+
+    // 发送邮箱链接
+    $("#findpassword_btn").click(function() {
+        var email = $(".love_dialog_email").find('input').eq(0).val();
+        if (email !== '' && email_zheng.test(email)) {
+            // 发送链接
+            $.ajax({
+                type: 'GET',
+                url: '/verify_other',
+                data: {
+                    num: email,
+                    kind: 3,
+                },
+                success: function(data) {
+                    var jsondata = JSON.parse(dsta);
+                    console.log(jsondata);
+                    if (jsondata.code === 0) {
+                        $(".love_bind_err").css({ display: 'block'});
+                        $(".love_bind_err").html('您好，您已发送验证链接至指定邮箱，请注意查收。');
+                    }
+                },
+                error: function(para) {
+                    console.log(para);
+                },
+            })
+        } else {
+            $(".love_bind_err").css({ display: 'block'});
+            $(".love_bind_err").html('请输入正确的邮箱号');
+        }
+    });
+
+    $("input").change(function(e) {
+        console.log(e);
+        $('.love_bind_err').css({display: 'none'});
     })
 
 })
