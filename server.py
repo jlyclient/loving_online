@@ -932,7 +932,7 @@ class PublicHandler(BaseHandler):
             d = json.dumps(d)
             self.write(d)
         #手机 wx qq email
-        elif kind not in ['1', '2', '3', '4'] or action not in ['1','2']:
+        elif kind not in ['1', '2', '3', '4'] or action not in ['0','1']:
             d = {'code': -1, 'msg': '参数不对!'}
             d = json.dumps(d)
             self.write(d)
