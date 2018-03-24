@@ -1029,6 +1029,14 @@ class ISeeHandler(BaseHandler):
                         body=body,
                         validate_cert=False)
                 r = resp.body
+                d = {}
+                try:
+                    d = json.loads(r)
+                except:
+                    d = {'code': -3, 'msg': '服务器错误'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
         else:
             d = {'code': -1, 'msg': '请先登录'}
             d = json.dumps(d)
@@ -1061,6 +1069,14 @@ class SeeMeHandler(BaseHandler):
                         body=body,
                         validate_cert=False)
                 r = resp.body
+                d = {}
+                try:
+                    d = json.loads(r)
+                except:
+                    d = {'code': -3, 'msg': '服务器错误'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
         else:
             d = {'code': -1, 'msg': '请先登录'}
             d = json.dumps(d)
@@ -1070,21 +1086,44 @@ class SeeMeHandler(BaseHandler):
 
 class ICareHandler(BaseHandler):
     @tornado.web.authenticated
-    def get(self):
-        ctx = self.get_ctx('userid')
-        if ctx:
-            self.render('center/icare.html', ctx=ctx)
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        cookie = self.get_secure_cookie('userid')
+        if cookie:
+            uid = cookie.split('_')[1]
+            if not uid:
+                d = {'code': -1, 'msg': '请先登录'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
+            else:
+                url = 'http://%s:%s/icare' % (conf.dataserver_ip, conf.dataserver_port)
+                headers = self.request.headers
+                body = self.request.body + '&uid=%s' % uid 
+                http_client = tornado.httpclient.AsyncHTTPClient()
+                resp = yield tornado.gen.Task(
+                        http_client.fetch,
+                        url,
+                        method='POST',
+                        headers=headers,
+                        body=body,
+                        validate_cert=False)
+                r = resp.body
+                d = {}
+                try:
+                    d = json.loads(r)
+                except:
+                    d = {'code': -3, 'msg': '服务器错误'}
+                d = json.dumps(d)
+                self.write(d)
+                self.finish()
         else:
-            self.redirect('/')
+            d = {'code': -1, 'msg': '请先登录'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
 
-class CareMeHandler(BaseHandler):
-    @tornado.web.authenticated
-    def get(self):
-        ctx = self.get_ctx('userid')
-        if ctx:
-            self.render('center/mySee.html', ctx=ctx)
-        else:
-            self.redirect('/')
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
@@ -1119,7 +1158,6 @@ if __name__ == "__main__":
         ('/isee', ISeeHandler),
         ('/seeme', SeeMeHandler),
         ('/icare', ICareHandler),
-        ('/careme', CareMeHandler),
               ]
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application, xheaders=True)
