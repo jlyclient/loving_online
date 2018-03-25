@@ -195,7 +195,7 @@ $(function() {
             swf: 'Uploader.swf',
 
             // 文件接收服务端。
-            server: 'http://webuploader.duapp.com/server/fileupload.php',
+            server: 'http://47.94.105.76:8000/fileupload',
 
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -216,13 +216,28 @@ $(function() {
         // 当有文件添加进来的时候
         uploader.on('fileQueued', function(file) {
             uploader.makeThumb(file, function(error, src) {
+                console.log(file, error, src);
                 if (error) {
-                    $img.replaceWith('<span>不能预览</span>');
-                    return;
+                    alert("不能预览，请重新上传！")
+                    console.log('bunengyulan');
                 }
+                // if (error) {
+                //     $img.replaceWith('<span>不能预览</span>');
+                //     return;
+                // }
                 $('.love_img_show img').attr('src', src);
             });
         });
+    });
+
+    $(".btn_save_pic").click(function() {
+
+    })
+
+    // 删除图片
+    $("#love_user_pic").on('click', '.love_icon-delete', function() {
+        console.log($(this).parent().next().attr("src"));
+        $(this).parent().next().attr("src");
     });
 
     var phone_zheng = /^(1[356789])[0-9]{9}$/;
