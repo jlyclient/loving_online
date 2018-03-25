@@ -981,13 +981,12 @@ class PublicHandler(BaseHandler):
                 try:
                     d = json.loads(r)
                 except:
-                    d = {'code': -2, 'msg': '请先登录'}
+                    d = {'code': -2, 'msg': '服务器错误'}
                 if d.get('code', -1) == 0:
                     d = {'code': 0, 'msg': 'ok!'}
                     d = json.dumps(d)
                 else:
-                    d = {'code': -2, 'msg': '请先登录'}
-                    d = json.dumps(d)
+                    d = json.dumps(r)
                 self.write(d)
                 self.finish()
             else:
@@ -1001,7 +1000,8 @@ class FileUploadHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        print('aaaa')
+        kind = self.get_argument('kind', None)
+        file_metas  = self.request.files.get('file')
         self.finish()
 
 class ISeeHandler(BaseHandler):
@@ -1125,6 +1125,151 @@ class ICareHandler(BaseHandler):
             self.write(d)
             self.finish()
 
+class ListDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        self.render('dating/tryst.html')
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        url = 'http://%s:%s/list_dating' % (conf.dataserver_ip, conf.dataserver_port)
+        headers = self.request.headers
+        body = self.request.body
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {}
+        try:
+            d = json.loads(r)
+        except:
+            d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
+class CreateDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        url = 'http://%s:%s/create_dating' % (conf.dataserver_ip, conf.dataserver_port)
+        headers = self.request.headers
+        body = self.request.body
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {}
+        try:
+            d = json.loads(r)
+        except:
+            d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
+class RemoveDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        url = 'http://%s:%s/remove_dating' % (conf.dataserver_ip, conf.dataserver_port)
+        headers = self.request.headers
+        body = self.request.body
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {}
+        try:
+            d = json.loads(r)
+        except:
+            d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+
+class ParticipateDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        cookie = self.get_secure_cookie('userid')
+        if not cookie:
+            d = {'code': -1, 'msg': '请先登录'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else: 
+            url = 'http://%s:%s/participate_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = self.request.body
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
+            d = json.dumps(d)
+            self.write(d)
+
+class SponsorDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        cookie = self.get_secure_cookie('userid')
+        if not cookie:
+            d = {'code': -1, 'msg': '请先登录'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else: 
+            url = 'http://%s:%s/sponsor_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = self.request.body
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
+            d = json.dumps(d)
+            self.write(d)
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
@@ -1159,6 +1304,11 @@ if __name__ == "__main__":
         ('/isee', ISeeHandler),
         ('/seeme', SeeMeHandler),
         ('/icare', ICareHandler),
+        ('/list_dating', ListDatingHandler),
+        ('/create_dating', CreateDatingHandler),
+        ('/remove_dating', RemoveDatingHandler),
+        ('/participate_dating', ParticipateDatingHandler),
+        ('/sponsor_dating', SponsorDatingHandler),
               ]
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application, xheaders=True)
