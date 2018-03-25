@@ -65,6 +65,7 @@ class IndexHandler(BaseHandler):
         name = None
         if ctx.get('user'): 
             user = ctx['user']
+            name = user['nick_name']
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
         self.render('index.html', name=name)
