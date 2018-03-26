@@ -186,14 +186,13 @@ $(function() {
 
 
        //图片上传弹窗
+       var upload_type = null;
     $(".btn_dialog_img").click(function(){
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_img').removeClass('d_n');
         uploader = WebUploader.create({
-
             // swf文件路径
             swf: 'Uploader.swf',
-
             // 文件接收服务端。
             server: 'http://47.94.105.76:8000/fileupload',
 
@@ -231,13 +230,37 @@ $(function() {
     });
 
     $(".btn_save_pic").click(function() {
+        uploader.option('formData');
+        console.log('success');
+        //添加完需要与图片一起上传的参数之后,就可以手动触发uploader的上传事件了.
+        uploader.upload();
+        uploader.on('uploadSuccess',function(file,response){
+            console.log(file,response);
+            if(response.code=='success'){
 
+    　　　　 //这里做你需要做的操作
+         　　}
+        });
     })
 
     // 删除图片
     $("#love_user_pic").on('click', '.love_icon-delete', function() {
         console.log($(this).parent().next().attr("src"));
         $(this).parent().next().attr("src");
+        $.ajax({
+            url: '/delimg',
+            type: 'POST',
+            data: {
+                "_xsrf":xsrf,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+            },
+            error: function(para){
+                console.log('ajax', para);
+            },
+        })
     });
 
     var phone_zheng = /^(1[356789])[0-9]{9}$/;

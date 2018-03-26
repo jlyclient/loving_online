@@ -138,15 +138,25 @@ $(function() {
                 $("#love_account").append(love_accountmobile += love_accountemail += love_accountwx += love_accountqq);
                 console.log(centerobj);
 
+                var user_show_pic = '';
+
                 var user_pic = "";
+                console.log(centerobj.pic.arr.length);
+
                 for(var i = 0; i < centerobj.pic.arr.length; i++ ) {
-                    user_pic += '<div class="love_col love_col_2"><div class="love_photo"><p><span class="love_icon love_icon-delete"></span></p><img src='+ centerobj.pic.arr[i] +'></div></div>';
+                    if (i === 0 && centerobj.pic.arr[0] !== '') {
+                        $("#love_user_portrait").attr("src", centerobj.pic.arr[0]);
+                    }
+                    if (i > 0 && centerobj.pic.arr[i] !== '') {
+                        user_pic += '<div class="love_col love_col_2"><div class="love_photo"><p><span class="love_icon love_icon-delete"></span></p><img src='+ centerobj.pic.arr[i] +'></div></div>';
+                        user_show_pic += '<li><img src='+ centerobj.pic.arr[i] +'></li>'
+                    }   
                 }
                 $("#love_user_pic").prepend(user_pic);
-                if(centerobj.pic.arr.length === 9) {
+                $(".picList").append(user_show_pic);
+                if(centerobj.pic.arr.length >= 10) {
                     $(".love_upload_btn").css({display: 'none'});
                 }
-
             } else {
                 alert(centerobj.msg.reason);
             }
