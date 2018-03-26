@@ -16,7 +16,7 @@ function get_cookie_by_name(name)
 var uploader = null;
 // 所有页面共存的方法，例如 翻页,城市选择之类
 $(function() {
-
+    var xsrf = get_cookie_by_name('_xsrf');
     // 首页城市选择器
     if ($('#city_1').length > 0) {
         //现居
@@ -234,6 +234,7 @@ $(function() {
     $(".btn_save_pic").click(function() {
         console.log('success');
         uploader.option('formData',{
+            "_xsrf":xsrf,
             kind: upload_type,
          });
         //添加完需要与图片一起上传的参数之后,就可以手动触发uploader的上传事件了.
@@ -337,7 +338,7 @@ $(function() {
             password2: '',
             checked: false,
         }
-        var xsrf = get_cookie_by_name('_xsrf');
+        
         $('#love_register').find('input').map((index, data) => {
             if (data.type == 'text' || data.type == 'password') {
                 obj[$(data).attr('name')] = data.value;
