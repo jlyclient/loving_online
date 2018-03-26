@@ -188,6 +188,7 @@ $(function() {
        //图片上传弹窗
        var upload_type = null;
     $(".btn_dialog_img").click(function(){
+        upload_type = $(this).attr("name");
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_img').removeClass('d_n');
         uploader = WebUploader.create({
@@ -207,7 +208,8 @@ $(function() {
                 title: 'Images',
                 extensions: 'gif,jpg,jpeg,bmp,png',
                 mimeTypes: 'image/*'
-            }
+            },
+            method: 'POST',
         });
         uploader.on('uploadSuccess', function(file) {
             console.log(file);
@@ -230,19 +232,32 @@ $(function() {
     });
 
     $(".btn_save_pic").click(function() {
-        uploader.option('formData');
         console.log('success');
+        uploader.option('formData',{
+            kind: upload_type,
+         });
         //添加完需要与图片一起上传的参数之后,就可以手动触发uploader的上传事件了.
         uploader.upload();
+
+        uploader.on('uploadProgress', function( file, percentage ) {
+            console.log('uploadProgress');
+        });
         uploader.on('uploadSuccess',function(file,response){
             console.log(file,response);
             if(response.code=='success'){
-
+    
     　　　　 //这里做你需要做的操作
          　　}
         });
-    })
-
+        uploader.on('uploadError',function(file,response){
+            console.log(file,response);
+    //         if(response.code=='success'){
+    
+    // 　　　　 //这里做你需要做的操作
+    //      　　}
+        });
+        
+    });
     // 删除图片
     $("#love_user_pic").on('click', '.love_icon-delete', function() {
         console.log($(this).parent().next().attr("src"));
