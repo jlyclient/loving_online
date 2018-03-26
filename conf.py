@@ -16,7 +16,8 @@ class Picconf():
         self.baidu_ak    = p.get('map', 'baidu_ak')
         self.baidu_url   = p.get('map', 'baidu_url')
 
-
+        self.pic_server_ip = p.get('pic_server', 'ip')
+        self.pic_server_port = p.get('pic_server', 'port')
     def dis(self):
         print(self.sys_port)
 

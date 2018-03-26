@@ -1002,7 +1002,35 @@ class FileUploadHandler(BaseHandler):
     def post(self):
         kind = self.get_argument('kind', None)
         file_metas  = self.request.files.get('file')
-        self.finish()
+        d = {'code': -1, 'msg': '参数不正确'}
+        if not kind or kind not in ['1', '2']:
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else:
+            ip = self.request.remote_ip
+            url = 'http://%s:%s/up' % (conf.pic_server_ip, conf.pic_server_port)
+            headers = self.request.headers
+            body = self.request.body + '&ip=%s' % ip
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
+            d = json.dumps(d)
+            self.write(d)
+            print(d)
+            self.finish()
+            
 
 class ISeeHandler(BaseHandler):
     @tornado.web.authenticated
@@ -1271,6 +1299,83 @@ class SponsorDatingHandler(BaseHandler):
             d = json.dumps(d)
             self.write(d)
 
+class DetailDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        did = self.get_argument('did', None)
+        if not did:
+            d = {'code': -1, 'msg': '参数不对'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else: 
+            url = 'http://%s:%s/detail_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = 'did=%s' % did
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
+            if d['code'] == 0:
+                data = d['data']
+                bm = data['baoming']
+                if uid in bm:
+                    d['data']['already'] = 1
+                else:
+                    d['data']['already'] = 0
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+
+class BaomingDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        did    = self.get_argument('did', None)
+        cookie = self.get_secure_cookie('userid')
+        if not did or not cookie:
+            d = {'code': -1, 'msg': '参数不对'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        else: 
+            uid = cookie.split()[1]
+            url = 'http://%s:%s/baoming_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = self.request.body + '&uid=%s' % uid
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+
+
+
 if __name__ == "__main__":
     tornado.options.parse_command_line()
     settings = {
@@ -1309,6 +1414,8 @@ if __name__ == "__main__":
         ('/remove_dating', RemoveDatingHandler),
         ('/participate_dating', ParticipateDatingHandler),
         ('/sponsor_dating', SponsorDatingHandler),
+        ('/detail_dating', DetailDatingHandler),
+        ('/baoming_dating', BaomingDatingHandler),
               ]
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application, xheaders=True)

@@ -14,5 +14,6 @@ male_name=帅哥
 baidu_ak=ZcGtYLWyENa3fubGAwXBA69DxFnVcXxV
 baidu_url=https://api.map.baidu.com/location/ip?ak=%s&ip=%s
 
-[pic]
-root=/Users/pic_root
+[pic_server]
+ip=127.0.0.1
+port=8050
