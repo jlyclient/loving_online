@@ -116,6 +116,44 @@ class IndexNewHandler(tornado.web.RequestHandler):
 class FindHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('self_find.html', name=name)
+        else:
+            self.redirect('/')
+        
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
     def post(self):
         sex          = int(self.get_argument('sex',     -1))
         agemin       = int(self.get_argument('agemin',  -1))
@@ -1033,6 +1071,44 @@ class FileUploadHandler(BaseHandler):
             
 
 class ISeeHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('center/isee.html', name=name)
+        else:
+            self.redirect('/')
+
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -1073,6 +1149,44 @@ class ISeeHandler(BaseHandler):
             self.finish()
 
 class SeeMeHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('center/seeme.html', name=name)
+        else:
+            self.redirect('/')
+
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -1114,6 +1228,44 @@ class SeeMeHandler(BaseHandler):
 
 
 class ICareHandler(BaseHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('center/icare.html', name=name)
+        else:
+            self.redirect('/')
+
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -1158,7 +1310,40 @@ class ListDatingHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
-        self.render('dating/tryst.html')
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('dating/list_dating.html', name=name)
+        else:
+            self.redirect('/')
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -1188,6 +1373,44 @@ class CreateDatingHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('dating/create_dating.html', name=name)
+        else:
+            self.redirect('/')
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
     def post(self):
         url = 'http://%s:%s/create_dating' % (conf.dataserver_ip, conf.dataserver_port)
         headers = self.request.headers
@@ -1209,6 +1432,46 @@ class CreateDatingHandler(BaseHandler):
         d = json.dumps(d)
         self.write(d)
         self.finish()
+
+class CityDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('dating/city_dating.html', name=name)
+        else:
+            self.redirect('/')
 
 class RemoveDatingHandler(BaseHandler):
     @tornado.web.authenticated
@@ -1236,6 +1499,44 @@ class RemoveDatingHandler(BaseHandler):
         self.write(d)
 
 class ParticipateDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('dating/participate_dating.html', name=name)
+        else:
+            self.redirect('/')
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -1268,6 +1569,44 @@ class ParticipateDatingHandler(BaseHandler):
             self.write(d)
 
 class SponsorDatingHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('dating/sponsor_dating.html', name=name)
+        else:
+            self.redirect('/')
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -1374,6 +1713,165 @@ class BaomingDatingHandler(BaseHandler):
             self.write(d)
             self.finish()
 
+class ListZhenghunHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('zhenghun/list_zhenghun.html', name=name)
+        else:
+            self.redirect('/')
+
+class CityZhenghunHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('zhenghun/city_zhenghun.html', name=name)
+        else:
+            self.redirect('/')
+
+class SponsorZhenghunHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('zhenghun/sponsor_zhenghun.html', name=name)
+        else:
+            self.redirect('/')
+
+class CreateZhenghunHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('zhenghun/create_zhenghun.html', name=name)
+        else:
+            self.redirect('/')
 
 
 if __name__ == "__main__":
@@ -1410,12 +1908,17 @@ if __name__ == "__main__":
         ('/seeme', SeeMeHandler),
         ('/icare', ICareHandler),
         ('/list_dating', ListDatingHandler),
+        ('/city_dating', CityDatingHandler),
         ('/create_dating', CreateDatingHandler),
         ('/remove_dating', RemoveDatingHandler),
         ('/participate_dating', ParticipateDatingHandler),
         ('/sponsor_dating', SponsorDatingHandler),
         ('/detail_dating', DetailDatingHandler),
         ('/baoming_dating', BaomingDatingHandler),
+        ('/list_zhenghun', ListZhenghunHandler),
+        ('/city_zhenghun', CityZhenghunHandler),
+        ('/sponsor_zhenghun', SponsorZhenghunHandler),
+        ('/create_zhenghun', CreateZhenghunHandler),
               ]
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application, xheaders=True)

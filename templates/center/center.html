@@ -1,13 +1,3 @@
-<!--
-# tryst.html
-# @author 小灰辉
-# @website https://gitee.com/zhxh543
-# @description Professional front-end development
-# @copyright Gray
-# @license 1.0
-# @email zhxh2752@yeah.net
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,27 +18,7 @@
 
 <body>
     {% include "../header.html" %}
-    <section>
-        <div class="love mt-30">
-            <ul class="love_center_tab">
-                <li class="active">
-                    <a href="center.html">个人资料</a>
-                </li>
-                <li>
-                    <a href="mySee.html">我看过谁</a>
-                </li>
-                <li>
-                    <a href="#">谁看过我</a>
-                </li>
-                <li>
-                    <a href="#">我关注的</a>
-                </li>
-                <li>
-                    <a href="#">修改密码</a>
-                </li>
-            </ul>
-        </div>
-    </section>
+    {% include "./center_nav.html" %}
     <section>
         <div class="love mt-30">
             <div class="love_box_title border_none love_title_material">

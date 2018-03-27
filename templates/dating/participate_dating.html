@@ -1,13 +1,3 @@
-<!--
-# tryst.html
-# @author 小灰辉
-# @website https://gitee.com/zhxh543
-# @description Professional front-end development
-# @copyright Gray
-# @license 1.0
-# @email zhxh2752@yeah.net
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,72 +16,8 @@
 </head>
 
 <body>
-    <header>
-        <div class="love love_header clear">
-            <a class="love_header_logo" href="../index.html">
-                <img src="../img/logo.png" alt="佳良缘">
-            </a>
-            <ul class="love_nav">
-                <li>
-                    <a href="../index.html">首页</a>
-                </li>
-                <li class="active">
-                    <a href="tryst.html">约会</a>
-                </li>
-                <li>
-                    <a href="../seeking/seeking.html">征婚</a>
-                </li>
-                <li>
-                    <a href="../self.html">自己找</a>
-                </li>
-                <li>
-                    <a href="../center/center.html">个人中心</a>
-                </li>
-            </ul>
-            <div class="love_header_tools">
-                <a href="../center/inbox.html" class="love_icon love_icon-lingdang"></a>
-                <a class="btn_dialog btn_recharge" data-flag="false" href="javascript:void(0);">充值</a>
-                <dl class="love_header_tools_center">
-                    <dt><a href="../center/center.html">走走停停</a></dt>
-                    <dd><a class="sign_out" href="">退出登录</a></dd>
-                </dl>
-            </div>
-        </div>
-    </header>
-
-    <section>
-        <div class="love_fluid love_try move mt-30">
-            <div class="love">
-                <ul class="love_try_tab">
-                    <li>
-                        <a href="tryst.html">
-                            <span class="love_try_tab_1"></span> 最新约会
-                        </a>
-                    </li>
-                    <li>
-                        <a href="cityDating.html">
-                            <span class="love_try_tab_2"></span> 同城约会
-                        </a>
-                    </li>
-                    <li>
-                        <a href="myStartDating.html">
-                            <span class="love_try_tab_3"></span> 我发起的
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="myTakeDating.html">
-                            <span class="love_try_tab_4"></span> 我参与的
-                        </a>
-                    </li>
-                    <li>
-                        <a href="startDating.html">
-                            <span class="love_try_tab_5"></span> 发起约会
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
+    {% include "../header.html" %}
+    {% include "./dating_nav.html" %}
     <section>
         <div class="love love_none">
             <div class="love_none_text">

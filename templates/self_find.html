@@ -1,13 +1,3 @@
-<!--
-# self.html
-# @author 小灰辉
-# @website https://gitee.com/zhxh543
-# @description Professional front-end development
-# @copyright Gray
-# @license 1.0
-# @email zhxh2752@yeah.net
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,38 +16,7 @@
 </head>
 
 <body>
-    <header>
-        <div class="love love_header clear">
-            <a class="love_header_logo" href="index.html">
-                <img src="img/logo.png" alt="佳良缘">
-            </a>
-            <ul class="love_nav">
-                <li>
-                    <a href="index.html">首页</a>
-                </li>
-                <li>
-                    <a href="dating/tryst.html">约会</a>
-                </li>
-                <li>
-                    <a href="seeking/seeking.html">征婚</a>
-                </li>
-                <li class="active">
-                    <a href="self.html">自己找</a>
-                </li>
-                <li>
-                    <a href="center/center.html">个人中心</a>
-                </li>
-            </ul>
-            <div class="love_header_tools">
-                <a href="center/inbox.html" class="love_icon love_icon-lingdang"></a>
-                <a class="btn_dialog btn_recharge" data-flag="true" href="javascript:void(0);">充值</a>
-                <dl class="love_header_tools_center">
-                    <dt><a href="center/center.html">走走停停</a></dt>
-                    <dd><a class="sign_out" href="">退出登录</a></dd>
-                </dl>
-            </div>
-        </div>
-    </header>
+    {% include "header.html" %}
     <section>
         <div class="love mt-20">
             <div class="love_search_box mt-20">
@@ -312,25 +271,7 @@
         </div>
     </section>
 
-    <footer>
-        <div class="love_fluid love_footer">
-            <div class="love">
-                <div class="love_footer_text">
-                    <div class="love_row">
-                        <a href="">关于我们</a>
-                        <a href="">联系我们</a>
-                        <a href="">加入我们</a>
-                    </div>
-                    <p>蜀ICP备17035293号&emsp;川网备号12345号&emsp;电信业务经营许可证：川B2-12345</p>
-                    <p>版权所有 ©2017—2020 四川佳良缘网络科技有限公司</p>
-                </div>
-                <div class="love_footer_code">
-                    <img src="img/code.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    {% include "./footer.html" %}
     <div class="love_tools">
         <div class="love_tools_item">
             <a href="" class="love_icon love_icon-home"></a>

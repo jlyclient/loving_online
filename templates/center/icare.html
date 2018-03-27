@@ -1,13 +1,3 @@
-<!--
-# tryst.html
-# @author 小灰辉
-# @website https://gitee.com/zhxh543
-# @description Professional front-end development
-# @copyright Gray
-# @license 1.0
-# @email zhxh2752@yeah.net
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,68 +9,15 @@
     <meta http-equiv="Cache-Control" content="no-transform " />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>佳良缘</title>
+                             <title>佳良缘</title>
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/tools.css">
     <link rel="stylesheet" href="../css/common.css">
 </head>
 
 <body>
-    <header>
-        <div class="love love_header clear">
-            <a class="love_header_logo" href="../index.html">
-                <img src="../img/logo.png" alt="佳良缘">
-            </a>
-            <ul class="love_nav">
-                <li>
-                    <a href="../index.html">首页</a>
-                </li>
-                <li>
-                    <a href="../dating/tryst.html">约会</a>
-                </li>
-                <li>
-                    <a href="../seeking/seeking.html">征婚</a>
-                </li>
-                <li>
-                    <a href="../self.html">自己找</a>
-                </li>
-                <li class="active">
-                    <a href="center.html">个人中心</a>
-                </li>
-            </ul>
-            <div class="love_header_tools">
-                <a href="inbox.html" class="love_icon love_icon-lingdang"></a>
-                <a class="btn_dialog btn_recharge" data-flag="false" href="javascript:void(0);">充值</a>
-                <dl class="love_header_tools_center">
-                    <dt><a href="../center/center.html">走走停停</a></dt>
-                    <dd><a class="sign_out" href="">退出登录</a></dd>
-                </dl>
-            </div>
-        </div>
-    </header>
-
-    <section>
-        <div class="love mt-30">
-            <ul class="love_center_tab">
-                <li>
-                    <a href="center.html">个人资料</a>
-                </li>
-                <li class="active">
-                    <a href="mySee.html">我看过谁</a>
-                </li>
-                <li>
-                    <a href="">谁看过我</a>
-                </li>
-                <li>
-                    <a href="">我关注的</a>
-                </li>
-                <li>
-                    <a href="">关注我的</a>
-                </li>
-            </ul>
-        </div>
-    </section>
-
+    {% include "../header.html" %}
+    {% include "./center_nav.html" %}
     <section>
         <div class="love love_center_see">
             <div class="tr">
