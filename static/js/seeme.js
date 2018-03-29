@@ -17,7 +17,7 @@ $(function() {
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         type: 'POST',
-        url: '/isee',
+        url: '/seeme',
         data: {
             '_xsrf': xsrf,
         },
