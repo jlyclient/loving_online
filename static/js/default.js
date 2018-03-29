@@ -252,16 +252,14 @@ $(function() {
         });
         uploader.on('uploadSuccess',function(file,response){
             console.log(file,response);
-            if(response.code=='success'){
+            if(response.code==0){
                 close_popup();
-    　　　　 //这里做你需要做的操作
          　　}
         });
         uploader.on('uploadError',function(file,response){
             console.log(file,response);
-    //         if(response.code=='success'){
+    //         if(response.code==0){
     
-    // 　　　　 //这里做你需要做的操作
     //      　　}
         });
         
