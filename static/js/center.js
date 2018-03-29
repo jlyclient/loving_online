@@ -157,6 +157,9 @@ $(function() {
                 if(centerobj.pic.arr.length >= 10) {
                     $(".love_upload_btn").css({display: 'none'});
                 }
+                $(".love_show_img").map(function() {
+                    $(this).attr("src", centerobj.pic.arr[0]);
+                });
             } else {
                 alert(centerobj.msg.reason);
             }
@@ -208,6 +211,7 @@ $(function() {
                 $(data).val(sex[centerobj.user[$(data).attr('name')]]);
             }
         }); 
+        $("#love_user_portrait_edit").attr("src", centerobj.pic.arr[0]);
         $("#love_editcenter_box").find('select').map((index, data) => {
             $(data).find('option').map((indexs, datas) => {
                 if (Number($(datas).attr('value')) == centerobj.user[$(data).attr('name')]) {
@@ -500,7 +504,7 @@ $(function() {
     $("input").change(function(e) {
         console.log(e);
         $('.love_bind_err').css({display: 'none'});
-    })
+    });
 
 })
 function get_cookie_by_name(name)

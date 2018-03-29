@@ -246,7 +246,7 @@ $(function() {
         uploader.on('uploadSuccess',function(file,response){
             console.log(file,response);
             if(response.code=='success'){
-    
+                close_popup();
     　　　　 //这里做你需要做的操作
          　　}
         });

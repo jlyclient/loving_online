@@ -57,7 +57,7 @@
                         <div class="love_mater_left">
                             <div class="love_mater_img love_mater_photo move">
                                 <p name="1" class="btn_dialog btn_dialog_img">编辑头像</p>
-                                <img src="../img/img1.jpg" alt="">
+                                <img id="love_user_portrait_edit" src="" alt="">
                             </div>
                         </div>
                         <div class="love_mater_right" id="love_editcenter_box">
@@ -527,13 +527,17 @@
             </div>
             <div class="love_dialog_content">
                 <div class="love_img_content">
-                    <div class="love_img_show">
-                        <img src="../img/photo-none.jpg" alt="">
-                    </div>
-                    <div class="love_img_show mini">
-                        <p>头像预览</p>
-                        <p>100*100像素</p>
-                        <img src="../img/photo-none.jpg" alt="">
+                    <div class="love_flex">
+                            <div class="love_img_show love_img_overflow">
+                                    <img class="love_show_img" src="../img/photo-none.jpg" alt="">
+                                </div>
+                                <div class="love_img_show mini">
+                                    <p>头像预览</p>
+                                    <p>100*100像素</p>
+                                    <div class="love_img_showbox">
+                                        <img class="love_show_img" src="../img/photo-none.jpg" alt="">
+                                    </div>
+                                </div>
                     </div>
                     <div class="love_img_button mt-20">
                         <div id="uploader" class="wu-example">

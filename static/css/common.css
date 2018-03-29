@@ -918,6 +918,7 @@ header {
     width: 280px;
     height: 280px;
     margin-bottom: 20px;
+    overflow: hidden;
 }
 
 
@@ -1342,9 +1343,16 @@ header {
 }
 
 .love_img_show {
-    display: inline-block;
     width: 280px;
     height: 280px;
+}
+
+.love_flex{
+    display: flex;
+}
+
+.love_img_overflow{
+    overflow: hidden;
 }
 
 .love_img_show img {
@@ -1353,7 +1361,6 @@ header {
 
 .love_img_show.mini {
     width: 100px;
-    height: 100px;
     vertical-align: text-bottom;
     margin-left: 40px;
     -webkit-transform: translateY(85px);
@@ -1361,12 +1368,15 @@ header {
     transform: translateY(85px);
 }
 
-.mini p {
-    color: #888;
+.love_img_showbox{
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    margin-top: 10px;
 }
 
-.mini img {
-    margin-top: 10px;
+.mini p {
+    color: #888;
 }
 
 .webuploader-pick {
