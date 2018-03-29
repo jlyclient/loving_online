@@ -1038,14 +1038,16 @@ class FileUploadHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
+        uid  = self.get_secure_cookie('userid')
         kind = self.get_argument('kind', None)
         file_metas  = self.request.files.get('file')
         d = {'code': -1, 'msg': '参数不正确'}
-        if not kind or kind not in ['1', '2']:
+        if not uid or not kind or kind not in ['1', '2']:
             d = json.dumps(d)
             self.write(d)
             self.finish()
         else:
+            uid = uid.split('_')[1]
             ip = self.request.remote_ip
             url = 'http://%s:%s/up' % (conf.pic_server_ip, conf.pic_server_port)
             headers = self.request.headers
@@ -1064,11 +1066,62 @@ class FileUploadHandler(BaseHandler):
                 d = json.loads(r)
             except:
                 d = {'code': -1, 'msg': '服务器错误'}
+            if d['code'] == 0 and len(d.get('data', [])) == 3:
+                url = 'http://%s:%s/img' % (conf.dataserver_ip, conf.dataserver_port)
+                [f, s, t] = d['data']
+                headers = self.request.headers
+                body = 'f=%s&s=%s&t=%s&uid=%s&k=%s' % (f,s,t,uid,kind)
+                http_client = tornado.httpclient.AsyncHTTPClient()
+                resp = yield tornado.gen.Task(
+                        http_client.fetch,
+                        url,
+                        method='POST',
+                #       headers=headers,
+                        body=body,
+                        validate_cert=False)
+                r = resp.body
+                d = {'code':-1, 'msg': '服务器错误'}
+                try:
+                    d = json.loads(r)
+                except:
+                    d = {'code':-1, 'msg': '服务器错误'}
             d = json.dumps(d)
             self.write(d)
             print(d)
             self.finish()
             
+class DelImagHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        src = self.get_argument('src', None)
+        cookie = self.get_secure_cookie('userid')
+        uid = cookie.split('_')[1]
+        d = {'code': -1, 'msg': '请先登录'}
+        if not src:
+            d = {'code': -2, 'msg': '参数不正确'}
+        else:
+            url = 'http://%s:%s/delimg' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = self.request.body + '&uid=%s&src=%s' % (uid, src)
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {'code':-1, 'msg': '服务器错误'}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code':-1, 'msg': '服务器错误'}
+            d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
 class ISeeHandler(BaseHandler):
     @tornado.web.asynchronous
@@ -1904,6 +1957,7 @@ if __name__ == "__main__":
         ('/verify_other', VerifyOther),#验证微信、QQ和邮箱
         ('/public', PublicHandler),#对外公开 隐藏
         ('/fileupload', FileUploadHandler),
+        ('/delimg', DelImagHandler),
         ('/isee', ISeeHandler),
         ('/seeme', SeeMeHandler),
         ('/icare', ICareHandler),

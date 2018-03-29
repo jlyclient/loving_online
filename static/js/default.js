@@ -261,13 +261,19 @@ $(function() {
     });
     // 删除图片
     $("#love_user_pic").on('click', '.love_icon-delete', function() {
-        console.log($(this).parent().next().attr("src"));
-        $(this).parent().next().attr("src");
+        var src = $(this).parent().next().attr("src");
+        console.log(src);
+        var a = src.split('/');
+        if (a.length != 7) {
+            return -1;
+        }
+        var t = a[3] + '/' + a[4] + '/' + a[5];
         $.ajax({
             url: '/delimg',
             type: 'POST',
             data: {
                 "_xsrf":xsrf,
+                'src':t
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
