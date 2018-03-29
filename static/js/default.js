@@ -184,6 +184,13 @@ $(function() {
         $(this).addClass('active').siblings('.love_pay').removeClass('active');
     })
 
+    // 页面跳转
+    $(".love_nav").find("a").map((index, data) => {
+        $(data).click(function() {
+            console.log(data);
+            $(data).parent().attr("class", 'active')
+        });
+    });
 
        //图片上传弹窗
        var upload_type = null;

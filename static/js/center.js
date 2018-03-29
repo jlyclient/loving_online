@@ -142,19 +142,21 @@ $(function() {
 
                 var user_pic = "";
                 console.log(centerobj.pic.arr.length);
-
+                var show_uoload_btn = 0;
                 for(var i = 0; i < centerobj.pic.arr.length; i++ ) {
                     if (i === 0 && centerobj.pic.arr[0] !== '') {
                         $("#love_user_portrait").attr("src", centerobj.pic.arr[0]);
+                        show_uoload_btn+= 1;
                     }
                     if (i > 0 && centerobj.pic.arr[i] !== '') {
                         user_pic += '<div class="love_col love_col_2"><div class="love_photo"><p><span class="love_icon love_icon-delete"></span></p><img src='+ centerobj.pic.arr[i] +'></div></div>';
-                        user_show_pic += '<li><img src='+ centerobj.pic.arr[i] +'></li>'
+                        user_show_pic += '<li><img src='+ centerobj.pic.arr[i] +'></li>';
+                        show_uoload_btn += 1;
                     }   
                 }
                 $("#love_user_pic").prepend(user_pic);
                 $(".picList").append(user_show_pic);
-                if(centerobj.pic.arr.length >= 10) {
+                if(show_uoload_btn >= 10) {
                     $(".love_upload_btn").css({display: 'none'});
                 }
                 $(".love_show_img").map(function() {

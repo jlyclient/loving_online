@@ -18,11 +18,18 @@ $(function() {
     $.ajax({
         type: 'POST',
         url: '/isee',
+        data: {
+            '_xsrf': xsrf,
+        },
         success: function(data) {
             var jsondata = JSON.parse(data);
+            console.log(jsondata);
             if (jsondata.code == 0) {
                 console.log(jsondata);
             }
+        },
+        error: function(para) {
+            console.log(para);
         }
     })
 })

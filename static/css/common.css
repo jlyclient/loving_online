@@ -263,7 +263,7 @@ header {
     position: relative;
     overflow: hidden;
     width: 285px;
-    height: 213px;
+    height: 285px;
 }
 
 
@@ -1913,4 +1913,5 @@ header {
 #love_user_pic>div{
     height: 160px;
     margin-bottom: 20px;
+    overflow: hidden;
 }
