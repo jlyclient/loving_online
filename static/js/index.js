@@ -53,7 +53,7 @@ function get_new_member(sex_, dom) {
                     }
                     boyhtml += '<div class="love_col love_col_4 love_item"> ' +
                     '<div class="love_img">' +
-                        '<a href="detail.html" target="_blank">' +
+                        '<a href="/user?uid='+ boydata.data[i].user.id +'" target="_blank">' +
                             '<img src='+head_pic+' alt="">' +
                         '</a>'+
                     '</div>'+
@@ -89,6 +89,7 @@ function find_member(dom) {
         success: function(mes) {
             var boydata = JSON.parse(mes);
             if (boydata['code'] == '0') {
+                console.log(boydata);
                 var boyhtml = '';
                 var degreearr = ['保密', '高中及以下', '中专/大专', '本科', '研究生', '博士及博士后'];
                 var sexarr = ['未填', '男', '女'];
@@ -103,7 +104,7 @@ function find_member(dom) {
                     }
                     boyhtml += '<div class="love_col love_col_4 love_item"> ' +
                     '<div class="love_img">' +
-                        '<a href="detail.html" target="_blank">' +
+                        '<a href="/user?uid='+ boydata.data[i].user.id +'" target="_blank">' +
                             '<img src='+head_pic+' alt="">' +
                         '</a>'+
                     '</div>'+

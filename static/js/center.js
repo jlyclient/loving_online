@@ -40,7 +40,6 @@ $(function() {
                  // 获取个人资料
                 var centermestitle = '', centermescon = '', centerintroduction = '';
                 var center_interest = '';
-                console.log(centerobj);
                 for(var i = 0; i < centerobj.hobby.arr.length; i ++) {
                     if(centerobj.hobby.arr[i] == 1) {
                         center_interest += '<em>'+ interesting[i] +'</em>';

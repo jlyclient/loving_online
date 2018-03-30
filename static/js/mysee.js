@@ -32,7 +32,7 @@ $(function() {
                         isee += ' <div class="love_see_box"> <div class="love_see_title">'+ jsondata.data.data[j].date +'</div><div class="love_see_content love_row">';
                         for (var i = 0; i < jsondata.data.data[j].arr.length; i++) {
                             isee += '<div class="love_col love_col_6 love_see_item"><div class="love_see_item_img">'+
-                                '<a href="../detail.html" target="_blank">'+
+                                '<a href="/user?uid='+ jsondata.data.data[j].arr[i].id +'" target="_blank">'+
                                     '<img src="'+ jsondata.data.data[j].arr[i].src + '"' +' alt="">'+
                                 '</a>'+
                             '</div>'+
@@ -47,7 +47,6 @@ $(function() {
                         isee += '</div></div>';
                     }
                 }
-                console.log(isee);
                 $(".love_center_see").append(isee);
             }
         },
