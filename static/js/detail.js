@@ -28,11 +28,16 @@ $(function() {
     var interesting = ['爬山','摄影','音乐','电影','旅游','游戏','健身','美食','跑步','逛街','唱歌','跳舞','扑克','麻将','网购','看书'];
     
     var xsrf = get_cookie_by_name('_xsrf');
+    var uid = document.URL.split('uid=')[1];
+    if (uid == null) {
+        return -1;
+    }
     $.ajax({
         type: 'POST',
         url: '/user',
         data: {
             '_xsrf': xsrf,
+            'uid': uid
         },
         success: function(data) {
             var jsondata = JSON.parse(data);

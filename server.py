@@ -553,7 +553,6 @@ class UserHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
-        uid = self.get_argument('uid', None)
         '''ctx section begin '''
         cookie = self.get_secure_cookie('userid')
         ctx = {}
@@ -585,16 +584,22 @@ class UserHandler(BaseHandler):
             name = user['nick_name']
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
-        self.render('detail.html', name=name)
+            self.render('detail.html', name=name)
+        else:
+            self.redirect('/')
 
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        '''ctx section begin '''
-        cookie = self.get_secure_cookie('userid')
-        ctx = {}
-        if cookie:
+        uid = self.get_argument('uid', None)
+        d = {}
+        if not uid:
+            d = {'code': -1, 'msg': '参数不正确'}
+        else:
+            '''ctx section begin '''
+            cookie = 'userid_%s' % uid
+            ctx = {}
             url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -615,15 +620,15 @@ class UserHandler(BaseHandler):
                 ctx = {}
             else:
                 ctx = d.get('data', {})
-        '''ctx section end'''
-        d = {}
-        if not ctx:
-            d = {'code': -1, 'msg': '请先登录'}
-        else:
-            d = {'code': 0, 'msg': 'ok', 'data': ctx}
-        d = json.dumps(d)
-        self.write(d)
-        self.finish()
+            '''ctx section end'''
+            d = {}
+            if not ctx:
+                d = {'code': -1, 'msg': '请先登录'}
+            else:
+                d = {'code': 0, 'msg': 'ok', 'data': ctx}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
 
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
