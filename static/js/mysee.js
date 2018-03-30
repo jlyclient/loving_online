@@ -28,20 +28,20 @@ $(function() {
                 console.log(jsondata);
                 var isee = '';
                 if (jsondata.data.data.length > 0) {
-                    for (var j = 0; j < jsondata.data.data; j++) {
+                    for (var j = 0; j < jsondata.data.data.length; j++) {
                         isee += ' <div class="love_see_box"> <div class="love_see_title">'+ jsondata.data.data[j].date +'</div><div class="love_see_content love_row">';
-                        for (var i = 0; i < jsondata.data.data.arr.length; i++) {
+                        for (var i = 0; i < jsondata.data.data[j].arr.length; i++) {
                             isee += '<div class="love_col love_col_6 love_see_item"><div class="love_see_item_img">'+
                                 '<a href="../detail.html" target="_blank">'+
-                                    '<img src='+ jsondata.data.data.arr[i].src +' alt="">'+
+                                    '<img src="'+ jsondata.data.data[j].arr[i].src + '"' +' alt="">'+
                                 '</a>'+
                             '</div>'+
-                            '<h2>'+ jsondata.data.data.arr[i].nick_name +'<span>（'+ (jsondata.data.data.arr[i].sex === 1 ? "男" : "女") +'）</span></h2>'+
+                            '<h2>'+ jsondata.data.data[j].arr[i].nick_name +'<span>（'+ (jsondata.data.data[j].arr[i].sex === 1 ? "男" : "女") +'）</span></h2>'+
                             '<p>'+
-                                '<span>'+ jsondata.data.data.arr[i].age +'岁</span>'+
-                                '<span>' + jsondata.data.data.arr[i].curr_loc1 + jsondata.data.data.arr[i].curr_loc2 +'</span>'+
+                                '<span>'+ jsondata.data.data[j].arr[i].age +'岁</span>'+
+                                '<span>' + jsondata.data.data[j].arr[i].curr_loc1 + jsondata.data.data[j].arr[i].curr_loc2 +'</span>'+
                             '</p>'+
-                            '<h3>' + jsondata.data.data.date + ' ' + jsondata.data.data.arr[i].time +'</h3>'+
+                            '<h3>' + jsondata.data.data[j].date + ' ' + jsondata.data.data[j].arr[i].time +'</h3>'+
                         '</div>';
                         }
                         isee += '</div></div>';
