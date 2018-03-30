@@ -587,6 +587,44 @@ class UserHandler(BaseHandler):
             name = name if name else sex_ + user['mobile'][-4:]
         self.render('detail.html', name=name)
 
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        d = {}
+        if not ctx:
+            d = {'code': -1, 'msg': '请先登录'}
+        else:
+            d = {'code': 0, 'msg': 'ok', 'data': ctx}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
