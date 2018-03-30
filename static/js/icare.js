@@ -29,14 +29,14 @@ $(function() {
                 var isee = '';
                 if (jsondata.data.data.length > 0) {
                     for (var j = 0; j < jsondata.data.data.length; j++) {
-                        isee += ' <div class="love_see_box"> <div class="love_see_title">'+ jsondata.data.data[j].date +'</div><div class="love_see_content love_row">';
                         for (var i = 0; i < jsondata.data.data[j].arr.length; i++) {
-                            isee += '<div class="love_col love_col_6 love_see_item"><div class="love_see_item_img">'+
+                            isee += '<div class="love_col love_col_6 love_see_item">'+
+                            '<div class="love_see_item_img">'+
                                 '<a href="../detail.html" target="_blank">'+
-                                    '<img src="'+ jsondata.data.data[j].arr[i].src + '"' +' alt="">'+
+                                    '<img src='+ jsondata.data.data[j].arr[i].src +' alt="">'+
                                 '</a>'+
                             '</div>'+
-                            '<h2>'+ jsondata.data.data[j].arr[i].nick_name +'<span>（'+ (jsondata.data.data[j].arr[i].sex === 1 ? "男" : "女") +'）</span></h2>'+
+                            '<h2>'+ jsondata.data.data[j].arr[i].nick_name  +'<span>（'+ (jsondata.data.data[j].arr[i].sex === 1 ? "男" : "女") +'）</span></h2>'+
                             '<p>'+
                                 '<span>'+ jsondata.data.data[j].arr[i].age +'岁</span>'+
                                 '<span>' + jsondata.data.data[j].arr[i].curr_loc1 + jsondata.data.data[j].arr[i].curr_loc2 +'</span>'+
@@ -44,11 +44,10 @@ $(function() {
                             '<h3>' + jsondata.data.data[j].date + ' ' + jsondata.data.data[j].arr[i].time +'</h3>'+
                         '</div>';
                         }
-                        isee += '</div></div>';
                     }
                 }
                 console.log(isee);
-                $(".love_center_see").append(isee);
+                $(".love_see_content").append(isee);
             }
         },
         error: function(para) {
