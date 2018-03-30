@@ -548,6 +548,13 @@ class FindPasswordHandler(tornado.web.RequestHandler):
         self.write(d)
         self.finish()
 
+class UserHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        uid = self.get_argument('uid', None)
+        self.render('detail.html')
 
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -1950,6 +1957,7 @@ if __name__ == "__main__":
         ('/verify_code', VerifyHandler),
         ('/find_verify', FindVerifyHandler),
         ('/find_password', FindPasswordHandler),
+        ('/user', UserHandler),
         ('/center', PersonalCenterHandler),
         ('/editbasic', PersonalBasicEditHandler),
         ('/editstatement', StatementEditHandler),
