@@ -554,7 +554,38 @@ class UserHandler(BaseHandler):
     @tornado.gen.coroutine
     def get(self):
         uid = self.get_argument('uid', None)
-        self.render('detail.html')
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+        self.render('detail.html', name=name)
 
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
