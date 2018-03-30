@@ -53,7 +53,7 @@ function get_new_member(sex_, dom) {
                     }
                     boyhtml += '<div class="love_col love_col_4 love_item"> ' +
                     '<div class="love_img">' +
-                        '<a href="/user?uid='+ boydata.data[i].user.id +'" target="_blank">' +
+                        '<a href="/user?uid='+ boydata.data[i].user.id +'" >' +
                             '<img src='+head_pic+' alt="">' +
                         '</a>'+
                     '</div>'+
@@ -104,7 +104,7 @@ function find_member(dom) {
                     }
                     boyhtml += '<div class="love_col love_col_4 love_item"> ' +
                     '<div class="love_img">' +
-                        '<a href="/user?uid='+ boydata.data[i].user.id +'" target="_blank">' +
+                        '<a href="/user?uid='+ boydata.data[i].user.id +'" >' +
                             '<img src='+head_pic+' alt="">' +
                         '</a>'+
                     '</div>'+
