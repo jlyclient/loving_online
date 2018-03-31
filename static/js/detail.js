@@ -101,6 +101,64 @@ $(function() {
                 $(".picList").append(user_show_pic);
                 $("#love_user_portrait").attr("src", centerobj.pic.arr[0]);
             }
+
+            $("#send_name").html(centerobj.user.nick_name);
+            $(".love_send_message").click(function() {
+                if ($("#love_write").val() !== "") {
+                    $.ajax({
+                        utl: '/sendemail',
+                        type: 'POST',
+                        data: {
+                            '_xsrf': xsrf,
+                            uid: uid,
+                            content: $("#love_write").val(),
+                        },
+                        success: function(data) {
+                            var jsondata = JSON.parse(data);
+                            console.log(jsondata);
+                            if (jsondata.code == 0) {
+                                close_popup();
+                            }
+                        },
+                        error: function(para) {
+                            console.log(para);
+                        }
+                    })
+                }
+            });
+            $(".btn_yanyuan").click(function() {
+                $.ajax({
+                    url: '/yanyuan',
+                    type: 'POST',
+                    data: {
+                        '_xsrf': xsrf,
+                        uid: uid,
+                    },
+                    success: function(data) {
+                        var jsondata = JSON.parse(data);
+                        console.log(jsondata);
+                        if (jsondata.code === 0) {
+                            alert('眼缘请求发送成功！');
+                        }
+                    },
+                    error: function(para) {
+                        console.log(para);
+                    }
+                })
+            });
         }
     })
 })
+// 关闭弹窗
+function close_popup() {
+    $('body').css('overflow', 'auto');
+        $('.love_dialog_mask').remove();
+        $('.love_dialog>div').addClass('d_n');
+        if ($('.love_dialog_rec').length > 0) {
+            $('.love_pay_content_1').show();
+            $('.love_pay_content_2').hide();
+        }
+        if (uploader != null) {
+            uploader.destroy();
+        }
+}

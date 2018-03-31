@@ -106,7 +106,7 @@ $(function() {
                     '<div class="love_other_tools"><button name="1" public="public_m" ' +
                     (centerobj.otherinfo.public_m === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
-                    (centerobj.otherinfo.public_m === 0 ? '对外隐藏' : '对外公开' +'</button>')+
+                    (centerobj.otherinfo.public_m === 0 ? '对外隐藏' : '对外公开' )+
                     '</button></div></div>';
                 love_accountemail = '<div class="love_col love_col_5">邮箱：'+ 
                 centerobj.otherinfo.email +
