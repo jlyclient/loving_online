@@ -22,6 +22,18 @@ from conf import conf
 
 define("port", default=conf.sys_port, help="run on the given port", type=int)
 
+nation_arr = ['未填', '汉族', '壮族', '满族', '回族', '苗族',
+           '维吾尔族', '土家族', '彝族', '蒙古族', '藏族',
+           '布依族', '侗族', '瑶族', '朝鲜族', '白族',
+           '哈尼族', '哈萨克族', '黎族', '傣族', '畲族',
+           '傈傈族', '仡佬族', '东乡族', '高山族', '拉祜族',
+           '水族', '佤族', '纳西族', '羌族', '土族',
+           '仫佬族', '锡伯族', '柯尔克孜族', '达翰尔族', '景颇族',
+           '毛南族', '撒拉族', '布朗族', '塔吉克族', '阿昌族',
+           '普米族', '鄂温克族', '怒族', '京族', '基诺族',
+           '德昂族', '保安族', '俄罗斯族', '裕固族', '乌孜别克族',
+           '门巴族', '鄂伦春族', '独龙族', '塔塔尔族', '赫哲族',
+           '珞巴族']
 def checkip(ip):  
     p = re.compile('^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$')  
     if p.match(ip):  
@@ -553,10 +565,11 @@ class UserHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
+        uid = self.get_argument('uid', None)
         '''ctx section begin '''
         cookie = self.get_secure_cookie('userid')
         ctx = {}
-        if cookie:
+        if uid and cookie:
             url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -584,7 +597,9 @@ class UserHandler(BaseHandler):
             name = user['nick_name']
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
-            self.render('detail.html', name=name)
+            me = True if int(uid) == int(user['id']) else False
+            other = ctx['otherinfo']
+            self.render('detail.html', name=name, me=me, other=other)
         else:
             self.redirect('/')
 
@@ -755,7 +770,7 @@ class PersonalCenterHandler(BaseHandler):
             sex_ = u'新用户'
             name = user['nick_name']
             name = name if name else sex_ + user['mobile'][-4:]
-            self.render('center/center.html', name=name)
+            self.render('center/center.html', name=name, nation_arr=nation_arr)
         else:
             self.redirect('/')
     @tornado.web.authenticated
@@ -970,6 +985,46 @@ class OtherEditHandler(BaseHandler):
             self.finish()
         else:
             self.redirect('/')
+
+class SeeOtherHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        uid  = self.get_argument('uid', None)
+        kind = self.get_argument('kind', None)
+        cookie = self.get_secure_cookie('userid')
+        cuid = cookie.split('_')[1]
+        d = {'code': -1, 'msg': '参数不对'}
+        if not uid or not kind:
+            d = {'code': -1, 'msg': '参数不对'}
+        elif uid == cuid:
+            d = {'code': -1, 'msg': '参数不对'}
+        else:
+            url = 'http://%s:%s/seeother' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='uid=%s&cuid=%s&kind=%s'%(uid, cuid, kind),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if not d:
+                d = {'code': -2, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+    
+            
+            
 
 class VerifyOther(BaseHandler):
     @tornado.web.authenticated
@@ -2036,6 +2091,7 @@ if __name__ == "__main__":
         ('/editbasic', PersonalBasicEditHandler),
         ('/editstatement', StatementEditHandler),
         ('/other_edit', OtherEditHandler),
+        ('/seeother', SeeOtherHandler),
         ('/verify_other', VerifyOther),#验证微信、QQ和邮箱
         ('/public', PublicHandler),#对外公开 隐藏
         ('/fileupload', FileUploadHandler),

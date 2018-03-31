@@ -222,8 +222,9 @@
                                             <div class="tools_select">
                                                 <div class="tools_select_text"></div>
                                                 <select name="nation" id="">
-                                                    <option value="1">汉族</option>
-                                                    <option value="2">其他</option>
+                                                {% for i in xrange(len(nation_arr)) %}
+                                                    <option value="{{i}}">{{nation_arr[i]}}</option>
+                                                {% end %}
                                                 </select>
                                             </div>
                                         </div>
@@ -411,7 +412,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="love_row">
+                        <!--
+                        <div class="love_row">
                             <div class="love_col love_col_5">
                                 <span class="tools_label">手机：</span>
                                 <div class="tools_input">
@@ -422,36 +424,8 @@
                                     <button class="btn_center btn_center_plain">解绑</button>
                                 </div>
                             </div>
-                            <div class="love_col love_col_5">
-                                <span class="tools_label">邮箱：</span>
-                                <div class="tools_input">
-                                    <input name="email" type="text" readonly value="189000@qq.com">
-                                </div>
-                                <div class="love_other_tools">
-                                    <button class="btn_center">对外公开</button>
-                                    <button class="btn_center btn_center_plain">解绑</button>
-                                </div>
-                            </div>
-                            <div class="love_col love_col_5">
-                                <span class="tools_label">微信：</span>
-                                <div class="tools_input">
-                                    <input name="wx" readonly type="text">
-                                </div>
-                                <div class="love_other_tools">
-                                    <button class="btn_center">去绑定</button>
-                                </div>
-                            </div>
-                            <div class="love_col love_col_5">
-                                <span class="tools_label">QQ：</span>
-                                <div class="tools_input">
-                                    <input name="qq" readonly type="text" value="189000587948">
-                                </div>
-                                <div class="love_other_tools">
-                                    <button class="btn_center">对外公开</button>
-                                    <button class="btn_center btn_center_plain">解绑</button>
-                                </div>
-                            </div>
-                        </div> -->
+                        </div>
+                        -->
                         <div class="love_center_group">
                             <button class="btn love_other_sure" type="button">确定</button>
                             <button class="btn btn_blue love_other_back" type="button">取消</button>

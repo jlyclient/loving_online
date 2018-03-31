@@ -30,10 +30,12 @@
                         </div>
                     </div>
                     <div class="love_mater_right" id="love_center_right">
+                    {% if not me %}
                         
                         <p>
                             <button class="btn btn_plain btn_dialog btn_send" type="button">发信</button>
                             <button class="btn btn_plain" type="button">有眼缘</button>
+                    {% end %}
                         </p>
                     </div>
                 </div>
@@ -56,7 +58,7 @@
                 <span>内心独白</span>
             </div>
             <div class="love_mater love_heart">
-                <p>我的择偶标准简单例句一下：</p>
+                <!--<p>我的择偶标准简单例句一下：</p> -->
                 <p id="love_heart_content"></p>
             </div>
         </div>
@@ -80,31 +82,63 @@
                     <div class="love_row">
                         <div class="love_col love_col_5">
                             <span class="tools_label">手机：</span>
-                            <div class="tools_input">— — —</div>
+                            <div class="tools_input">
+                            {% if not me %}
+                                {{'******' if other['verify_m'] else '未填'}}
+                            {% else %}
+                                {{other['mobile']}}
+                            {% end %}
+                            </div>
+                            {% if other['verify_m'] and not me %}
                             <div class="love_other_tools">
                                 <button class="btn_center">查看</button>
                             </div>
+                            {% end %}
                         </div>
                         <div class="love_col love_col_5">
                             <span class="tools_label">邮箱：</span>
-                            <div class="tools_input">— — —</div>
+                            <div class="tools_input">
+                            {% if not me %}
+                                {{'******' if other['verify_e'] else '未填'}}
+                            {% else %}
+                                {{other['email']}}
+                            {% end %}
+                            </div>
+                            {% if other['verify_e'] and not me %}
                             <div class="love_other_tools">
                                 <button class="btn_center">查看</button>
                             </div>
+                            {% end %}
                         </div>
                         <div class="love_col love_col_5">
                             <span class="tools_label">微信：</span>
-                            <div class="tools_input">— — —</div>
+                            <div class="tools_input">
+                            {% if not me %}
+                                {{'******' if other['verify_w'] else '未填'}}
+                            {% else %}
+                                {{other['wx']}}
+                            {% end %}
+                            </div>
+                            {% if other['verify_w'] and not me %}
                             <div class="love_other_tools">
                                 <button class="btn_center">查看</button>
                             </div>
+                            {% end %}
                         </div>
                         <div class="love_col love_col_5">
                             <span class="tools_label">QQ：</span>
-                            <div class="tools_input">— — —</div>
+                            <div class="tools_input">
+                            {% if not me %}
+                                {{'******' if other['verify_q'] else '未填'}}
+                            {% else %}
+                                {{other['qq']}}
+                            {% end %}
+                            </div>
+                            {% if other['verify_q'] and not me%}
                             <div class="love_other_tools">
                                 <button class="btn_center">查看</button>
                             </div>
+                            {% end %}
                         </div>
                     </div>
                 </div>

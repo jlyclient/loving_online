@@ -13,6 +13,18 @@ $(function() {
     var interesting = ['爬山','摄影','音乐','电影','旅游','游戏','健身','美食','跑步','逛街','唱歌','跳舞','扑克','麻将','网购','看书'];
     var xsrf = get_cookie_by_name('_xsrf');
     var email_zheng = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+    var nation_arr = ['未填', '汉族', '壮族', '满族', '回族', '苗族',
+    '维吾尔族', '土家族', '彝族', '蒙古族', '藏族',
+    '布依族', '侗族', '瑶族', '朝鲜族', '白族',
+    '哈尼族', '哈萨克族', '黎族', '傣族', '畲族',
+    '傈傈族', '仡佬族', '东乡族', '高山族', '拉祜族',
+    '水族', '佤族', '纳西族', '羌族', '土族',
+    '仫佬族', '锡伯族', '柯尔克孜族', '达翰尔族', '景颇族',
+    '毛南族', '撒拉族', '布朗族', '塔吉克族', '阿昌族',
+    '普米族', '鄂温克族', '怒族', '京族', '基诺族',
+    '德昂族', '保安族', '俄罗斯族', '裕固族', '乌孜别克族',
+    '门巴族', '鄂伦春族', '独龙族', '塔塔尔族', '赫哲族',
+    '珞巴族'];
     var selectobj = {
         salary: salary,
         aim: aim,
@@ -25,7 +37,7 @@ $(function() {
         car: house,
         work: work,
         state: ['征友进行中', '找到意中人'],
-        nation: ['未填', '汉族', '其他'],
+        nation: nation_arr,
     }
     $.ajax({
         type:'POST',
@@ -61,7 +73,7 @@ $(function() {
                     "<span>体重："+ centerobj.user.weight +"KG</span>"+
                     "<span>身高："+ centerobj.user.height +"CM</span>"+
                     "<span>学历："+ degree[centerobj.user.degree] +"</span>"+
-                    "<span>民族："+ centerobj.user.nation +"</span>"+
+                    "<span>民族："+ centerobj.user.nation_name +"</span>"+
                     "<span>现居："+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +"</span>"+
                     "<span>籍贯："+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +"</span>"+
                 "</div>";
@@ -79,12 +91,6 @@ $(function() {
                 $("#love_heart_content").html(centerobj.statement.content);
 
                 // 其他资料
-                // var love_material = '';
-                // love_material += '<div class="love_col love_col_4">'+
-                // '月薪：'+ salary[centerobj.otherinfo.salary] +'</div>'+
-                // '<div class="love_col love_col_4">职业：'+ work[centerobj.otherinfo.work]+'</div>'+
-                // '<div class="love_col love_col_4">购车：'+ house[centerobj.otherinfo.car] +'</div>'+
-                // '<div class="love_col love_col_4">购房：'+ house[centerobj.otherinfo.house] +'</div>';
                 $("#love_material").append('<div class="love_col love_col_4">月薪：'+ 
                 salary[centerobj.otherinfo.salary] +
                 '</div><div class="love_col love_col_4">职业：'+
@@ -100,7 +106,7 @@ $(function() {
                     '<div class="love_other_tools"><button name="1" public="public_m" ' +
                     (centerobj.otherinfo.public_m === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
-                        (centerobj.otherinfo.public_m === 0 ? '对外隐藏' : '对外公开' +'</button>')+
+                    (centerobj.otherinfo.public_m === 0 ? '对外隐藏' : '对外公开' +'</button>')+
                     '</button></div></div>';
                 love_accountemail = '<div class="love_col love_col_5">邮箱：'+ 
                 centerobj.otherinfo.email +

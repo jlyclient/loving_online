@@ -66,7 +66,7 @@ $(function() {
                     "<span>体重："+ centerobj.user.weight +"KG</span>"+
                     "<span>身高："+ centerobj.user.height +"CM</span>"+
                     "<span>学历："+ degree[centerobj.user.degree] +"</span>"+
-                    "<span>民族："+ centerobj.user.nation +"</span>"+
+                    "<span>民族："+ centerobj.user.nation_name +"</span>"+
                     "<span>现居："+ centerobj.user.curr_loc1  +' ' + centerobj.user.curr_loc2 +"</span>"+
                     "<span>籍贯："+ centerobj.user.ori_loc1 + ' ' + centerobj.user.ori_loc2 +"</span>"+
                 "</div>";
