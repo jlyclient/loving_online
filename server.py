@@ -316,8 +316,6 @@ class LoginHandler(tornado.web.RequestHandler):
                 try:
                     d = r['data']
                     user = d['user']
-                    sex_ = str(conf.male_name) if user['sex'] == 1 else str(conf.female_name)
-                    print(sex_)
                     key = 'userid_%d' % user['id']
                     self.set_secure_cookie('userid', key)
                     name = user['nick_name']
@@ -645,6 +643,45 @@ class UserHandler(BaseHandler):
             self.write(d)
             self.finish()
 
+class EmailHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('center/inbox.html', name=name)
+        else:
+            self.redirect('/')
+        
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -2087,6 +2124,7 @@ if __name__ == "__main__":
         ('/find_verify', FindVerifyHandler),
         ('/find_password', FindPasswordHandler),
         ('/user', UserHandler),
+        ('/email', EmailHandler),
         ('/center', PersonalCenterHandler),
         ('/editbasic', PersonalBasicEditHandler),
         ('/editstatement', StatementEditHandler),
