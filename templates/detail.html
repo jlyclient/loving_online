@@ -31,6 +31,7 @@
                     </div>
                     <div class="love_mater_right" id="love_center_right">
                     {% if not me %}
+                        
                         <p>
                             <button class="btn btn_plain btn_dialog btn_send" type="button">发信</button>
                             <button class="btn btn_plain btn_yanyuan" type="button">有眼缘</button>
@@ -82,7 +83,7 @@
                         <div class="love_col love_col_5">
                             <span class="tools_label">手机：</span>
                             <div class="tools_input">
-                            {% if not me %}
+                            {% if not me and saw['mobile'] == 0 %}
                                 {% if other['verify_m'] %}
                                     {% if other['public_m'] %}
                                         ********
@@ -100,7 +101,7 @@
                                 {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_m'] and not me %}
+                            {% if other['verify_m'] and not me and saw['mobile'] == 0 %}
                             <div class="love_other_tools">
                                 <button name="1" class="btn_center love_seeother">查看</button>
                             </div>
@@ -109,7 +110,7 @@
                         <div class="love_col love_col_5">
                             <span class="tools_label">邮箱：</span>
                             <div class="tools_input">
-                            {% if not me %}
+                            {% if not me and saw['email'] == 0%}
                                 {% if other['verify_e'] %}
                                     {% if other['public_e'] %}
                                         ********
@@ -127,7 +128,7 @@
                                 {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_e'] and not me %}
+                            {% if other['verify_e'] and not me and saw['email'] == 0 %}
                             <div class="love_other_tools">
                                 <button name="4" class="btn_center love_seeother">查看</button>
                             </div>
@@ -136,7 +137,7 @@
                         <div class="love_col love_col_5">
                             <span class="tools_label">微信：</span>
                             <div class="tools_input">
-                            {% if not me %}
+                            {% if not me and saw['wx'] == 0 %}
                                 {% if other['verify_w'] %}
                                     {% if other['public_w'] %}
                                         ********
@@ -154,7 +155,7 @@
                                 {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_w'] and not me %}
+                            {% if other['verify_w'] and not me and saw['wx'] == 0 %}
                             <div class="love_other_tools">
                                 <button name="2" class="btn_center love_seeother">查看</button>
                             </div>
@@ -163,7 +164,7 @@
                         <div class="love_col love_col_5">
                             <span class="tools_label">QQ：</span>
                             <div class="tools_input">
-                            {% if not me %}
+                            {% if not me and saw['qq'] == 0 %}
                                 {% if other['verify_q'] %}
                                     {% if other['public_q'] %}
                                         ********
@@ -181,7 +182,7 @@
                                 {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_q'] and not me%}
+                            {% if other['verify_q'] and not me and saw['qq'] == 0 %}
                             <div class="love_other_tools">
                                 <button name="3" class="btn_center love_seeother">查看</button>
                             </div>

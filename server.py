@@ -566,6 +566,7 @@ class UserHandler(BaseHandler):
         uid = self.get_argument('uid', None)
         '''ctx section begin '''
         cookie = self.get_secure_cookie('userid')
+        cuid = cookie.split('_')[1]
         ctx = {}
         if uid and cookie:
             url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
@@ -618,7 +619,28 @@ class UserHandler(BaseHandler):
             else:
                 octx = d.get('data', {})
             other = octx['otherinfo']
-            self.render('detail.html', name=name, me=me, other=other)
+            
+            url = 'http://%s:%s/sawother' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cuid=%s&uid=%s'%(cuid, uid),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            saw = {'wx':0,'qq':0,'email': 0,'mobile':0,'yanyuan':0,'email1':0}
+            if d and d['code'] == 0:
+                saw = d['data']
+            print(saw)
+            self.render('detail.html', name=name, me=me, other=other, saw=saw)
         else:
             self.redirect('/')
 
@@ -728,7 +750,8 @@ class EmailHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        uid = self.get_argument('uid', None)
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
         page = self.get_argument('page', conf.mail_page)
         next_ = self.get_argument('next', 0)
         d = {} 
@@ -823,7 +846,41 @@ class SendEmailHandler(BaseHandler):
             d = json.dumps(d)
         self.write(d)
         self.finish()
-        
+
+class DelEmailHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        eid = self.get_argument('eid', None)
+        d = {}
+        if not eid:
+            d = {'code': -1, 'msg': '参数错误'}
+        else:
+            url = 'http://%s:%s/del_email' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='uid=%s&eid=%s'%(uid, eid),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if not d:
+                d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 class YanyuanHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -2319,7 +2376,9 @@ if __name__ == "__main__":
         ('/find_password', FindPasswordHandler),
         ('/user', UserHandler),
         ('/email', EmailHandler),
+        ('/latest_conn', LatestConnHandler),
         ('/sendemail', SendEmailHandler),
+        ('/del_email', DelEmailHandler),
         ('/yanyuan', YanyuanHandler),
         ('/center', PersonalCenterHandler),
         ('/editbasic', PersonalBasicEditHandler),
