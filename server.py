@@ -596,7 +596,28 @@ class UserHandler(BaseHandler):
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
             me = True if int(uid) == int(user['id']) else False
-            other = ctx['otherinfo']
+            coo = 'userid_%s' % uid
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%coo,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                octx = {}
+            else:
+                octx = d.get('data', {})
+            other = octx['otherinfo']
             self.render('detail.html', name=name, me=me, other=other)
         else:
             self.redirect('/')
@@ -606,6 +627,8 @@ class UserHandler(BaseHandler):
     @tornado.gen.coroutine
     def post(self):
         uid = self.get_argument('uid', None)
+        coo = self.get_secure_cookie('userid')
+        cuid = coo.split('_')[1]
         d = {}
         if not uid:
             d = {'code': -1, 'msg': '参数不正确'}
@@ -638,7 +661,26 @@ class UserHandler(BaseHandler):
             if not ctx:
                 d = {'code': -1, 'msg': '请先登录'}
             else:
-                d = {'code': 0, 'msg': 'ok', 'data': ctx}
+                url = 'http://%s:%s/yanyuan_check' % (conf.dataserver_ip, conf.dataserver_port)
+                headers = self.request.headers
+                http_client = tornado.httpclient.AsyncHTTPClient()
+                resp = yield tornado.gen.Task(
+                        http_client.fetch,
+                        url,
+                        method='POST',
+                        headers=headers,
+                        body='uid=%s&cuid=%s'%(uid, cuid),
+                        validate_cert=False)
+                r = resp.body
+                b = {}
+                try:
+                    b = json.loads(r)
+                except:
+                    b = {}
+                yanyuan = 0
+                if b and b.get('data'):
+                    yanyuan = b['data']['yanyuan']
+                d = {'code': 0, 'msg': 'ok', 'data': ctx, 'yanyuan':yanyuan}
             d = json.dumps(d)
             self.write(d)
             self.finish()
@@ -681,7 +723,162 @@ class EmailHandler(BaseHandler):
             self.render('center/inbox.html', name=name)
         else:
             self.redirect('/')
+
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        uid = self.get_argument('uid', None)
+        page = self.get_argument('page', conf.mail_page)
+        next_ = self.get_argument('next', 0)
+        d = {} 
+        if not uid:
+            d = {'code': 0, 'msg': '参数不正确'}
+        else:
+            page, next_ = str(page), str(next_)
+            url = 'http://%s:%s/email' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='uid=%s&page=%s&next=%s'%(uid, page, next_),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if not d:
+                d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
+class LatestConnHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        url = 'http://%s:%s/latest_conn' % (conf.dataserver_ip, conf.dataserver_port)
+        headers = self.request.headers
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body='uid=%s'%uid,
+                validate_cert=False)
+        b = resp.body
+        d = {}
+        try:
+            d = json.loads(b)
+        except:
+            d = {}
+        if not d:
+            d = {'code': -1, 'msg':'服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
+class SendEmailHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        cookie = self.get_secure_cookie('userid')
+        cuid = cookie.split('_')[1]
+        uid = self.get_argument('uid', None)
+        cnt = self.get_argument('content', None)
+        d = {}
+        if not uid or not cnt:
+            d = {'code': -1, 'msg': '参数不正确'}
+        elif cuid == uid:
+            d = {'code': -1, 'msg': '自己不用给自己发信'}
+        else:
+            url = 'http://%s:%s/sendemail' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='uid=%s&cuid=%s&content=%s'%(uid, cuid, cnt),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if not d:
+                d = {'code': -1, 'msg': '服务器错误'}
+            d = json.dumps(d)
+        self.write(d)
+        self.finish()
         
+class YanyuanHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        cookie = self.get_secure_cookie('userid')
+        cuid = cookie.split('_')[1]
+        uid = self.get_argument('uid', None)
+        d = {}
+        if not uid:
+            d = {'code': -1, 'msg': '参数不正确'}
+        elif cuid == uid:
+            d = {'code': -1, 'msg': '自己不用给自己发眼缘'}
+        else:
+            url = 'http://%s:%s/yanyuan' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='uid=%s&cuid=%s'%(uid, cuid),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if not d:
+                d = {'code': -1, 'msg': '服务器错误'}
+            d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
+class RegistHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        mobile    = self.get_argument('mobile', None)
+        passwd1   = self.get_argument('password1', None)
+        passwd2   = self.get_argument('password2', None)
+        sex       = int(self.get_argument('sex', 0))
+        token     = self.get_argument('token', None)
+        code      = self.get_argument('code',  None)
+        t_        = int(self.get_argument('time', 0))
+        p = '^(1[356789])[0-9]{9}$'
+        if not mobile or not re.match(p, mobile):
+            d = {'code':-6, 'msg':'手机号不正确'}
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
+        elif not passwd1 or not passwd2 or passwd1 != passwd2:
+            d = {'code':-3, 'msg':'两次密码不一致'}
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -1059,9 +1256,6 @@ class SeeOtherHandler(BaseHandler):
         d = json.dumps(d)
         self.write(d)
         self.finish()
-    
-            
-            
 
 class VerifyOther(BaseHandler):
     @tornado.web.authenticated
@@ -2125,6 +2319,8 @@ if __name__ == "__main__":
         ('/find_password', FindPasswordHandler),
         ('/user', UserHandler),
         ('/email', EmailHandler),
+        ('/sendemail', SendEmailHandler),
+        ('/yanyuan', YanyuanHandler),
         ('/center', PersonalCenterHandler),
         ('/editbasic', PersonalBasicEditHandler),
         ('/editstatement', StatementEditHandler),

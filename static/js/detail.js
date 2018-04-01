@@ -104,27 +104,36 @@ $(function() {
 
             $("#send_name").html(centerobj.user.nick_name);
             $(".love_send_message").click(function() {
-                if ($("#love_write").val() !== "") {
-                    $.ajax({
-                        utl: '/sendemail',
-                        type: 'POST',
-                        data: {
-                            '_xsrf': xsrf,
-                            uid: uid,
-                            content: $("#love_write").val(),
-                        },
-                        success: function(data) {
-                            var jsondata = JSON.parse(data);
-                            console.log(jsondata);
-                            if (jsondata.code == 0) {
-                                close_popup();
-                            }
-                        },
-                        error: function(para) {
-                            console.log(para);
-                        }
-                    })
+                var msg = $("#love_write").val();
+                if (msg.length == 0) {
+                    alert('内容不能为空!');
+                    return -1;
                 }
+                if (msg.length > 500) {
+                    alert('内容不能为超过500字');
+                    return -1;
+                }
+                $.ajax({
+                    url: '/sendemail',
+                    type: 'POST',
+                    data: {
+                        '_xsrf': xsrf,
+                        uid: uid,
+                        content: msg,
+                    },
+                    success: function(data) {
+                        var jsondata = JSON.parse(data);
+                        console.log(jsondata);
+                        if (jsondata.code == 0) {
+                            close_popup();
+                        } else {
+                            alert(jsondata.msg);
+                        }
+                    },
+                    error: function(para) {
+                        console.log(para);
+                    }
+                });
             });
             $(".btn_yanyuan").click(function() {
                 $.ajax({

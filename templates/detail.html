@@ -84,9 +84,21 @@
                             <span class="tools_label">手机：</span>
                             <div class="tools_input">
                             {% if not me %}
-                                {{'******' if other['verify_m'] else '未填'}}
+                                {% if other['verify_m'] %}
+                                    {% if other['public_m'] %}
+                                        ********
+                                    {% else %}
+                                        未公开
+                                    {% end %}
+                                {% else %}
+                                    未验证
+                                {% end %}
                             {% else %}
-                                {{other['mobile']}}
+                                {% if other['verify_m'] %}
+                                    {{other['mobile']}}
+                                {% else %}
+                                    未填
+                                {% end %}
                             {% end %}
                             </div>
                             {% if other['verify_m'] and not me %}
@@ -99,9 +111,21 @@
                             <span class="tools_label">邮箱：</span>
                             <div class="tools_input">
                             {% if not me %}
-                                {{'******' if other['verify_e'] else '未填'}}
+                                {% if other['verify_e'] %}
+                                    {% if other['public_e'] %}
+                                        ********
+                                    {% else %}
+                                        未公开
+                                    {% end %}
+                                {% else %}
+                                    未验证
+                                {% end %}
                             {% else %}
-                                {{other['email']}}
+                                {% if other['verify_e'] %}
+                                    {{other['email']}}
+                                {% else %}
+                                    未填
+                                {% end %}
                             {% end %}
                             </div>
                             {% if other['verify_e'] and not me %}
@@ -114,9 +138,21 @@
                             <span class="tools_label">微信：</span>
                             <div class="tools_input">
                             {% if not me %}
-                                {{'******' if other['verify_w'] else '未填'}}
+                                {% if other['verify_w'] %}
+                                    {% if other['public_w'] %}
+                                        ********
+                                    {% else %}
+                                        未公开
+                                    {% end %}
+                                {% else %}
+                                    未验证
+                                {% end %}
                             {% else %}
-                                {{other['wx']}}
+                                {% if other['verify_w'] %}
+                                    {{other['wx']}}
+                                {% else %}
+                                    未填
+                                {% end %}
                             {% end %}
                             </div>
                             {% if other['verify_w'] and not me %}
@@ -129,9 +165,21 @@
                             <span class="tools_label">QQ：</span>
                             <div class="tools_input">
                             {% if not me %}
-                                {{'******' if other['verify_q'] else '未填'}}
+                                {% if other['verify_q'] %}
+                                    {% if other['public_q'] %}
+                                        ********
+                                    {% else %}
+                                        未公开
+                                    {% end %}
+                                {% else %}
+                                    未验证
+                                {% end %}
                             {% else %}
-                                {{other['qq']}}
+                                {% if other['verify_q'] %}
+                                    {{other['qq']}}
+                                {% else %}
+                                    未填
+                                {% end %}
                             {% end %}
                             </div>
                             {% if other['verify_q'] and not me%}
