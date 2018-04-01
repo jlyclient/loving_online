@@ -26,7 +26,7 @@ $(function() {
     var house = ['未填','已购','未购','需要时购'];
     var work = ['未填','学生','老师','工程师','商务人士','个体老师','白领人士','其他'];
     var interesting = ['爬山','摄影','音乐','电影','旅游','游戏','健身','美食','跑步','逛街','唱歌','跳舞','扑克','麻将','网购','看书'];
-    
+    var seeother, This;
     var xsrf = get_cookie_by_name('_xsrf');
     var uid = document.URL.split('uid=')[1];
     if (uid == null) {
@@ -41,7 +41,11 @@ $(function() {
         },
         success: function(data) {
             var jsondata = JSON.parse(data);
+            console.log(jsondata);
             if (jsondata.code === 0) {
+                if (jsondata.yanyuan == 1) {
+                    $(".btn_yanyuan").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff', cursor: 'none' });
+                }
                 centerobj = jsondata.data;
                 var centermestitle = '', centermescon = '', centerintroduction = '';
                 var center_interest = '';
@@ -100,6 +104,15 @@ $(function() {
                 }
                 $(".picList").append(user_show_pic);
                 $("#love_user_portrait").attr("src", centerobj.pic.arr[0]);
+                var other_code = [0, centerobj.otherinfo.fee_m, centerobj.otherinfo.fee_w, centerobj.otherinfo.fee_q,centerobj.otherinfo.fee_e];
+                $(".love_seeother").click(function() {
+                    seeother = $(this).attr("name");
+                    This = this;
+                    $(".payment_money").html('您需要消耗'+ other_code[seeother] +'个示爱豆，是否继续？');
+                    $('.love_dialog>div').addClass('d_n');
+                    $('.love_dialog').find('.love_show_payment').removeClass('d_n');
+                });
+
             }
 
             $("#send_name").html(centerobj.user.nick_name);
@@ -136,26 +149,51 @@ $(function() {
                 });
             });
             $(".btn_yanyuan").click(function() {
-                $.ajax({
-                    url: '/yanyuan',
-                    type: 'POST',
-                    data: {
-                        '_xsrf': xsrf,
-                        uid: uid,
-                    },
-                    success: function(data) {
-                        var jsondata = JSON.parse(data);
-                        console.log(jsondata);
-                        if (jsondata.code === 0) {
-                            alert('眼缘请求发送成功！');
+                if (jsondata.yanyuan != 1) {
+                    $.ajax({
+                        url: '/yanyuan',
+                        type: 'POST',
+                        data: {
+                            '_xsrf': xsrf,
+                            uid: uid,
+                        },
+                        success: function(data) {
+                            var jsondata = JSON.parse(data);
+                            console.log(jsondata);
+                            if (jsondata.code === 0) {
+                                alert('眼缘请求发送成功！');
+                            }
+                        },
+                        error: function(para) {
+                            console.log(para);
                         }
-                    },
-                    error: function(para) {
-                        console.log(para);
-                    }
-                })
+                    })
+                }
             });
         }
+    });
+    $(".love_payment_btn").click(function() {
+        $.ajax({
+            url: '/seeother',
+            type: 'POST',
+            data: {
+                '_xsrf': xsrf,
+                kind: seeother,
+                uid: uid,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+                if (jsondata.code === 0) {
+                    $(This).parent().prev().html(jsondata.data);
+                    $(This).parent().css({ display: 'none'});
+                    close_popup();
+                }
+            },
+            error: function(para) {
+                console.log(para);
+            },
+        })
     })
 })
 // 关闭弹窗

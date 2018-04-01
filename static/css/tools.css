@@ -549,6 +549,11 @@
     height: 340px;
 }
 
+.love_show_payment{
+    width: 290px;
+    height: 180px;
+}
+
 .love_dialog_letter p,
 .love_dialog_message p {
     margin-bottom: 10px;

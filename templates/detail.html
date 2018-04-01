@@ -31,7 +31,6 @@
                     </div>
                     <div class="love_mater_right" id="love_center_right">
                     {% if not me %}
-                        
                         <p>
                             <button class="btn btn_plain btn_dialog btn_send" type="button">发信</button>
                             <button class="btn btn_plain btn_yanyuan" type="button">有眼缘</button>
@@ -103,7 +102,7 @@
                             </div>
                             {% if other['verify_m'] and not me %}
                             <div class="love_other_tools">
-                                <button class="btn_center">查看</button>
+                                <button name="1" class="btn_center love_seeother">查看</button>
                             </div>
                             {% end %}
                         </div>
@@ -130,7 +129,7 @@
                             </div>
                             {% if other['verify_e'] and not me %}
                             <div class="love_other_tools">
-                                <button class="btn_center">查看</button>
+                                <button name="4" class="btn_center love_seeother">查看</button>
                             </div>
                             {% end %}
                         </div>
@@ -157,7 +156,7 @@
                             </div>
                             {% if other['verify_w'] and not me %}
                             <div class="love_other_tools">
-                                <button class="btn_center">查看</button>
+                                <button name="2" class="btn_center love_seeother">查看</button>
                             </div>
                             {% end %}
                         </div>
@@ -184,7 +183,7 @@
                             </div>
                             {% if other['verify_q'] and not me%}
                             <div class="love_other_tools">
-                                <button class="btn_center">查看</button>
+                                <button name="3" class="btn_center love_seeother">查看</button>
                             </div>
                             {% end %}
                         </div>
@@ -263,6 +262,18 @@
             </div>
             <div class="love_dialog_btns">
                 <button class="btn love_send_message" type="button">发送</button>
+                <button class="btn btn_blue btn_dialog_close" type="button">取消</button>
+            </div>
+        </div>
+        <div class="love_show_payment d_n">
+            <div class="love_dialog_header">
+                提示<span class="love_dialog_close btn_dialog_close"></span>
+            </div>
+            <div class="love_dialog_content payment_money">
+                
+            </div>
+            <div class="love_dialog_btns">
+                <button class="btn love_payment_btn" type="button">发送</button>
                 <button class="btn btn_blue btn_dialog_close" type="button">取消</button>
             </div>
         </div>
