@@ -781,6 +781,40 @@ class EmailHandler(BaseHandler):
         self.write(d)
         self.finish()
 
+class SeeEmailHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        eid    = self.get_argument('eid', None)
+        coo    = self.get_secure_cookie('userid')
+        cuid   = coo.split('_')[1]
+        d = {}
+        if not eid:
+            d = {'code': -1, 'msg': '参数不正确'}
+        else:
+            url = 'http://%s:%s/see_email' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cuid=%s&eid=%s'%(cuid, eid),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if not d:
+                d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 class LatestConnHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -843,7 +877,7 @@ class SendEmailHandler(BaseHandler):
                 d = {}
             if not d:
                 d = {'code': -1, 'msg': '服务器错误'}
-            d = json.dumps(d)
+        d = json.dumps(d)
         self.write(d)
         self.finish()
 
@@ -2412,6 +2446,7 @@ if __name__ == "__main__":
         ('/find_password', FindPasswordHandler),
         ('/user', UserHandler),
         ('/email', EmailHandler),
+        ('/see_email', SeeEmailHandler),
         ('/latest_conn', LatestConnHandler),
         ('/sendemail', SendEmailHandler),
         ('/del_email', DelEmailHandler),
