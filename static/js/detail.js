@@ -188,6 +188,9 @@ $(function() {
                     $(This).parent().prev().html(jsondata.data);
                     $(This).parent().css({ display: 'none'});
                     close_popup();
+                } else {
+                    close_popup();
+                    alert(jsondata['msg']);
                 }
             },
             error: function(para) {

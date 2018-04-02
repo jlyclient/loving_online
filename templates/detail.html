@@ -70,14 +70,6 @@
             <div class="love_mater love_other">
                 <div class="love_other_box">
                     <div class="love_row" id="love_material">
-                        <!-- <div class="love_col love_col_4">性格特征：开朗、活泼、</div>
-                        <div class="love_col love_col_4">参加工作：已参加</div>
-                        <div class="love_col love_col_4">公司类型：教育</div>
-                        <div class="love_col love_col_4">职业类型：教育</div>
-                        <div class="love_col love_col_4">月薪：8000-10000</div>
-                        <div class="love_col love_col_4">投资理财：无</div>
-                        <div class="love_col love_col_4">购车：已购</div>
-                        <div class="love_col love_col_4">购房：— —</div> -->
                     </div>
                     <div class="love_row">
                         <div class="love_col love_col_5">
@@ -93,15 +85,23 @@
                                 {% else %}
                                     未验证
                                 {% end %}
-                            {% else %}
+                            {% elif me %}
                                 {% if other['verify_m'] %}
                                     {{other['mobile']}}
                                 {% else %}
                                     未填
                                 {% end %}
+                            {% else %}
+                                {% if other['verify_m'] and other['public_m'] %}
+                                    {{other['mobile']}}
+                                {% elif not other['verify_m'] %}
+                                    未填
+                                {% elif not other['public_m'] %}
+                                    未公开
+                                {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_m'] and not me and saw['mobile'] == 0 %}
+                            {% if other['verify_m'] and not me and saw['mobile'] == 0 and other['public_m'] %}
                             <div class="love_other_tools">
                                 <button name="1" class="btn_center love_seeother">查看</button>
                             </div>
@@ -120,15 +120,23 @@
                                 {% else %}
                                     未验证
                                 {% end %}
-                            {% else %}
+                            {% elif me %}
                                 {% if other['verify_e'] %}
                                     {{other['email']}}
                                 {% else %}
                                     未填
                                 {% end %}
+                            {% else %}
+                                {% if other['verify_e'] and other['public_e'] %}
+                                    {{other['mobile']}}
+                                {% elif not other['verify_e'] %}
+                                    未填
+                                {% elif not other['public_e'] %}
+                                    未公开
+                                {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_e'] and not me and saw['email'] == 0 %}
+                            {% if other['verify_e'] and not me and saw['email'] == 0  and other['public_e'] %}
                             <div class="love_other_tools">
                                 <button name="4" class="btn_center love_seeother">查看</button>
                             </div>
@@ -147,15 +155,23 @@
                                 {% else %}
                                     未验证
                                 {% end %}
-                            {% else %}
+                            {% elif me %}
                                 {% if other['verify_w'] %}
                                     {{other['wx']}}
                                 {% else %}
                                     未填
                                 {% end %}
+                            {% else %}
+                                {% if other['verify_w'] and other['public_w'] %}
+                                    {{other['wx']}}
+                                {% elif not other['verify_w'] %}
+                                    未填
+                                {% elif not other['public_w'] %}
+                                    未公开
+                                {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_w'] and not me and saw['wx'] == 0 %}
+                            {% if other['verify_w'] and not me and saw['wx'] == 0  and other['public_w'] %}
                             <div class="love_other_tools">
                                 <button name="2" class="btn_center love_seeother">查看</button>
                             </div>
@@ -174,15 +190,23 @@
                                 {% else %}
                                     未验证
                                 {% end %}
-                            {% else %}
+                            {% elif me %}
                                 {% if other['verify_q'] %}
                                     {{other['qq']}}
                                 {% else %}
                                     未填
                                 {% end %}
+                            {% else %}
+                                {% if other['verify_q'] and other['public_q'] %}
+                                    {{other['qq']}}
+                                {% elif not other['verify_q'] %}
+                                    未填
+                                {% elif not other['public_q'] %}
+                                    未公开
+                                {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_q'] and not me and saw['qq'] == 0 %}
+                            {% if other['verify_q'] and not me and saw['qq'] == 0  and other['public_q'] %}
                             <div class="love_other_tools">
                                 <button name="3" class="btn_center love_seeother">查看</button>
                             </div>

@@ -1782,6 +1782,42 @@ class ICareHandler(BaseHandler):
             self.write(d)
             self.finish()
 
+class SendCareHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo = self.get_secure_cookie('userid')
+        cuid = coo.split('_')[1]
+        uid  = self.get_argument('uid', None)
+        kind = self.get_argument('kind', None)
+        d = {}
+        if not uid or not kind:
+            d = {'code': -1, 'msg': '参数不正确'}
+        else:
+            url = 'http://%s:%s/sendcare' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cuid=%s&uid=%s&kind=%s'%(cuid, uid, kind),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if not d:
+                d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
+
 class ListDatingHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -2392,6 +2428,7 @@ if __name__ == "__main__":
         ('/isee', ISeeHandler),
         ('/seeme', SeeMeHandler),
         ('/icare', ICareHandler),
+        ('/sendcare', SendCareHandler),
         ('/list_dating', ListDatingHandler),
         ('/city_dating', CityDatingHandler),
         ('/create_dating', CreateDatingHandler),
