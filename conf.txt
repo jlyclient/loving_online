@@ -17,3 +17,7 @@ baidu_url=https://api.map.baidu.com/location/ip?ak=%s&ip=%s
 [pic_server]
 ip=127.0.0.1
 port=8050
+
+[mail]
+mail_page=10
+
