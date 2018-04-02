@@ -20,8 +20,8 @@
     <section>
         <div class="love love_inbox mt-30">
             <div class="love_inbox_tab">
-                <span name="email" class="active" >收件箱</span>
-                <span name="" >发件箱</span>
+                <span type="in" class="active" >收件箱</span>
+                <span type="out">发件箱</span>
             </div>
             <div class="tr">
                 <div class="tools_label">时间：</div>
@@ -36,8 +36,8 @@
     </section>
 
     <section>
-        <div class="love">
-            <div class="love_inbox_line active">
+        <div class="love email_inbox">
+            <!-- <div class="love_inbox_line active">
                 <div class="love_inbox_img">
                     <a href="../detail.html" target="_blank">
                         <img src="../img/img2.jpg" alt="">
@@ -93,7 +93,7 @@
                     </h3>
                 </div>
                 <div class="love_inbox_time">2018/01/08 07:35</div>
-            </div>
+            </div> -->
         </div>
         <div class="love">
             <div class="love_page">
@@ -117,10 +117,9 @@
         <div class="love mt-20">
             <div class="love_box_title love_title_lately">
                 <span>最近联系人</span>
-                <a class="love_box_more" href="">查看更多</a>
             </div>
             <div class="love_inbox_lately">
-                <div class="love_lately_item">
+                <!-- <div class="love_lately_item">
                     <div class="love_lately_img">
                         <a href="../detail.html" target="_blank">
                             <img src="../img/img2.jpg" alt="">
@@ -173,7 +172,7 @@
                     </div>
                     <h2>夏天未迁<span>（女）</span></h2>
                     <p>2018/01/08 07:35</p>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -246,13 +245,13 @@
                 回复消息<span class="love_dialog_close btn_dialog_close"></span>
             </div>
             <div class="love_dialog_content">
-                <p>发送给<span>茉莉花在北极</span>：</p>
+                <p>发送给<span id="send_name">茉莉花在北极</span>：</p>
                 <div class="tools_textarea">
-                    <textarea name="" id="" placeholder="不超过500字~"></textarea>
+                    <textarea name="" id="send_back_content" placeholder="不超过500字~"></textarea>
                 </div>
             </div>
             <div class="love_dialog_btns">
-                <button class="btn" type="button">发送</button>
+                <button class="btn send_back_message" type="button">发送</button>
                 <button class="btn btn_blue btn_dialog_close" type="button">取消</button>
             </div>
         </div>
@@ -269,7 +268,7 @@
                     <div class="love_see_text">
                         <div class="see_line">
                             <div>发件人：</div>
-                            <div><em>夏天未迁</em></div>
+                            <div><em >夏天未迁</em></div>
                             <div class="fr">时&emsp;间：2018-02-06</div>
                         </div>
                         <div class="see_line">

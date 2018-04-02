@@ -1563,7 +1563,10 @@ header {
     font-weight: bold;
     background: #f6f6f6;
 }
-
+.love_lately_img {
+    height: 144px;
+    overflow: hidden;
+}
 .love_inbox_tab span.active {
     background: #f13973;
     color: #fff;
@@ -1649,7 +1652,6 @@ header {
 
 .love_lately_item {
     width: 144px;
-    height: 160px;
     float: left;
     margin-right: 32px;
 }
