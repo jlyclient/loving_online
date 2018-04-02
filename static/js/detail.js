@@ -162,6 +162,7 @@ $(function() {
                             console.log(jsondata);
                             if (jsondata.code === 0) {
                                 alert('眼缘请求发送成功！');
+                                $(".btn_yanyuan").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff', cursor: 'none' });
                             }
                         },
                         error: function(para) {

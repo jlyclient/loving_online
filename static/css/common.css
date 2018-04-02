@@ -1553,7 +1553,7 @@ header {
     overflow: hidden;
 }
 
-.love_inbox_tab a {
+.love_inbox_tab span {
     display: block;
     float: left;
     width: 50%;
@@ -1564,7 +1564,7 @@ header {
     background: #f6f6f6;
 }
 
-.love_inbox_tab a.active {
+.love_inbox_tab span.active {
     background: #f13973;
     color: #fff;
 }
