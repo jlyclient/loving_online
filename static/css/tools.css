@@ -509,7 +509,9 @@
     top: 0;
     cursor: pointer;
 }
-
+.del_email{
+    top: 40px;
+}
 .love_dialog_close:hover {
     color: #2cade3;
 }

@@ -87,6 +87,23 @@ $(function() {
         $("#love_seeemail_header").html(seedata.user.name + '的消息');
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_see').removeClass('d_n');
+    });
+    $(".email_inbox").on('click', '.del_email', function() {
+        $.ajax({
+            url: '/del_email',
+            type: 'POST',
+            data: {
+                '_xsrf': xsrf,
+                eid: $(this).attr("name"),
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                if (jsondata.code == 0) {
+                    get_data('email');
+                    console.log(jsondata);
+                }
+            }
+        })
     })
     $(".send_back_message").click(function() {
         if ($("#send_back_content").val() != '') {
@@ -105,7 +122,6 @@ $(function() {
                     if (jsondata.code == 0) {
                         console.log(jsondata);
                         close_popup();
-                        $(".email_inbox").removeChild($(".love_see_content"));
                     }
                 },
                 error: function(para) {
@@ -166,7 +182,7 @@ function show_html(type) {
         '<div class="love_inbox_text"><p><span>' + msg_kind + '</span>'+
                 msg_ + '</i></p>'+
             '<h3><button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg + charkan +
-        '</div><div class="love_inbox_time">'+ email_data[type][i].mail.time +'</div></div>';
+        '</div><span name='+ email_data[type][i].mail.id +' class="love_dialog_close del_email"></span><div class="love_inbox_time">'+ email_data[type][i].mail.time +'</div></div>';
     }
     $(".email_inbox").empty();
     $(".email_inbox").prepend(email_html);

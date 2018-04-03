@@ -1575,6 +1575,7 @@ header {
 .love_inbox_line {
     width: 100%;
     overflow: hidden;
+    position: relative;
     padding: 20px 0;
     border-bottom: 1px solid #d6d6d6;
 }
@@ -1594,7 +1595,7 @@ header {
 
 .love_inbox_text {
     float: left;
-    width: 910px;
+    /* width: 910px; */
     height: 74px;
     overflow: hidden;
     margin-left: 20px;
