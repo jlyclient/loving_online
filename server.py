@@ -853,6 +853,8 @@ class SendEmailHandler(BaseHandler):
         cuid = cookie.split('_')[1]
         uid = self.get_argument('uid', None)
         cnt = self.get_argument('content', None)
+        eid = self.get_argument('eid', '')
+        kind = self.get_argument('kind', '0')
         d = {}
         if not uid or not cnt:
             d = {'code': -1, 'msg': '参数不正确'}
@@ -867,7 +869,7 @@ class SendEmailHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='uid=%s&cuid=%s&content=%s'%(uid, cuid, cnt),
+                    body='kind=%s&uid=%s&cuid=%s&content=%s&eid=%s'%(kind,uid, cuid, cnt, eid),
                     validate_cert=False)
             b = resp.body
             d = {}

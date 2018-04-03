@@ -154,6 +154,7 @@ $(function() {
                         url: '/yanyuan',
                         type: 'POST',
                         data: {
+                            'kind': 1,
                             '_xsrf': xsrf,
                             uid: uid,
                         },

@@ -43,7 +43,8 @@ $(function() {
                 for (var i = 0; i < jsondata.data.length; i++) {
                     latest+= '<div class="love_lately_item">'+
                     '<div class="love_lately_img">'+
-                    '<img src='+ jsondata.data[i].src +' alt="">'+
+                    '<a href=\"/user?uid=' + jsondata.data[i].id + '\" target=\"_blank\">' +
+                    '<img src='+ jsondata.data[i].src +' alt="">'+ '</a>' +
                     '</div>'+
                     '<h2>'+ jsondata.data[i].name +'<span>（'+ jsondata.data[i].sex_name +'）</span></h2>'+
                     '<p>'+ jsondata.data[i].last_login +'</p>'+
@@ -91,8 +92,9 @@ $(function() {
 
 function get_data(url) {
     var xsrf = get_cookie_by_name('_xsrf');
+    var url_ = '/' + url;
     $.ajax({
-        url: '/'+url,
+        url: url_,
         type: 'POST',
         data: {
             '_xsrf': xsrf,
@@ -113,14 +115,31 @@ function get_data(url) {
 
 function show_html(type) {
     var email_html = '';
+    var backmsg = type == 'in' ? '马上回复' : '写信给Ta';
     console.log(type, email_data);
     for(var i = 0; i< email_data[type].length; i++) {
+        var msg_kind = email_data[type][i].mail.kind == 0 ? '[普通邮件]':'[系统消息]';
+        if (type == 'out') {
+            msg_kind = '';
+        }
+        var msg_ = '';
+        if (type == 'in') {
+            msg_ = email_data[type][i].mail.kind == 0 ? '给您发送了邮件' : '给你发送了眼缘';
+            msg_ = '<em>'+ email_data[type][i].user.name +'</em><i>' + msg_;
+        } else {
+            if (email_data[type][i].mail.kind == 0) {
+                msg_ = '您给' + '<em>'+ email_data[type][i].user.name +'</em><i>' + '发送了邮件';
+            } else {
+                msg_ = '您给' + '<em>'+ email_data[type][i].user.name +'</em><i>' +  '发送了眼缘';
+            }
+        }
+        var charkan = email_data[type][i].mail.kind == 1 ? '' : '</button><button class="btn btn_plain btn_dialog btn_see">查看</button></h3>';
         email_html += '<div class="love_inbox_line">'+
         '<div class="love_inbox_img">'+
         '<a href="/user?uid='+ email_data[type][i].user.id +'\" target=\"_blank\"><img src='+ email_data[type][i].user.pic +' alt=""></a></div>'+
-        '<div class="love_inbox_text"><p><span>[系统消息]</span>'+
-                '<em>'+ email_data[type][i].user.name +'</em><i>关注了你</i></p>'+
-            '<h3><button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">马上回复</button><button class="btn btn_plain btn_dialog btn_see">查看</button></h3>'+
+        '<div class="love_inbox_text"><p><span>' + msg_kind + '</span>'+
+                msg_ + '</i></p>'+
+            '<h3><button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg + charkan +
         '</div><div class="love_inbox_time">'+ email_data[type][i].mail.time +'</div></div>';
     }
     $(".email_inbox").empty();
