@@ -1918,6 +1918,13 @@ class ListDatingHandler(BaseHandler):
         self.write(d)
         self.finish()
 
+class DatingDetailHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        self.render('dating/dating_detail.html')
+
 class CreateDatingHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -2467,6 +2474,7 @@ if __name__ == "__main__":
         ('/icare', ICareHandler),
         ('/sendcare', SendCareHandler),
         ('/list_dating', ListDatingHandler),
+        ('/dating_detail', DatingDetailHandler),
         ('/city_dating', CityDatingHandler),
         ('/create_dating', CreateDatingHandler),
         ('/remove_dating', RemoveDatingHandler),
