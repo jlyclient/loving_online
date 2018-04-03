@@ -89,17 +89,22 @@ $(function() {
         $('.love_dialog').find('.love_dialog_see').removeClass('d_n');
     });
     $(".email_inbox").on('click', '.del_email', function() {
+        var T = this;
+        var eid = $(this).attr('name');
+        if (eid == null) {
+            return -1
+        }
         $.ajax({
             url: '/del_email',
             type: 'POST',
             data: {
                 '_xsrf': xsrf,
-                eid: $(this).attr("name"),
+                eid: eid,
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
                 if (jsondata.code == 0) {
-                    get_data('email');
+                    $(T).parent().remove();
                     console.log(jsondata);
                 }
             }
