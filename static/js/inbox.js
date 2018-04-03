@@ -63,6 +63,31 @@ $(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_message').removeClass('d_n');
     });
+    $(".email_inbox").on('click', '.btn_see', function() {
+        $(".love_see_content").empty();
+        var seearr = email_data[$(this).attr('type')];
+        var seedata = email_data[$(this).attr('type')][$(this).attr('num')];
+        var seeemail = '<div class="love_see_img">'+
+            '<img src='+ seedata.user.pic +' alt="">'+
+        '</div>'+
+        '<div class="love_see_text">'+
+            '<div class="see_line">'+
+                '<div>'+ ($(this).attr('type') == 'in' ? '发件人' : '收件人') +'：</div>'+
+                '<div><em >'+ seedata.user.name +'</em></div>'+
+                '<div class="fr">时&emsp;间：'+ seedata.mail.time +'</div>'+
+            '</div>'+
+            '<div class="see_line">'+
+                '<div>正&emsp;文：</div>'+
+                '<div class="see_text">'+
+                    '<p>'+ seedata.mail.content +'</p>'+
+                '</div>'+
+            '</div>'+
+        '</div>';
+        $(".love_see_content").append(seeemail);
+        $("#love_seeemail_header").html(seedata.user.name + '的消息');
+        $('.love_dialog>div').addClass('d_n');
+        $('.love_dialog').find('.love_dialog_see').removeClass('d_n');
+    })
     $(".send_back_message").click(function() {
         if ($("#send_back_content").val() != '') {
             console.log(send_email)
@@ -75,11 +100,12 @@ $(function() {
                     content: $("#send_back_content").val(),
                 },
                 success: function(data) {
-                    console.log(data);
                     var jsondata = JSON.parse(data);
+                    console.log(jsondata);
                     if (jsondata.code == 0) {
                         console.log(jsondata);
                         close_popup();
+                        $(".email_inbox").removeChild($(".love_see_content"));
                     }
                 },
                 error: function(para) {
@@ -133,7 +159,7 @@ function show_html(type) {
                 msg_ = '您给' + '<em>'+ email_data[type][i].user.name +'</em><i>' +  '发送了眼缘';
             }
         }
-        var charkan = email_data[type][i].mail.kind == 1 ? '' : '</button><button class="btn btn_plain btn_dialog btn_see">查看</button></h3>';
+        var charkan = email_data[type][i].mail.kind == 1 ? '' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';
         email_html += '<div class="love_inbox_line">'+
         '<div class="love_inbox_img">'+
         '<a href="/user?uid='+ email_data[type][i].user.id +'\" target=\"_blank\"><img src='+ email_data[type][i].user.pic +' alt=""></a></div>'+

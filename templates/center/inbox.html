@@ -209,9 +209,9 @@
                 回复消息<span class="love_dialog_close btn_dialog_close"></span>
             </div>
             <div class="love_dialog_content">
-                <p>发送给<span id="send_name">茉莉花在北极</span>：</p>
+                <p>发送给<span id="send_name"></span>：</p>
                 <div class="tools_textarea">
-                    <textarea name="" id="send_back_content" placeholder="不超过500字~"></textarea>
+                    <textarea name="" maxlength="500" id="send_back_content" placeholder="不超过500字~"></textarea>
                 </div>
             </div>
             <div class="love_dialog_btns">
@@ -221,12 +221,12 @@
         </div>
         <!-- 查看消息 -->
         <div class="love_dialog_see d_n">
-            <div class="love_dialog_header">
-                夏天未迁的消息<span class="love_dialog_close btn_dialog_close"></span>
+            <div class="love_dialog_header" >
+                <span id="love_seeemail_header">夏天未迁的消息</span>      <span class="love_dialog_close btn_dialog_close"></span>
             </div>
-            <div class="love_dialog_content">
+            <div class="love_dialog_content love_see_email">
                 <div class="love_see_content">
-                    <div class="love_see_img">
+                    <!-- <div class="love_see_img">
                         <img src="../img/img2.jpg" alt="">
                     </div>
                     <div class="love_see_text">
@@ -246,16 +246,16 @@
                                 <p>而这项看似复杂艰深的技艺，如今您也可以轻松掌握。本周日，福匠邀您在资深手作师的一对一指导下，从零开始，亲手镌刻一枚印信，可做闲章，可为藏书印，可送与他人作为信物，亦可用于日常落款。独一无二，精雕细琢，方寸之间，尽显匠心。不要错过哦！</p>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <p class="love_see_btns">
                     <button class="btn btn_message" type="button">回复</button>
                     <button class="btn btn_blue btn_dialog_close" type="button">取消</button>
                 </p>
-                <div class="love_see_links">
+                <!-- <div class="love_see_links">
                     <p><a href="#">上一封：和和美美的消息</a></p>
                     <p><a class="next" href="#">下一封：和和美美的消息</a></p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
