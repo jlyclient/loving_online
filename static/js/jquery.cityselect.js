@@ -36,6 +36,7 @@ var pro_city_data = {"citylist":[{"p":"北京","c":[{"n":"东城区"},{"n":"西�
 		var dist_val=settings.dist;
 		var select_prehtml=(settings.required) ? "" : "<option value=''>请选择</option>";
 		var city_json;
+		console.log(prov_val, city_val, dist_val, '---------');
 
 		// 赋值市级函数
 		var cityStart=function(){
@@ -90,8 +91,7 @@ var pro_city_data = {"citylist":[{"p":"北京","c":[{"n":"东城区"},{"n":"西�
 			$.each(city_json.citylist[prov_id].c[city_id].a,function(i,dist){
 				temp_html+="<option value='"+dist.s+"'>"+dist.s+"</option>";
 			});
-			dist_obj.html(temp_html).attr("disabled",false).css({"display":"","visibility":""});
-			
+			dist_obj.html(temp_html).attr("disabled",false).css({"display":"","visibility":""});	
 		};
 
 		var init=function(){
