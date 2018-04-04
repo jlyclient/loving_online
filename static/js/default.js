@@ -37,7 +37,7 @@ $(function() {
     $.each(selectArry, function(index, item) {
         var _text = $(item).find('option:selected').text().replace(/\(/, '<span>(').replace(/\)/, ')<span>');
         if (_text === '') {
-            _text = '东城区';
+            _text = '请选择';
         }
         $(item).prev().html(_text);
     });

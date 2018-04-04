@@ -24,81 +24,81 @@
             <div class="love_start">
                 <div class="tools_row">
                     <span class="tools_label">约会主题：</span>
-                    <div class="tools_check">
-                        <input type="checkbox" name="" id="">
-                        <div class="tools_check_bg"></div>
-                        <span>约饭</span>
+                    <div class="tools_radio">
+                        <input type="radio" option="0" name="sjt">
+                        <div class="tools_radio_bg"></div>
+                        <span class="tools_radio_text">约饭</span>
                     </div>
-                    <div class="tools_check">
-                        <input type="checkbox" name="" id="" checked>
-                        <div class="tools_check_bg"></div>
-                        <span>电影</span>
+                    <div class="tools_radio">
+                        <input type="radio" option="1" name="sjt">
+                        <div class="tools_radio_bg"></div>
+                        <span class="tools_radio_text">电影</span>
                     </div>
-                    <div class="tools_check">
-                        <input type="checkbox" name="" id="">
-                        <div class="tools_check_bg"></div>
-                        <span>交友</span>
+                    <div class="tools_radio">
+                        <input type="radio" option="2" name="sjt">
+                        <div class="tools_radio_bg"></div>
+                        <span class="tools_radio_text">交友</span>
                     </div>
-                    <div class="tools_check">
-                        <input type="checkbox" name="" id="" checked>
-                        <div class="tools_check_bg"></div>
-                        <span>聊天</span>
+                    <div class="tools_radio">
+                        <input type="radio" option="3" name="sjt">
+                        <div class="tools_radio_bg"></div>
+                        <span class="tools_radio_text">聊天</span>
                     </div>
-                    <div class="tools_check">
-                        <input type="checkbox" name="" id="">
-                        <div class="tools_check_bg"></div>
-                        <span>喝酒</span>
+                    <div class="tools_radio">
+                        <input type="radio" option="4" name="sjt">
+                        <div class="tools_radio_bg"></div>
+                        <span class="tools_radio_text">喝酒</span>
                     </div>
-                    <div class="tools_check">
-                        <input type="checkbox" name="" id="">
-                        <div class="tools_check_bg"></div>
-                        <span>唱歌</span>
+                    <div class="tools_radio">
+                        <input type="radio" option="5" name="sjt">
+                        <div class="tools_radio_bg"></div>
+                        <span class="tools_radio_text">唱歌</span>
                     </div>
-                    <div class="tools_check">
-                        <input type="checkbox" name="" id="">
-                        <div class="tools_check_bg"></div>
-                        <span>其他</span>
+                    <div class="tools_radio">
+                        <input type="radio" option="6" name="sjt">
+                        <div class="tools_radio_bg"></div>
+                        <span class="tools_radio_text">其他</span>
                     </div>
                 </div>
                 <div class="tools_row">
                     <span class="tools_label">约会时间：</span>
                     <div class="tools_input love_time">
-                        <input type="text" class="time" placeholder="点击选择时间">
+                        <input name="dt" type="text" class="time" placeholder="点击选择时间">
                     </div>
                 </div>
                 <div class="tools_row">
-                    <div class="select_city" id="city_1">
+                    <div class="select_city" id="city_9">
                         <span class="tools_label">约会地点：</span>
                         <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="" id="" class="prov"></select>
+                            <div class="tools_select_text">北京市</div>
+                            <select name="loc1" id="" class="prov"></select>
                         </div>
                         <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="" id="" class="city"></select>
+                            <div class="tools_select_text">东城区</div>
+                            <select name="loc2" id="" class="city"></select>
                         </div>
                     </div>
                 </div>
                 <div class="tools_row">
                     <span class="tools_label">具体地点：</span>
                     <div class="tools_textarea">
-                        <textarea name="" id="" placeholder="请输入具体地点"></textarea>
+                        <textarea name="locd" id="" placeholder="请输入具体地点"></textarea>
                     </div>
                 </div>
                 <div class="tools_row">
                     <span class="tools_label">约会对象：</span>
                     <div class="tools_radio">
-                        <input type="radio" name="radio">
+                        <input type="radio" option="0" name="obj">
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">男士</span>
                     </div>
                     <div class="tools_radio">
-                        <input type="radio" name="radio" checked>
+                        <input type="radio" option="1" name="obj" checked>
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">女士</span>
                     </div>
                     <div class="tools_radio">
-                        <input type="radio" name="radio">
+                        <input type="radio" option="2" name="obj">
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">男女均可</span>
                     </div>
@@ -106,61 +106,52 @@
                 <div class="tools_row">
                     <span class="tools_label">约会人数：</span>
                     <div class="tools_input_group">
-                        <input type="number" placeholder="请输入约会人数">
+                        <input name="num" type="number" placeholder="请输入约会人数">
                         <span>人</span>
                     </div>
                 </div>
                 <div class="tools_row">
                     <span class="tools_label">约会费用：</span>
                     <div class="tools_radio">
-                        <input type="radio" name="radio">
+                        <input option="0" type="radio" name="fee">
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">发起人付</span>
                     </div>
                     <div class="tools_radio">
-                        <input type="radio" name="radio">
+                        <input option="1" type="radio" name="fee">
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">AA制</span>
                     </div>
                     <div class="tools_radio">
-                        <input type="radio" name="radio">
+                        <input option="2" type="radio" name="fee">
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">男士付款，女士免单</span>
                     </div>
                     <div class="tools_radio">
-                        <input type="radio" name="radio" checked>
+                        <input option="3" type="radio" name="fee" checked>
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">视情况定</span>
                     </div>
                 </div>
                 <div class="tools_row">
-                    <span class="tools_label">对象要求：</span>
-                    <div class="tools_select">
-                        <div class="tools_select_text"></div>
-                        <select name="" id="">
-                            <option value="18">要求不限</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="tools_row">
                     <span class="tools_label">约会补充：</span>
                     <div class="tools_textarea">
-                        <textarea name="" id="" maxlength="150" placeholder="不超过150字~"></textarea>
+                        <textarea name="bc" id="" maxlength="150" placeholder="不超过150字~"></textarea>
                     </div>
                 </div>
                 <div class="tools_row">
                     <span class="tools_label">有效期限：</span>
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
-                        <select name="" id="">
-                            <option value="18">一周<span>(需支付10爱豆)</span></option>
-                            <option value="18">一月<span>(需支付100爱豆)</span></option>
-                            <option value="18">一年<span>(需支付1000爱豆)</span></option>
+                        <select name="vt" id="">
+                            <option value="0">一周<span>(需支付10爱豆)</span></option>
+                            <option value="1">一月<span>(需支付100爱豆)</span></option>
+                            <option value="2">一年<span>(需支付1000爱豆)</span></option>
                         </select>
                     </div>
                 </div>
                 <div class="tools_submit">
-                    <button type="button">发起约会</button>
+                    <button type="button" class="launch_data">发起约会</button>
                 </div>
             </div>
         </div>
@@ -236,6 +227,7 @@
     <script src="../js/jquery.cityselect.js"></script>
     <script src="../js/default.js"></script>
     <script src="../js/time.js"></script>
+    <script src="../js/create_dating.js"></script>
     <script>
         onLoadTimeChoiceDemo();
         borainTimeChoice({
