@@ -1968,9 +1968,11 @@ class CreateDatingHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
         url = 'http://%s:%s/create_dating' % (conf.dataserver_ip, conf.dataserver_port)
         headers = self.request.headers
-        body = self.request.body
+        body = self.request.body + '&uid=%s' % uid
         http_client = tornado.httpclient.AsyncHTTPClient()
         resp = yield tornado.gen.Task(
                 http_client.fetch,
