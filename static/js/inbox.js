@@ -111,29 +111,37 @@ $(function() {
         })
     })
     $(".send_back_message").click(function() {
-        if ($("#send_back_content").val() != '') {
-            console.log(send_email)
-            $.ajax({
-                url: '/sendemail',
-                type: 'POST',
-                data: {
-                    '_xsrf': xsrf,
-                    uid: send_email,
-                    content: $("#send_back_content").val(),
-                },
-                success: function(data) {
-                    var jsondata = JSON.parse(data);
-                    console.log(jsondata);
-                    if (jsondata.code == 0) {
-                        console.log(jsondata);
-                        close_popup();
-                    }
-                },
-                error: function(para) {
-                    console.log(para);
-                }
-            })
+        var cnt = $("#send_back_content").val();
+        if (cnt == null || cnt == '') {
+            alert('发信内容不能为空');
+            return -1;
         }
+        if (cnt.length > 500) {
+            alert('发信内容不能超过500字');
+            return -1;
+        }
+        console.log(send_email)
+        $.ajax({
+            url: '/sendemail',
+            type: 'POST',
+            data: {
+                '_xsrf': xsrf,
+                uid: send_email,
+                content: cnt,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+                if (jsondata.code == 0) {
+                    console.log(jsondata);
+                    close_popup();
+                }
+            },
+            error: function(para) {
+                console.log(para);
+                close_popup();
+            }
+        });
     })
 })
 
