@@ -1923,7 +1923,73 @@ class DatingDetailHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
-        self.render('dating/dating_detail.html')
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            self.render('dating/dating_detail.html', name=name)
+        else:
+            self.redirect('/')
+
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        did = self.get_argument('did', None)
+        d = {}
+        if not uid or not did:
+            d = {'code': -1, 'data':'参数不正确'}
+        else:
+            url = 'http://%s:%s/dating_detail' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='uid=%s&did=%s'%(uid, did),
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(d)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+            
+
 
 class CreateDatingHandler(BaseHandler):
     @tornado.web.authenticated
