@@ -2134,7 +2134,7 @@ class CityDatingHandler(BaseHandler):
             cur2 = ctx['user']['curr_loc2']
             url = 'http://%s:%s/list_dating' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
-            body = self.request.body + '&loc1=cur1&loc2=cur2'
+            body = self.request.body + '&loc1=%s&loc2=%s' % (cur1, cur2)
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
@@ -2232,10 +2232,11 @@ class ParticipateDatingHandler(BaseHandler):
             d = json.dumps(d)
             self.write(d)
             self.finish()
-        else: 
+        else:
+            uid = cookie.split('_')[1]
             url = 'http://%s:%s/participate_dating' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
-            body = self.request.body
+            body = 'uid=%s'%uid
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,

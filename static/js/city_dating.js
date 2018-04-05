@@ -1,4 +1,7 @@
 $(function() {
+    function loc_display(loc1, loc2) {
+        return loc1 + '·' + loc2;
+    }
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         url: '/city_dating',
@@ -25,6 +28,7 @@ $(function() {
                     } else {
                         timehtml += show_time(endtime);
                     }
+                    loc_ = loc_display(listdata[i].loc1, listdata[i].loc2);
                     listhtml += '<div '+ (endflag == true ? 'class="love_try_item love_over"' : 'class="love_try_item"') +'>'+
                     '<div class="love_try_item_left">'+
                         '<div class="love_try_img">'+
@@ -35,7 +39,7 @@ $(function() {
                         '<div class="love_try_item_text">'+
                             '<div class="love_try_item_top">'+
                                 '<h2>'+ listdata[i].nick_name +'<span>（'+ listdata[i].sex_name +'）</span></h2>'+
-                                '<p><span>['+ listdata[i].loc1 +']</span>'+ listdata[i].nick_name +'发起了<em>【'+ subject[listdata[i].subject] +'】</em>约会</p>'+
+                                '<p><span>['+ loc_ +']</span>'+ listdata[i].nick_name +'发起了<em>【'+ subject[listdata[i].subject] +'】</em>约会</p>'+
                             '</div>'+
                             '<div class="love_try_item_middle">'+
                                 '<p>'+
