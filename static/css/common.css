@@ -561,6 +561,7 @@ header {
 .love_try_img {
     width: 280px;
     height: 210px;
+    overflow: hidden;
     float: left;
 }
 

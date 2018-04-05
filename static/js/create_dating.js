@@ -83,6 +83,8 @@ $(function() {
                     var jsondata = JSON.parse(data);
                     console.log(jsondata);
                     if (jsondata.code == 0) {
+                        alert('约会发起成功！');
+                        window.location.reload();
                     }
                 },
                 error: function(para) {

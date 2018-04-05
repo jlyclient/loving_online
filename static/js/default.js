@@ -501,10 +501,44 @@ $(function() {
     })
 })
 
+// 距离到现在的时间
+function now_time(time) {
+    var time_start = new Date(time).getTime(); //设定当前时间
+    var time_end = new Date().getTime(); //设定目标时间
+    // 计算时间差 
+    var time_distance = time_end - time_start;
+    // 天
+    var int_day = Math.floor(time_distance / 86400000)
+    time_distance -= int_day * 86400000;
+    // 时
+    var int_hour = Math.floor(time_distance / 3600000)
+    time_distance -= int_hour * 3600000;
+    // 分
+    var int_minute = Math.floor(time_distance / 60000)
+    time_distance -= int_minute * 60000;
+    // 秒 
+    var int_second = Math.floor(time_distance / 1000)
+        // 时分秒为单数时、前面加零 
+    if (int_day < 10) {
+        int_day = "0" + int_day;
+    }
+    if (int_hour < 10) {
+        int_hour = "0" + int_hour;
+    }
+    if (int_minute < 10) {
+        int_minute = "0" + int_minute;
+    }
+    if (int_second < 10) {
+        int_second = "0" + int_second;
+    }
+    var timehtml = '<span>'+int_day+'天'+ int_hour +'时'+ int_minute +'分'+ int_second +'秒</span>';
+    return timehtml;
+}
+
 //倒计时
-function show_time() {
+function show_time(time) {
     var time_start = new Date().getTime(); //设定当前时间
-    var time_end = new Date("2018/02/08 00:00:00").getTime(); //设定目标时间
+    var time_end = time; //设定目标时间
     // 计算时间差 
     var time_distance = time_end - time_start;
     // 天
@@ -533,12 +567,14 @@ function show_time() {
     }
     // 显示时间 
     // $("#time_d").val(int_day);
-    $(".love_time_h").text(int_hour);
-    $(".love_time_m").text(int_minute);
-    $(".love_time_s").text(int_second);
+    var timehtml = '<p class="love_time">剩余：<span class="love_time_h">'+ int_day+'</span>天<span class="love_time_h">'+ int_hour+'</span>小时'+
+    '<span class="love_time_m">'+ int_minute +'</span>分'+
+    '<span class="love_time_s">'+ int_second +'</span>秒</p>';
     // 设置定时器
-    setTimeout("show_time()", 1000);
-
+    setTimeout(function(){
+        show_time(time);
+    }, 1000);
+    return timehtml;
 }
 // 关闭弹窗
 function close_popup() {
