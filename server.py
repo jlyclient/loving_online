@@ -2027,7 +2027,8 @@ class CreateDatingHandler(BaseHandler):
             name = user['nick_name']
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
-            self.render('dating/create_dating.html', name=name)
+            n = conf.dating_fee
+            self.render('dating/create_dating.html', name=name, N=n)
         else:
             self.redirect('/')
     @tornado.web.authenticated
@@ -2096,6 +2097,66 @@ class CityDatingHandler(BaseHandler):
             self.render('dating/city_dating.html', name=name)
         else:
             self.redirect('/')
+
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        d = {}
+        name = None
+        if ctx.get('user'): 
+            cur1 = ctx['user']['curr_loc1']
+            cur2 = ctx['user']['curr_loc2']
+            url = 'http://%s:%s/list_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = self.request.body + '&loc1=cur1&loc2=cur2'
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {}
+            if not d:
+                d = {'code': -1 , 'msg': '服务器错误'}
+        else:
+            d = {'code': -1, 'msg': '请先登录'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 
 class RemoveDatingHandler(BaseHandler):
     @tornado.web.authenticated
@@ -2268,7 +2329,9 @@ class DetailDatingHandler(BaseHandler):
     @tornado.gen.coroutine
     def post(self):
         did = self.get_argument('did', None)
-        if not did:
+        coo = self.get_secure_cookie('userid')
+        cuid = coo.split('_')[1]
+        if not did or not cuid:
             d = {'code': -1, 'msg': '参数不对'}
             d = json.dumps(d)
             self.write(d)
@@ -2276,7 +2339,7 @@ class DetailDatingHandler(BaseHandler):
         else: 
             url = 'http://%s:%s/detail_dating' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
-            body = 'did=%s' % did
+            body = 'did=%s&cuid=%s' % (did,cuid)
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
@@ -2291,13 +2354,6 @@ class DetailDatingHandler(BaseHandler):
                 d = json.loads(r)
             except:
                 d = {'code': -1, 'msg': '服务器错误'}
-            if d['code'] == 0:
-                data = d['data']
-                bm = data['baoming']
-                if uid in bm:
-                    d['data']['already'] = 1
-                else:
-                    d['data']['already'] = 0
             d = json.dumps(d)
             self.write(d)
             self.finish()

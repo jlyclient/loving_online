@@ -20,6 +20,8 @@ class Picconf():
         self.pic_server_port = p.get('pic_server', 'port')
 
         self.mail_page   = p.getint('mail', 'mail_page')
+
+        self.dating_fee  = p.getint('fee', 'dating_fee')
     def dis(self):
         print(self.sys_port)
 

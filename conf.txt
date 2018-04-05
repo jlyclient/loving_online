@@ -21,3 +21,5 @@ port=8050
 [mail]
 mail_page=10
 
+[fee]
+dating_fee=1
