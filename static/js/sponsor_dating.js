@@ -19,7 +19,7 @@ $(function() {
                 var listdata = jsondata.data.arr;
                 console.log(listdata);
                 if (listdata.length == 0) {
-                    listhtml += '<div class="love_none_text"><p>暂时没有任何约会信息，快去约会吧！</p></div>';
+                    listhtml += '<div class="love_none"><div class="love_none_text"><i></i><p>暂时没有任何约会信息，快去约会吧！</p></div></div>';
                 } else {
                     for (var i = 0; i< listdata.length; i++) {
                         var endtime = Number(new Date(listdata[i].time).getTime()) + listdata[i].valid_time * 24 * 60 * 60 * 1000;
