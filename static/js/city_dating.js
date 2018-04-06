@@ -32,7 +32,7 @@ $(function() {
                     listhtml += '<div '+ (endflag == true ? 'class="love_try_item love_over"' : 'class="love_try_item"') +'>'+
                     '<div class="love_try_item_left">'+
                         '<div class="love_try_img">'+
-                            '<a href="/user?uid='+ listdata[i].id +'" target="_blank">'+
+                            '<a href="/user?uid='+ listdata[i].uid +'" target="_blank">'+
                                 '<img src='+ listdata[i].src +' alt="">'+
                             '</a>'+
                         '</div>'+
