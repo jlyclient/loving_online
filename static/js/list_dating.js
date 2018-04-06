@@ -32,7 +32,7 @@ $(function() {
                     listhtml += '<div '+ (endflag == true ? 'class="love_try_item love_over"' : 'class="love_try_item"') +'>'+
                     '<div class="love_try_item_left">'+
                         '<div class="love_try_img">'+
-                            '<a href="/user?uid='+ listdata[i].id +'" target="_blank">'+
+                            '<a href="/user?uid='+ listdata[i].uid +'" target="_blank">'+
                                 '<img src='+ listdata[i].src +' alt="">'+
                             '</a>'+
                         '</div>'+
@@ -53,7 +53,7 @@ $(function() {
                                 '</p>'+
                                 '<p>约会补充：'+ listdata[i].buchong +'</p>'+
                             '</div>'+
-                            '<div class="love_try_item_bottom">'+ (endflag ? '' : '<a class="btn btn_default" href="/dating_detail?did='+ listdata[i].id +'">我要参加</a>') +''+
+                            '<div class="love_try_item_bottom">'+ (endflag || listdata[i].baoming ? '' : '<a class="btn btn_default" href="/dating_detail?did='+ listdata[i].id +'">我要参加</a>') +''+
                                 '<div>'+ now_time(listdata[i].time) +'<span>'+ listdata[i].scan_count +'人阅读</span>'+
                                 '</div>'+
                             '</div>'+
