@@ -2163,25 +2163,32 @@ class RemoveDatingHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        url = 'http://%s:%s/remove_dating' % (conf.dataserver_ip, conf.dataserver_port)
-        headers = self.request.headers
-        body = self.request.body
-        http_client = tornado.httpclient.AsyncHTTPClient()
-        resp = yield tornado.gen.Task(
-                http_client.fetch,
-                url,
-                method='POST',
-                headers=headers,
-                body=body,
-                validate_cert=False)
-        r = resp.body
-        d = {}
-        try:
-            d = json.loads(r)
-        except:
-            d = {'code': -1, 'msg': '服务器错误'}
+        did = self.get_argument('did', None)
+        cookie = self.get_secure_cookie('cookie', None)
+        uid = cookie.split('_')[1]
+        if not did or not uid:
+            d = {'code': -1,  'msg': '参数错误'}
+        else:
+            url = 'http://%s:%s/remove_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            body = self.request.body
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
         d = json.dumps(d)
         self.write(d)
+        self.finish()
 
 class ParticipateDatingHandler(BaseHandler):
     @tornado.web.authenticated
@@ -2298,7 +2305,8 @@ class SponsorDatingHandler(BaseHandler):
     @tornado.gen.coroutine
     def post(self):
         cookie = self.get_secure_cookie('userid')
-        if not cookie:
+        uid = cookie.split('_')[1]
+        if not uid:
             d = {'code': -1, 'msg': '请先登录'}
             d = json.dumps(d)
             self.write(d)
@@ -2306,7 +2314,7 @@ class SponsorDatingHandler(BaseHandler):
         else: 
             url = 'http://%s:%s/sponsor_dating' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
-            body = self.request.body
+            body = 'uid=%s'%uid
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
@@ -2366,13 +2374,13 @@ class BaomingDatingHandler(BaseHandler):
     def post(self):
         did    = self.get_argument('did', None)
         cookie = self.get_secure_cookie('userid')
-        if not did or not cookie:
+        uid    = cookie.split('_')[1]
+        if not did or not uid:
             d = {'code': -1, 'msg': '参数不对'}
             d = json.dumps(d)
             self.write(d)
             self.finish()
         else: 
-            uid = cookie.split()[1]
             url = 'http://%s:%s/baoming_dating' % (conf.dataserver_ip, conf.dataserver_port)
             headers = self.request.headers
             body = self.request.body + '&uid=%s' % uid
