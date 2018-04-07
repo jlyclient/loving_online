@@ -555,9 +555,9 @@ header {
 }
 
 .love_try_item_left {
-    width: 920px;
+    width: 960px;
     height: 100%;
-    padding: 20px;
+    padding: 10px;
     float: left;
     overflow: hidden;
 }
@@ -570,7 +570,7 @@ header {
 }
 
 .love_try_item_text {
-    width: 580px;
+    width: 640px;
     height: 210px;
     float: left;
     margin-left: 20px;

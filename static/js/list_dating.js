@@ -44,12 +44,12 @@ $(function() {
                             '<div class="love_try_item_middle">'+
                                 '<p>'+
                                     '<span>约会人数：'+ listdata[i].numbers +'人</span>'+
-                                    '<span>约会时间：'+ listdata[i].dtime.slice(0, 10) +'</span>'+
+                                    '<span>约会时间：'+ listdata[i].dtime +'</span>'+
                                     '<span>约会对象：'+ object[listdata[i].object] +'</span>'+
                                 '</p>'+
                                 '<p>'+
                                     '<span>约会费用：'+ fee[listdata[i].fee] +'</span>'+
-                                    '<span>发起时间：'+ listdata[i].time.slice(0, 10) +'</span>'+
+                                    '<span>发起时间：'+ listdata[i].time +'</span>'+
                                 '</p>'+
                                 '<p>约会补充：'+ listdata[i].buchong +'</p>'+
                             '</div>'+

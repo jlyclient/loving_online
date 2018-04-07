@@ -64,6 +64,9 @@ $(function() {
                     '</div>'+
                 '</div>';
                 }
+                if (detaildata.already == 1) {
+                    love_detail_text += '<button class="btn">您已报名</button>'
+                }
                 if (detaildata.baoming) {
                     var bmmumber = '';
                     for (var i = 0; i < detaildata.baoming.length; i++) {
