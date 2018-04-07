@@ -1,4 +1,5 @@
 $(function() {
+    console.log('dating_detail');
     var xsrf = get_cookie_by_name('_xsrf');
     var did = document.URL.split('did=')[1];
     $.ajax({
@@ -14,6 +15,7 @@ $(function() {
             var fee = ['发起人付','AA制','男士付款，女士免单','视情况定'];
             var degree = ['保密', '高中及以下', '中专/大专', '本科', '研究生', '博士及博士后']; // 学历
             var jsondata = JSON.parse(data);
+            console.log(jsondata);
             if (jsondata.code == 0) {
                 console.log(jsondata);
                 var detaildata = jsondata.data;
@@ -41,12 +43,12 @@ $(function() {
                 '<div class="love_try_item_middle love_detail_middle">'+
                     '<p>'+
                         '<span>约会人数：'+ detaildata.numbers +'人</span>'+
-                        '<span>约会时间：'+ detaildata.dtime.slice(0, 10) +'</span>'+
+                        '<span>约会时间：'+ detaildata.dtime +'</span>'+
                         '<span>约会对象：'+ object[detaildata.object] +'</span>'+
                     '</p>'+
                     '<p>'+
                         '<span>约会费用：'+ fee[detaildata.fee] +'</span>'+
-                        '<span>发起时间：'+ detaildata.time.slice(0, 10) +'</span>'+
+                        '<span>发起时间：'+ detaildata.time +'</span>'+
                     '</p>'+
                     '<p>约会地点：'+ detaildata.loc_detail +'</p>'+
                     '<p>约会补充：'+ detaildata.buchong +'</p>'+
