@@ -129,6 +129,24 @@ function find_member(dom) {
         } 
     })
 }
+function cb(para) {
+    var d = JSON.parse(para);
+}
+function wx_login() {
+    var url = '/wxlogin_code';
+    var xsrf = get_cookie_by_name('_xsrf');
+    $.ajax({  
+        url: url,
+        type:'POST',
+        data: {'_xsrf':xsrf},
+        success: function(data){  
+            document.location.href = data;
+        },
+        error: function(para) {
+            var d = para;
+        }
+    });  
+}
 $(function() {
     // 最新注册男会员
     get_new_member(1, 'love_row_boy');

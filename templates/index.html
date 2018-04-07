@@ -1,14 +1,6 @@
 <!--
-# index.html
-# @author 小灰辉
-# @website https://gitee.com/zhxh543
-# @description Professional front-end development
-# @copyright Gray
-# @license 1.0
-# @email zhxh2752@yeah.net
--->
-
 <!DOCTYPE html>
+-->
 <html lang="en">
 
 <head>
@@ -260,7 +252,7 @@
                         <h3>快捷登录</h3>
                         <div class="love_login_fast_btns">
                             <a class="love_icon love_icon-qq" href="javascript:void(0);"></a>
-                            <a class="love_icon love_icon-weixin-copy" href="javascript:void(0);"></a>
+                            <a class="love_icon love_icon-weixin-copy" href="javascript:void(0)" onclick="wx_login()"></a>
                         </div>
                     </div>
                 </div>
@@ -277,7 +269,7 @@
             </div>
             <p class="love_dialog_code_line" />
             <div class="love_dialog_code_img">
-                <img src="img/code.jpg" alt="">
+                <img src="" alt="" id='wx_login'>
                 <p id="love_login_code_way">请使用微信扫描图中二维码</p>
             </div>
             <div class="love_dialog_code_footer">

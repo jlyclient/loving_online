@@ -97,7 +97,6 @@ class IndexNewHandler(tornado.web.RequestHandler):
             self.finish()
         else:
             url = 'http://%s:%s/new' % (conf.dataserver_ip, conf.dataserver_port)
-            print('url=%s'%url)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -108,14 +107,11 @@ class IndexNewHandler(tornado.web.RequestHandler):
                     body=self.request.body,
                     validate_cert=False)
             data = resp.body
-            print(data)
             r = {}
             try:
                 r = json.loads(data)
             except:
                 r = {}
-            print('sex=%d'%sex)
-            print(r)
             if not r or r.get('code', -1) != 0:
                 d = {'code':-1, 'msg':'error', 'data':{}}
                 d = json.dumps(d)
@@ -279,6 +275,49 @@ class FindHandler(tornado.web.RequestHandler):
 class LoginHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
+    def get(self):
+        code = self.get_argument('code', None)
+        if not code:
+            self.redirect('/')
+        else:
+            access_url = conf.wx_access_url % code
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(http_client.fetch, access_url)
+            d = resp.body
+            try:
+                d = json.loads(d)
+            except:
+                d = {}
+            if not d:
+                self.write('微信服务器错误1')
+                self.finish()
+            else:
+                atk = d.get('access_token')
+                if not atk:
+                    self.write(d.get('errmsg', 'access_token error!'))
+                    self.finish()
+                else:
+                    openid = d['openid']
+                    user_url = conf.user_url % (atk, openid)
+                    http_client = tornado.httpclient.AsyncHTTPClient()
+                    resp = yield tornado.gen.Task(http_client.fetch, user_url)
+                    d = resp.body
+                    try:
+                        d = json.loads(d)
+                    except:
+                        d = {}
+                    if not d:
+                        self.write('微信服务器错误2')
+                        self.finish()
+                    else:
+                        for e in d:
+                            print('%s   %s' % (e, d[e]))
+                        self.finish()
+
+
+
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
     def post(self):
         mobile = self.get_argument('mobile', None)
         passwd = self.get_argument('password', None)
@@ -326,6 +365,14 @@ class LoginHandler(tornado.web.RequestHandler):
                 a = json.dumps(a)
                 self.write(a)
             self.finish()
+
+class WxLoginCodeHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        url = conf.wx_code_url
+        self.write(url)
+        self.finish()
 
 class LogoutHandler(BaseHandler):
     def get(self):
@@ -639,7 +686,6 @@ class UserHandler(BaseHandler):
             saw = {'wx':0,'qq':0,'email': 0,'mobile':0,'yanyuan':0,'email1':0}
             if d and d['code'] == 0:
                 saw = d['data']
-            print(saw)
             self.render('detail.html', name=name, me=me, other=other, saw=saw)
         else:
             self.redirect('/')
@@ -1547,7 +1593,6 @@ class FileUploadHandler(BaseHandler):
                     d = {'code':-1, 'msg': '服务器错误'}
             d = json.dumps(d)
             self.write(d)
-            print(d)
             self.finish()
             
 class DelImagHandler(BaseHandler):
@@ -2581,6 +2626,7 @@ if __name__ == "__main__":
         ('/new', IndexNewHandler),
         ('/find', FindHandler),
         ('/login', LoginHandler),
+        ('/wxlogin_code', WxLoginCodeHandler),
         ('/logout', LogoutHandler),
         ('/regist', RegistHandler),
         ('/verify_code', VerifyHandler),

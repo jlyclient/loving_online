@@ -22,6 +22,11 @@ class Picconf():
         self.mail_page   = p.getint('mail', 'mail_page')
 
         self.dating_fee  = p.getint('fee', 'dating_fee')
+
+        self.wx_code_url = p.get('login', 'wx_code_url')
+        self.wx_access_url=p.get('login', 'wx_access_url')
+        self.user_url= p.get('login', 'user_url')
+
     def dis(self):
         print(self.sys_port)
 
