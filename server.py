@@ -2487,6 +2487,30 @@ class ListZhenghunHandler(BaseHandler):
         else:
             self.redirect('/')
 
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        url = 'http://%s:%s/list_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = self.request.body
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {}
+        try:
+            d = json.loads(r)
+        except:
+            d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
 class CityZhenghunHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
