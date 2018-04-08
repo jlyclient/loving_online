@@ -2757,24 +2757,28 @@ class DetailZhenghunHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        url = 'http://%s:%s/detail_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
-        headers = self.request.headers
-        body = self.request.body
-        http_client = tornado.httpclient.AsyncHTTPClient()
-        resp = yield tornado.gen.Task(
-                http_client.fetch,
-                url,
-                method='POST',
-                headers=headers,
-                body=body,
-                validate_cert=False)
-        r = resp.body
-        d = {}
-        try:
-            d = json.loads(r)
-        except:
-            d = {'code': -1, 'msg': '服务器错误'}
-        d = json.dumps(d)
+        zid = self.get_argument('zid', None)
+        if not zid:
+            d = {'code': -1, 'msg': '参数错误'}
+        else:
+            url = 'http://%s:%s/detail_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            body = self.request.body + 'zid=%s'%zid
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
+            d = json.dumps(d)
         self.write(d)
         self.finish()
 
