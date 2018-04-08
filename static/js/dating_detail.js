@@ -42,16 +42,16 @@ $(function() {
                 '</div>'+
                 '<div class="love_try_item_middle love_detail_middle">'+
                     '<p>'+
-                        '<span>约会人数：'+ detaildata.numbers +'人</span>'+
-                        '<span>约会时间：'+ detaildata.dtime +'</span>'+
-                        '<span>约会对象：'+ object[detaildata.object] +'</span>'+
+                        '<span>约会人数:'+ detaildata.numbers +'人</span>'+
+                        '<span>约会时间:'+ detaildata.dtime +'</span>'+
+                        '<span>约会对象:'+ object[detaildata.object] +'</span>'+
                     '</p>'+
                     '<p>'+
-                        '<span>约会费用：'+ fee[detaildata.fee] +'</span>'+
-                        '<span>发起时间：'+ detaildata.time +'</span>'+
+                        '<span>约会费用:'+ fee[detaildata.fee] +'</span>'+
+                        '<span>发起时间:'+ detaildata.time +'</span>'+
                     '</p>'+
-                    '<p>约会地点：'+ detaildata.loc_detail +'</p>'+
-                    '<p>约会补充：'+ detaildata.buchong +'</p>'+
+                    '<p>约会地点:'+ detaildata.loc_detail +'</p>'+
+                    '<p>约会补充:'+ detaildata.buchong +'</p>'+
                 '</div>';
                 console.log(detaildata.already, endflag);
                 if(detaildata.already == 0 && endflag == false) {

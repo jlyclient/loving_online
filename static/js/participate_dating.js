@@ -46,15 +46,15 @@ $(function() {
                                 '</div>'+
                                 '<div class="love_try_item_middle">'+
                                     '<p>'+
-                                        '<span>约会人数：'+ listdata[i].numbers +'人</span>'+
-                                        '<span>约会时间：'+ listdata[i].dtime.slice(0, 10) +'</span>'+
-                                        '<span>约会对象：'+ object[listdata[i].object] +'</span>'+
+                                        '<span>约会人数:'+ listdata[i].numbers +'人</span>'+
+                                        '<span>约会时间:'+ listdata[i].dtime.slice(0, 10) +'</span>'+
+                                        '<span>约会对象:'+ object[listdata[i].object] +'</span>'+
                                     '</p>'+
                                     '<p>'+
-                                        '<span>约会费用：'+ fee[listdata[i].fee] +'</span>'+
-                                        '<span>发起时间：'+ listdata[i].time.slice(0, 10) +'</span>'+
+                                        '<span>约会费用:'+ fee[listdata[i].fee] +'</span>'+
+                                        '<span>发起时间:'+ listdata[i].time.slice(0, 10) +'</span>'+
                                     '</p>'+
-                                    '<p>约会补充：'+ listdata[i].buchong +'</p>'+
+                                    '<p>约会补充:'+ listdata[i].buchong +'</p>'+
                                 '</div>'+
                                 '<div class="love_try_item_bottom">'+ (endflag ? '' : '<a class="btn btn_default" href="/dating_detail?did='+ listdata[i].id +'">查看</a>') +''+
                                     '<div>'+ now_time(listdata[i].time) +'<span>'+ listdata[i].scan_count +'人阅读</span>'+
