@@ -645,3 +645,86 @@ function send_verify(type) {
         }
     });
 }
+// 征婚
+function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
+    var xsrf = get_cookie_by_name('_xsrf');
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+            '_xsrf': xsrf,
+            sex: sex,
+            age1: age1,
+            age2: age2,
+            loc1: loc1,
+            loc2: loc2,
+            page: page,
+            limit: limit,
+            next: next,
+        },
+        success: function(data) {
+            var jsondata = JSON.parse(data);
+            console.log(jsondata);
+            if (jsondata.code == 0) {
+                $(".love_try_box").empty();
+                var listhtml = '';
+                var listdata = jsondata.data.arr;
+                if (listdata.length > 0) {
+                    for(var i = 0; i < listdata.length; i++) {
+                        var endtime = Number(new Date(listdata[i].time).getTime()) + listdata[i].valid_day * 24 * 60 * 60 * 1000;
+                        var endflag = new Date().getTime() > endtime ? true : false;
+                        var timehtml = '';
+                        console.log(endflag);
+                        if (endflag) {
+                            timehtml += '<p>报名已截止</p>';
+                        } else {
+                            timehtml += show_time(endtime);
+                        }
+                        listhtml += '<div '+ (endflag == true ? 'class="love_try_item love_over"' : 'class="love_try_item"') +'>'+
+                        '<div class="love_try_item_left">'+
+                            '<div class="love_try_img">'+
+                                '<a href="/user?uid='+ listdata[i].uid +'" target="_blank">'+
+                                    '<img src='+ listdata[i].src +' alt="">'+
+                                '</a>'+
+                            '</div>'+
+                            '<div class="love_try_item_text">'+
+                                '<div class="love_try_item_top">'+
+                                    '<h2>'+ listdata[i].nick_name +'<span>（'+ listdata[i].sex_name +'）</span></h2>'+
+                                    '<p><span>['+ listdata[i].loc1 +']</span>'+ listdata[i].nick_name +'发起了征婚</p>'+
+                                '</div>'+
+                                '<div class="love_try_item_middle">'+
+                                    '<p>'+
+                                        '<span>征婚对象：'+ listdata[i].object_name +'</span>'+
+                                        '<span>征婚地点：'+ listdata[i].loc1 +'</span>'+
+                                    '</p>'+
+                                    '<p>'+
+                                        '<span>发起时间：'+ listdata[i].time +'</span>'+
+                                    '</p>'+
+                                    '<p>征婚条件：'+ listdata[i].content +'</p>'+
+                                '</div>'+
+                                '<div class="love_try_item_bottom">'+
+                                    '<a name='+ listdata[i].nick_name +' uid='+ listdata[i].uid +' class="btn btn_default btn_dialog btn_dialog_alert private_email" href="javascript:void(0);">私信TA</a>'+
+                                    '<div>'+
+                                        '<span>'+ now_time(listdata[i].time) +'</span>'+
+                                        '<span>'+ listdata[i].scan_count +'人阅读</span>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="love_try_item_right">'+
+                            '<div>'+ timehtml +'</div>'+
+                        '</div>'+
+                    '</div>';
+                    }
+                } else {
+                    console.log('0000000');
+                    listhtml += '<div class="love_none"><div class="love_none_text"><i></i><p>暂时没有任何征婚信息，快去征婚吧！</p></div></div>';
+                }
+                $(".love_try_box").append(listhtml);
+            }
+        },
+        error: function(para) {
+            console.log(para);
+        }
+    });
+}

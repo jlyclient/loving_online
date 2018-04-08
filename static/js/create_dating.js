@@ -30,17 +30,7 @@ $(function() {
         prov: '北京',
         city: '东城区',
     });
-    
-    // $(".love_start").find('input').map((index, data) => {
-    //     // text radio num
-    //     var type = $(this).attr("type");
-    //     if (type === 'text' || type === 'num') {
-    //         obj[$(this).attr("name")] = $(this).val();
-    //     } 
-    //     if (type === 'radio' && $(this).checked == 'checked') {
-    //         obj[$(this).attr("name")] = $(this).attr("option");
-    //     }
-    // })
+
 
     $('.launch_data').click('on', function() {
         $(".love_start").find('input').map((index, data) => {
