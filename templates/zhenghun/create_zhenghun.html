@@ -26,66 +26,55 @@
                 <div class="tools_row">
                     <span class="tools_label">征婚主题：</span>
                     <div class="tools_input">
-                        <input type="text" placeholder="请输入2-14个字符">
+                        <input name="title" type="text" placeholder="请输入2-14个字符">
                     </div>
                 </div>
                 <div class="tools_row">
                     <span class="tools_label">征婚对象：</span>
                     <div class="tools_radio">
-                        <input type="radio" name="radio">
+                        <input type="radio" option="0" name="object">
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">男士</span>
                     </div>
                     <div class="tools_radio">
-                        <input type="radio" name="radio" checked>
+                        <input type="radio" option="1" name="object">
                         <div class="tools_radio_bg"></div>
                         <span class="tools_radio_text">女士</span>
                     </div>
                 </div>
                 <div class="tools_row">
-                    <span class="tools_label">征婚时间：</span>
-                    <div class="tools_input love_time">
-                        <input type="text" class="time" placeholder="点击选择时间">
-                    </div>
-                </div>
-                <div class="tools_row">
-                    <div class="select_city" id="city_1">
+                    <div class="select_city" id="city_9">
                         <span class="tools_label">征婚地点：</span>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="" class="prov"></select>
+                            <select name="loc1" id="" class="prov"></select>
                         </div>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="" class="city"></select>
+                            <select name="loc2" id="" class="city"></select>
                         </div>
                     </div>
                 </div>
                 <div class="tools_row">
-                    <span class="tools_label">具体地点：</span>
+                    <span class="tools_label">帖子详情：</span>
                     <div class="tools_textarea">
-                        <textarea name="" id="" placeholder="请输入具体地点"></textarea>
-                    </div>
-                </div>
-                <div class="tools_row">
-                    <span class="tools_label">征婚条件：</span>
-                    <div class="tools_textarea">
-                        <textarea name="" id="" placeholder="请输入征婚条件"></textarea>
+                        <textarea name="content" maxlength="500" id="" placeholder="请输入帖子详情"></textarea>
                     </div>
                 </div>
                 <div class="tools_row">
                     <span class="tools_label">有效期限：</span>
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
-                        <select name="" id="">
-                            <option value="18">一周<span>(需支付10爱豆)</span></option>
-                            <option value="18">一月<span>(需支付100爱豆)</span></option>
-                            <option value="18">一年<span>(需支付1000爱豆)</span></option>
+                        <select name="valid_day" id="">
+                            <option value="7">一周<span>(需支付10爱豆)</span></option>
+                            <option value="14">二周<span>(需支付20爱豆)</span></option>
+                            <option value="21">三周<span>(需支付30爱豆)</span></option>
+                            <option value="28">四周<span>(需支付40爱豆)</span></option>
                         </select>
                     </div>
                 </div>
                 <div class="tools_submit">
-                    <button type="button">发起征婚</button>
+                    <button type="button" class="create_zhenghun">发起征婚</button>
                 </div>
             </div>
         </div>
@@ -160,15 +149,7 @@
     <script src="../js/jquery.cityselect.js"></script>
     <script src="../js/default.js"></script>
     <script src="../js/time.js"></script>
-    <script>
-        onLoadTimeChoiceDemo();
-        borainTimeChoice({
-            start: ".time",
-            end: "",
-            level: "H",
-            less: false
-        });
-    </script>
+    <script src="../js/create_zhenghun.js"></script>
 </body>
 
 </html>
