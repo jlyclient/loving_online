@@ -11,6 +11,9 @@ class Picconf():
         self.dataserver_ip   = p.get('dataserver', 'dataserver_ip')
         self.dataserver_port = p.getint('dataserver', 'dataserver_port')
 
+        self.dbserver_ip     = p.get('dbserver', 'dbserver_ip')
+        self.dbserver_port   = p.get('dbserver', 'dbserver_port')
+
         self.female_name = p.get('name', 'female_name')
         self.male_name   = p.get('name', 'male_name')
         self.baidu_ak    = p.get('map', 'baidu_ak')
@@ -22,6 +25,7 @@ class Picconf():
         self.mail_page   = p.getint('mail', 'mail_page')
 
         self.dating_fee  = p.getint('fee', 'dating_fee')
+        self.zhenghun_fee= p.getint('fee', 'zhenghun_fee')
 
         self.wx_code_url = p.get('login', 'wx_code_url')
         self.wx_access_url=p.get('login', 'wx_access_url')

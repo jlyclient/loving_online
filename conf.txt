@@ -6,6 +6,10 @@ sys_port=8000
 dataserver_ip=47.94.105.76
 dataserver_port=9001
 
+[dbserver]
+dbserver_ip=47.94.105.76
+dbserver_port=9000
+
 [name]
 female_name=美女
 male_name=帅哥
@@ -23,6 +27,7 @@ mail_page=10
 
 [fee]
 dating_fee=1
+zhenghun_fee=10
 
 [login]
 wx_code_url=https://open.weixin.qq.com/connect/qrconnect?appid=wxcd463fb8f1644167&redirect_uri=http://47.94.105.76:8000/login&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect

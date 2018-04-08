@@ -2527,6 +2527,33 @@ class CityZhenghunHandler(BaseHandler):
         else:
             self.redirect('/')
 
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        url = 'http://%s:%s/city_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = self.request.body + '&uid=%s' % uid
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {}
+        try:
+            d = json.loads(r)
+        except:
+            d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 class SponsorZhenghunHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -2567,6 +2594,33 @@ class SponsorZhenghunHandler(BaseHandler):
         else:
             self.redirect('/')
 
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        url = 'http://%s:%s/sponsor_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = self.request.body + '&uid=%s' % uid
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {}
+        try:
+            d = json.loads(r)
+        except:
+            d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 class CreateZhenghunHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -2603,9 +2657,103 @@ class CreateZhenghunHandler(BaseHandler):
             name = user['nick_name']
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
-            self.render('zhenghun/create_zhenghun.html', name=name)
+            n = conf.zhenghun_fee
+            self.render('zhenghun/create_zhenghun.html', name=name, N=n)
         else:
             self.redirect('/')
+
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        url = 'http://%s:%s/create_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = self.request.body + '&uid=%s' % uid
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {}
+        try:
+            d = json.loads(r)
+        except:
+            d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+
+class DetailZhenghunHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def get(self):
+        '''ctx section begin '''
+        cookie = self.get_secure_cookie('userid')
+        ctx = {}
+        if cookie:
+            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='cookie=%s'%cookie,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
+                d = {}
+            if d.get('code', -1) == -1:
+                ctx = {}
+            else:
+                ctx = d.get('data', {})
+        '''ctx section end'''
+        name = None
+        if ctx.get('user'): 
+            user = ctx['user']
+            name = user['nick_name']
+            sex_ = u'新用户'
+            name = name if name else sex_ + user['mobile'][-4:]
+            n = conf.zhenghun_fee
+            self.render('zhenghun/detail_zhenghun.html', name=name, N=n)
+        else:
+            self.redirect('/')
+
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        url = 'http://%s:%s/detail_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = self.request.body
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {}
+        try:
+            d = json.loads(r)
+        except:
+            d = {'code': -1, 'msg': '服务器错误'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 
 
 if __name__ == "__main__":
@@ -2665,6 +2813,7 @@ if __name__ == "__main__":
         ('/city_zhenghun', CityZhenghunHandler),
         ('/sponsor_zhenghun', SponsorZhenghunHandler),
         ('/create_zhenghun', CreateZhenghunHandler),
+        ('/detail_zhenghun', DetailZhenghunHandler),
               ]
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application, xheaders=True)

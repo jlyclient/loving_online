@@ -72,7 +72,7 @@ $(function() {
                     for (var i = 0; i < detaildata.baoming.length; i++) {
                         bmmumber += '<div class="love_col love_col_3 love_item">'+
                         '<div class="love_img">'+
-                            '<a href="/user?uid='+ detaildata.baoming[i].uid +'" target="_blank">'+
+                            '<a href="/user?uid='+ detaildata.baoming[i].id +'" target="_blank">'+
                                 '<img src='+ detaildata.baoming[i].src +' alt="girl">'+
                             '</a>'+
                         '</div>'+
