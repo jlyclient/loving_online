@@ -53,7 +53,8 @@ class IndexHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -61,7 +62,7 @@ class IndexHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -80,7 +81,9 @@ class IndexHandler(BaseHandler):
             name = user['nick_name']
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
-        self.render('index.html', name=name)
+        banner = [{'src':'img/banner%d.jpg'%(i+1)} for i in xrange(4)]
+        total = ctx.get('total')
+        self.render('index.html', name=name, banner=banner, total=total)
 
 class IndexNewHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -96,7 +99,7 @@ class IndexNewHandler(tornado.web.RequestHandler):
             self.write(d)
             self.finish()
         else:
-            url = 'http://%s:%s/new' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/new' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -121,6 +124,7 @@ class IndexNewHandler(tornado.web.RequestHandler):
                 r = json.dumps(r)
                 self.write(r)
                 self.finish()
+
 class FindHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine

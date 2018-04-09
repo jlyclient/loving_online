@@ -32,33 +32,37 @@
             </div>
             <div class="bd">
                 <ul>
+                {% for e in banner %}
                     <li>
                         <a href="" target="_blank">
-                            <img src="img/banner1.jpg" />
+                            <img src="{{e['src']}}" />
                         </a>
+                        {% if total %}
                         <p class="love_banner_title">当前注册人数
-                            <span>3000000</span>+</p>
+                            <span>{{total}}</span>+</p>
+                        {% end %}
                     </li>
+                {% end %}
                     <li>
                         <a href="" target="_blank">
                             <img src="img/banner2.jpg" />
                         </a>
                         <p class="love_banner_title">当前注册人数
-                            <span>3000000</span>+</p>
+                            <span>{{total}}</span>+</p>
                     </li>
                     <li>
                         <a href="" target="_blank">
                             <img src="img/banner3.jpg" />
                         </a>
                         <p class="love_banner_title">当前注册人数
-                            <span>3000000</span>+</p>
+                            <span>{{total}}</span>+</p>
                     </li>
                     <li>
                         <a href="" target="_blank">
                             <img src="img/banner4.jpg" />
                         </a>
                         <p class="love_banner_title">当前注册人数
-                            <span>3000000</span>+</p>
+                            <span>{{total}}</span>+</p>
                     </li>
                 </ul>
             </div>
