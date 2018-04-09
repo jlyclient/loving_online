@@ -18,16 +18,16 @@
 <body>
     {% include "header.html" %}
     <section>
-        <div class="love mt-20">
+        <div class="love">
             <div class="love_search_box mt-20">
                 <span class="tools_label">性别：</span>
                 <div class="tools_radio">
-                    <input type="radio" name="radio" checked>
+                    <input type="radio" option="1" name="sex">
                     <div class="tools_radio_bg"></div>
                     <span class="tools_radio_text">男士</span>
                 </div>
                 <div class="tools_radio">
-                    <input type="radio" name="radio">
+                    <input type="radio" option="2" name="sex">
                     <div class="tools_radio_bg"></div>
                     <span class="tools_radio_text">女士</span>
                 </div>
@@ -35,7 +35,7 @@
                     <span class="tools_label">年龄：</span>
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
-                        <select name="" id="">
+                        <select name="agemin" id="">
                             <option value="18">18</option>
                             <option value="19">19</option>
                             <option value="20">20</option>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
-                        <select name="" id="">
+                        <select name="agemax" id="">
                             <option value="18">18</option>
                             <option value="19">19</option>
                             <option value="20">20</option>
@@ -51,42 +51,45 @@
                     </div>
                 </div>
                 <div class="select select_address">
-                    <div class="select_city" id="city_1">
+                    <div class="select_city" id="city_8">
                         <span class="tools_label">现居：</span>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="" class="prov"></select>
+                            <select name="cur1" id="" class="prov"></select>
                         </div>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="" class="city"></select>
+                            <select name="cur2" id="" class="city"></select>
                         </div>
                     </div>
                 </div>
                 <div class="select select_address">
-                    <div class="select_city" id="city_2">
+                    <div class="select_city" id="city_9">
                         <span class="tools_label">籍贯：</span>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="" class="prov"></select>
+                            <select name="ori1" id="" class="prov"></select>
                         </div>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="" class="city"></select>
+                            <select name="ori2" id="" class="city"></select>
                         </div>
                     </div>
                 </div>
                 <span class="love_search_more"></span>
-                <button class="btn fr" type="button">搜索</button>
+                <button class="btn fr search_self" type="button">搜索</button>
                 <div class="love_search_other mt-20">
                     <div class="select select_address">
                         <span class="tools_label">学历：</span>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="">
-                                <option value="18">本科</option>
-                                <option value="19">专科</option>
-                                <option value="20">硕士</option>
+                            <select name="degree" id="">
+                                <option value="0">保密</option>
+                                <option value="1">高中及以下</option>
+                                <option value="2">中专/大专</option>
+                                <option value="3">本科</option>
+                                <option value="4">研究生</option>
+                                <option value="5">博士及博士后</option>
                             </select>
                         </div>
                     </div>
@@ -94,10 +97,13 @@
                         <span class="tools_label">月薪：</span>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="">
-                                <option value="18">8000-10000</option>
-                                <option value="19">10001-20000</option>
-                                <option value="20">20000以上</option>
+                            <select name="salary" id="">
+                                    <option value="1">2000以下</option>
+                                    <option value="2">2000~5000</option>
+                                    <option value="3">5000~10000</option>
+                                    <option value="4">10000~20000</option>
+                                    <option value="5">20000~50000</option>
+                                    <option value="6">50000以上</option>
                             </select>
                         </div>
                     </div>
@@ -105,27 +111,46 @@
                         <span class="tools_label">星座：</span>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="">
-                                <option value="18">狮子座</option>
-                                <option value="19">双鱼座</option>
-                                <option value="20">白羊座</option>
-                            </select>
+                            <select name="xingzuo" id="">
+                                    <option value="1">白羊座</option>
+                                    <option value="2">金牛座</option>
+                                    <option value="3">双子座</option>
+                                    <option value="4">巨蟹座</option>
+                                    <option value="5">狮子座</option>
+                                    <option value="6">处女座</option>
+                                    <option value="7">天秤座</option>
+                                    <option value="8">天蝎座</option>
+                                    <option value="9">射手座</option>
+                                    <option value="10">摩羯座</option>
+                                    <option value="11">水瓶座</option>
+                                    <option value="12">双鱼座</option>
+                                  </select>
                         </div>
                     </div>
                     <div class="select select_address">
-                        <span class="tools_label">民族：</span>
+                        <span class="tools_label">生肖：</span>
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
-                            <select name="" id="">
-                                <option value="18">汉族</option>
-                                <option value="19">少数民族</option>
-                            </select>
+                            <select name="shengxiao" id="">
+                                    <option value="1">鼠</option>
+                                    <option value="2">牛</option>
+                                    <option value="3">虎</option>
+                                    <option value="4">兔</option>
+                                    <option value="5">龙</option>
+                                    <option value="6">蛇</option>
+                                    <option value="7">马</option>
+                                    <option value="8">羊</option>
+                                    <option value="9">猴</option>
+                                    <option value="10">鸡</option>
+                                    <option value="11">狗</option>
+                                    <option value="12">猪</option>
+                                 </select>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="love_row love_box_line">
-                <div class="love_col love_col_4 love_item">
+                <!-- <div class="love_col love_col_4 love_item">
                     <div class="love_img">
                         <a href="detail.html" target="_blank">
                             <img src="img/img1.jpg" alt="boy">
@@ -252,7 +277,7 @@
                         <span>本科</span>
                     </p>
                     <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div>
+                </div> -->
             </div>
             <div class="love_page">
                 <div>
@@ -322,6 +347,7 @@
     <script src="js/jquery-min.js"></script>
     <script src="js/jquery.cityselect.js"></script>
     <script src="js/default.js"></script>
+    <script src="js/self_find.js"></script>
 </body>
 
 </html>

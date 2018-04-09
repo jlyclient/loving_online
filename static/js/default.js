@@ -46,6 +46,15 @@ $(function() {
         $(this).prev().html(_text);
     });
 
+    //更多搜索
+    $(document).on('click', '.love_search_more', function() {
+        $(this).toggleClass('active');
+        if ($(this).attr('class').indexOf('active') > 0)
+            $('.love_search_other').show();
+        else
+            $('.love_search_other').hide();
+    });
+
 
      //分页
      $(".love_page>div span").click(function() {
@@ -688,10 +697,12 @@ function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
                                 '</a>'+
                             '</div>'+
                             '<div class="love_try_item_text">'+
-                                '<div class="love_try_item_top">'+
-                                    '<h2>'+ listdata[i].nick_name +'<span>（'+ listdata[i].sex_name +'）</span></h2>'+
-                                    '<p><span>['+ listdata[i].loc1 +']</span>'+ listdata[i].nick_name +'发起了征婚</p>'+
-                                '</div>'+
+                                '<a href="/detail_zhenghun?zid='+ listdata[i].id +'" target="_blank" >'+
+                                    '<div class="love_try_item_top">'+
+                                        '<h2>'+ listdata[i].nick_name +'<span>（'+ listdata[i].sex_name +'）</span></h2>'+
+                                        '<p><span>['+ listdata[i].loc1 +']</span>'+ listdata[i].nick_name +'发起了征婚</p>'+
+                                    '</div>'+
+                                '</a>'+
                                 '<div class="love_try_item_middle">'+
                                     '<p>'+
                                         '<span>征婚对象：'+ listdata[i].object_name +'</span>'+
@@ -727,4 +738,69 @@ function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
             console.log(para);
         }
     });
+}
+
+function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, shengxiao) {
+    var xsrf = get_cookie_by_name('_xsrf');
+    $.ajax({
+        type:'POST',
+        url: '/find',
+        data: {
+            "_xsrf":xsrf,
+            sex: sex,
+            agemin: agemin,
+            agemax: agemax,
+            cur1: cur1,
+            cur2: cur2,
+            ori1: ori1,
+            ori2: ori2,
+            degree: degree,
+            salary: salary,
+            xingzuo: xingzuo,
+            shengxiao: shengxiao,
+        },
+        success: function(mes) {
+            var boydata = JSON.parse(mes);
+            console.log(boydata);
+            if (boydata['code'] == '0') {
+                $('.love_box_line').empty();
+                console.log(boydata);
+                var boyhtml = '';
+                var degreearr = ['保密', '高中及以下', '中专/大专', '本科', '研究生', '博士及博士后'];
+                var sexarr = ['未填', '男', '女'];
+                for (var i = 0; i < boydata.data.length; i++) {
+                    var head_pic = boydata.data[i].pic.arr[0];
+                    if (head_pic.length == 0) {
+                        if (boydata.data[i].user.sex == 1) {
+                            head_pic = '/img/default_male.jpg';
+                        } else if (boydata.data[i].user.sex == 2) {
+                            head_pic = '/img/default_female.jpg';
+                        }
+                    }
+                    boyhtml += '<div class="love_col love_col_4 love_item"> ' +
+                    '<div class="love_img">' +
+                        '<a href="/user?uid='+ boydata.data[i].user.id +'" target=\"_blank\" >' +
+                            '<img src='+head_pic+' alt="">' +
+                        '</a>'+
+                    '</div>'+
+                    '<h2>'+ boydata.data[i].user.nick_name +' '+
+                        '<span>（'+ sexarr[boydata.data[i].user.sex] +'）</span>' +
+                    '</h2>'+
+                    '<p>'+
+                        '<span>'+ boydata.data[i].user.age +'岁</span>'+
+                        '<span>'+ boydata.data[i].user.height +'CM</span>'+
+                        '<span>'+ degreearr[boydata.data[i].user.degree] + '</span>'+
+                    '</p>'+
+                    '<p class="love_text">'+ boydata.data[i].statement.motto+'</p>'+
+                '</div>';
+                }
+                $('.love_box_line').append(boyhtml);
+            } else {
+                console.log('获取数据失败！');
+            }
+        },
+        error: function(para) {
+            console.log('ajax请求失败：' + para);
+        } 
+    })
 }
