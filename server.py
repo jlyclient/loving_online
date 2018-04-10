@@ -133,7 +133,7 @@ class FindHandler(tornado.web.RequestHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -186,7 +186,7 @@ class FindHandler(tornado.web.RequestHandler):
             cookie = self.get_secure_cookie('userid')
             ctx = {}
             if cookie:
-                url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+                url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
                 headers = self.request.headers
                 http_client = tornado.httpclient.AsyncHTTPClient()
                 resp = yield tornado.gen.Task(
@@ -214,7 +214,7 @@ class FindHandler(tornado.web.RequestHandler):
                     self.write(r)
                     self.finish()
                 else:
-                    url = 'http://%s:%s/find' % (conf.dataserver_ip, conf.dataserver_port)
+                    url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
                     headers = self.request.headers
                     http_client = tornado.httpclient.AsyncHTTPClient()
                     resp = yield tornado.gen.Task(
@@ -248,7 +248,7 @@ class FindHandler(tornado.web.RequestHandler):
                 self.write(r)
                 self.finish()
         else:
-            url = 'http://%s:%s/find' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -332,7 +332,7 @@ class LoginHandler(tornado.web.RequestHandler):
             self.write(r)
             self.finish()
         else:
-            url = 'http://%s:%s/login' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/login' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -440,7 +440,8 @@ class VerifyHandler(tornado.web.RequestHandler):
         else:
             '''ctx section begin '''
             ctx = {}
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -448,7 +449,7 @@ class VerifyHandler(tornado.web.RequestHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -620,7 +621,7 @@ class UserHandler(BaseHandler):
         cuid = cookie.split('_')[1]
         ctx = {}
         if uid and cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -628,7 +629,7 @@ class UserHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%cuid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -648,8 +649,7 @@ class UserHandler(BaseHandler):
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
             me = True if int(uid) == int(user['id']) else False
-            coo = 'userid_%s' % uid
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -657,7 +657,7 @@ class UserHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%coo,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -671,7 +671,7 @@ class UserHandler(BaseHandler):
                 octx = d.get('data', {})
             other = octx['otherinfo']
             
-            url = 'http://%s:%s/sawother' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/sawother' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -705,10 +705,7 @@ class UserHandler(BaseHandler):
         if not uid:
             d = {'code': -1, 'msg': '参数不正确'}
         else:
-            '''ctx section begin '''
-            cookie = 'userid_%s' % uid
-            ctx = {}
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -716,7 +713,7 @@ class UserHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -724,38 +721,35 @@ class UserHandler(BaseHandler):
                 d = json.loads(b)
             except:
                 d = {}
+            ctx = {}
             if d.get('code', -1) == -1:
                 ctx = {}
             else:
                 ctx = d.get('data', {})
-            '''ctx section end'''
-            d = {}
-            if not ctx:
-                d = {'code': -1, 'msg': '请先登录'}
-            else:
-                url = 'http://%s:%s/yanyuan_check' % (conf.dataserver_ip, conf.dataserver_port)
-                headers = self.request.headers
-                http_client = tornado.httpclient.AsyncHTTPClient()
-                resp = yield tornado.gen.Task(
-                        http_client.fetch,
-                        url,
-                        method='POST',
-                        headers=headers,
-                        body='uid=%s&cuid=%s'%(uid, cuid),
-                        validate_cert=False)
-                r = resp.body
+
+            url = 'http://%s:%s/yanyuan_check' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='uid=%s&cuid=%s'%(uid, cuid),
+                    validate_cert=False)
+            r = resp.body
+            b = {}
+            try:
+                b = json.loads(r)
+            except:
                 b = {}
-                try:
-                    b = json.loads(r)
-                except:
-                    b = {}
-                yanyuan = 0
-                if b and b.get('data'):
-                    yanyuan = b['data']['yanyuan']
-                d = {'code': 0, 'msg': 'ok', 'data': ctx, 'yanyuan':yanyuan}
-            d = json.dumps(d)
-            self.write(d)
-            self.finish()
+            yanyuan = 0
+            if b and b.get('data'):
+                yanyuan = b['data']['yanyuan']
+            d = {'code': 0, 'msg': 'ok', 'data': ctx, 'yanyuan':yanyuan}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
 class EmailHandler(BaseHandler):
     @tornado.web.authenticated
@@ -765,7 +759,8 @@ class EmailHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -773,7 +768,7 @@ class EmailHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -809,7 +804,7 @@ class EmailHandler(BaseHandler):
             d = {'code': 0, 'msg': '参数不正确'}
         else:
             page, next_ = str(page), str(next_)
-            url = 'http://%s:%s/email' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/email' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -843,7 +838,7 @@ class SeeEmailHandler(BaseHandler):
         if not eid:
             d = {'code': -1, 'msg': '参数不正确'}
         else:
-            url = 'http://%s:%s/see_email' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/see_email' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -872,7 +867,7 @@ class LatestConnHandler(BaseHandler):
     def post(self):
         coo = self.get_secure_cookie('userid')
         uid = coo.split('_')[1]
-        url = 'http://%s:%s/latest_conn' % (conf.dataserver_ip, conf.dataserver_port)
+        url = 'http://%s:%s/latest_conn' % (conf.dbserver_ip, conf.dbserver_port)
         headers = self.request.headers
         http_client = tornado.httpclient.AsyncHTTPClient()
         resp = yield tornado.gen.Task(
@@ -911,7 +906,7 @@ class SendEmailHandler(BaseHandler):
         elif cuid == uid:
             d = {'code': -1, 'msg': '自己不用给自己发信'}
         else:
-            url = 'http://%s:%s/sendemail' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/sendemail' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -945,7 +940,7 @@ class DelEmailHandler(BaseHandler):
         if not eid:
             d = {'code': -1, 'msg': '参数错误'}
         else:
-            url = 'http://%s:%s/del_email' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/del_email' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -981,7 +976,7 @@ class YanyuanHandler(BaseHandler):
         elif cuid == uid:
             d = {'code': -1, 'msg': '自己不用给自己发眼缘'}
         else:
-            url = 'http://%s:%s/yanyuan' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/yanyuan' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1003,25 +998,6 @@ class YanyuanHandler(BaseHandler):
         self.write(d)
         self.finish()
 
-class RegistHandler(tornado.web.RequestHandler):
-    @tornado.web.asynchronous
-    @tornado.gen.coroutine
-    def post(self):
-        mobile    = self.get_argument('mobile', None)
-        passwd1   = self.get_argument('password1', None)
-        passwd2   = self.get_argument('password2', None)
-        sex       = int(self.get_argument('sex', 0))
-        token     = self.get_argument('token', None)
-        code      = self.get_argument('code',  None)
-        t_        = int(self.get_argument('time', 0))
-        p = '^(1[356789])[0-9]{9}$'
-        if not mobile or not re.match(p, mobile):
-            d = {'code':-6, 'msg':'手机号不正确'}
-            d = json.dumps(d)
-            self.write(d)
-            self.finish()
-        elif not passwd1 or not passwd2 or passwd1 != passwd2:
-            d = {'code':-3, 'msg':'两次密码不一致'}
 class RegistHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
@@ -1121,7 +1097,8 @@ class PersonalCenterHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1129,7 +1106,7 @@ class PersonalCenterHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -1158,7 +1135,8 @@ class PersonalCenterHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1166,7 +1144,7 @@ class PersonalCenterHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -1191,177 +1169,93 @@ class PersonalBasicEditHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        '''ctx section begin '''
-        cookie = self.get_secure_cookie('userid')
-        ctx = {}
-        if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
-            headers = self.request.headers
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body='cookie=%s'%cookie,
-                    validate_cert=False)
-            b = resp.body
-            d = {}
-            try:
-                d = json.loads(b)
-            except:
-                d = {}
-            if d.get('code', -1) == -1:
-                ctx = {}
-            else:
-                ctx = d.get('data', {})
-        '''ctx section end'''
-        if ctx and ctx.get('user'):
-            url = 'http://%s:%s/basic_edit' % (conf.dataserver_ip, conf.dataserver_port)
-            headers = self.request.headers
-            ctx_ = json.dumps(ctx)
-            body = self.request.body + '&ctx=%s' % ctx_
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body=body,
-                    validate_cert=False)
-            r = resp.body
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        url = 'http://%s:%s/basic_edit' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = self.request.body + '&uid=%s'%uid
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {'code': -1, 'msg': '编辑失败!'}
+        try:
+            d = json.loads(r)
+        except:
             d = {'code': -1, 'msg': '编辑失败!'}
-            try:
-                d = json.loads(r)
-            except:
-                d = {'code': -1, 'msg': '编辑失败!'}
-            d = json.dumps(d)
-            self.write(d)
-            self.finish()
-        else:
-            d = {'code': -1, 'msg': '编辑失败!'}
-            d = json.dumps(d)
-            self.write(d)
-            self.finish()
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
 class StatementEditHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        '''ctx section begin '''
-        cookie = self.get_secure_cookie('userid')
-        ctx = {}
-        if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
-            headers = self.request.headers
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body='cookie=%s'%cookie,
-                    validate_cert=False)
-            b = resp.body
-            d = {}
-            try:
-                d = json.loads(b)
-            except:
-                d = {}
-            if d.get('code', -1) == -1:
-                ctx = {}
-            else:
-                ctx = d.get('data', {})
-        '''ctx section end'''
-        if ctx and ctx.get('user'):
-            url = 'http://%s:%s/statement_edit' % (conf.dataserver_ip, conf.dataserver_port)
-            headers = self.request.headers
-            ctx_ = json.dumps(ctx)
-            body = self.request.body + '&ctx=%s' % ctx_
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body=body,
-                    validate_cert=False)
-            r = resp.body
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        url = 'http://%s:%s/statement_edit' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = self.request.body
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body + '&uid=%s'%uid,
+                validate_cert=False)
+        r = resp.body
+        d = {'code': -1, 'msg': '编辑失败!'}
+        try:
+            d = json.loads(r)
+        except:
             d = {'code': -1, 'msg': '编辑失败!'}
-            try:
-                d = json.loads(r)
-            except:
-                d = {'code': -1, 'msg': '编辑失败!'}
-            if d.get('code', -1) == 0:
-                d = {'code': 0, 'msg': '编辑成功!'}
-                d = json.dumps(d)
-            else:
-                d = {'code': -1, 'msg': '编辑失败!'}
-                d = json.dumps(d)
-            self.write(d)
-            self.finish()
+        if d.get('code', -1) == 0:
+            d = {'code': 0, 'msg': '编辑成功!'}
         else:
-            self.redirect('/')
+            d = {'code': -1, 'msg': '编辑失败!'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 class OtherEditHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        '''ctx section begin '''
-        cookie = self.get_secure_cookie('userid')
-        ctx = {}
-        if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
-            headers = self.request.headers
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body='cookie=%s'%cookie,
-                    validate_cert=False)
-            b = resp.body
-            d = {}
-            try:
-                d = json.loads(b)
-            except:
-                d = {}
-            if d.get('code', -1) == -1:
-                ctx = {}
-            else:
-                ctx = d.get('data', {})
-        '''ctx section end'''
-        if ctx and ctx.get('user'):
-            url = 'http://%s:%s/other_edit' % (conf.dataserver_ip, conf.dataserver_port)
-            headers = self.request.headers
-            ctx_ = json.dumps(ctx)
-            body = self.request.body + '&ctx=%s' % ctx_
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body=body,
-                    validate_cert=False)
-            r = resp.body
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        url = 'http://%s:%s/other_edit' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = self.request.body + '&uid=%s' % uid
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {'code': -1, 'msg': '编辑失败!'}
+        try:
+            d = json.loads(r)
+        except:
             d = {'code': -1, 'msg': '编辑失败!'}
-            try:
-                d = json.loads(r)
-            except:
-                d = {'code': -1, 'msg': '编辑失败!'}
-            if d.get('code', -1) == 0:
-                d = {'code': 0, 'msg': '编辑成功!'}
-                d = json.dumps(d)
-            else:
-                d = {'code': -1, 'msg': '编辑失败!'}
-                d = json.dumps(d)
-            self.write(d)
-            self.finish()
+        if d.get('code', -1) == 0:
+            d = {'code': 0, 'msg': '编辑成功!'}
+            d = json.dumps(d)
         else:
-            self.redirect('/')
+            d = {'code': -1, 'msg': '编辑失败!'}
+            d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
 class SeeOtherHandler(BaseHandler):
     @tornado.web.authenticated
@@ -1378,7 +1272,7 @@ class SeeOtherHandler(BaseHandler):
         elif uid == cuid:
             d = {'code': -1, 'msg': '参数不对'}
         else:
-            url = 'http://%s:%s/seeother' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/seeother' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1407,41 +1301,15 @@ class VerifyOther(BaseHandler):
     def get(self):
         kind  = self.get_argument('kind', None)
         num   = self.get_argument('num',  None)
-        d = {}
+        d = {'code': -1, 'msg': '参数不正确'}
         if not kind or not num:
-            d = {'code': -1, 'msg': '参数不正确'}
-        '''ctx section begin '''
-        cookie = self.get_secure_cookie('userid')
-        ctx = {}
-        if kind and cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            pass
+        else:
+            coo = self.get_secure_cookie('userid')
+            uid = coo.split('_')[1]
+            url = 'http://%s:%s/verify_other' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body='cookie=%s'%cookie,
-                    validate_cert=False)
-            b = resp.body
-            d = {}
-            try:
-                d = json.loads(b)
-            except:
-                d = {}
-            if d.get('code', -1) == -1:
-                ctx = {}
-            else:
-                ctx = d.get('data', {})
-        '''ctx section end'''
-        if not kind:
-            d = json.dumps(d)
-        elif ctx and ctx.get('user'):
-            url = 'http://%s:%s/verify_other' % (conf.dataserver_ip, conf.dataserver_port)
-            headers = self.request.headers
-            ctx_ = json.dumps(ctx)
-            body = self.request.body + '&ctx=%s&kind=%s&num' % (ctx_, kind, num)
+            body = self.request.body + '&uid=%s&kind=%s&num' % (uid, kind, num)
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
@@ -1462,11 +1330,10 @@ class VerifyOther(BaseHandler):
             else:
                 d = {'code': -1, 'msg': '编辑失败!'}
                 d = json.dumps(d)
-        else:
-            d = {'code':-1, 'msg': '请先登录'}
-            d = json.dumps(d)
+        d = json.dumps(d)
         self.write(d)
         self.finish()
+
 class PublicHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -1476,72 +1343,36 @@ class PublicHandler(BaseHandler):
         kind     = self.get_argument('kind',   None)
         #=0非公开  =1公开
         action   = self.get_argument('action', None)
+        d = {'code': -1, 'msg': '参数不对!'}
         if not kind or not action:
-            d = {'code': -1, 'msg': '参数不对!'}
-            d = json.dumps(d)
-            self.write(d)
+            pass
         #手机 wx qq email
         elif kind not in ['1', '2', '3', '4'] or action not in ['0','1']:
-            d = {'code': -1, 'msg': '参数不对!'}
-            d = json.dumps(d)
-            self.write(d)
+            pass
         else:
-            '''ctx section begin '''
             cookie = self.get_secure_cookie('userid')
-            ctx = {}
-            if cookie:
-                url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
-                headers = self.request.headers
-                http_client = tornado.httpclient.AsyncHTTPClient()
-                resp = yield tornado.gen.Task(
-                        http_client.fetch,
-                        url,
-                        method='POST',
-                        headers=headers,
-                        body='cookie=%s'%cookie,
-                        validate_cert=False)
-                b = resp.body
-                d = {}
-                try:
-                    d = json.loads(b)
-                except:
-                    d = {}
-                if d.get('code', -1) == -1:
-                    ctx = {}
-                else:
-                    ctx = d.get('data', {})
-            '''ctx section end'''
-            if ctx and ctx.get('user'):
-                url = 'http://%s:%s/public' % (conf.dataserver_ip, conf.dataserver_port)
-                headers = self.request.headers
-                ctx_ = json.dumps(ctx)
-                body = self.request.body + '&ctx=%s' % ctx_
-                http_client = tornado.httpclient.AsyncHTTPClient()
-                resp = yield tornado.gen.Task(
-                        http_client.fetch,
-                        url,
-                        method='POST',
-                        headers=headers,
-                        body=body,
-                        validate_cert=False)
-                r = resp.body
-                d = {'code': -1, 'msg': 'failed'}
-                try:
-                    d = json.loads(r)
-                except:
-                    d = {'code': -2, 'msg': '服务器错误'}
-                if d.get('code', -1) == 0:
-                    d = {'code': 0, 'msg': 'ok!'}
-                    d = json.dumps(d)
-                else:
-                    d = json.dumps(r)
-                self.write(d)
-                self.finish()
-            else:
-                d = {'code': -2, 'msg':'请先登录'}
-                d = json.dumps(d)
-                self.write(d)
-                self.finish()
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/public' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            body = self.request.body + '&uid=%s' % uid
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            try:
+                d = json.loads(r)
+            except:
+                pass
+            if d.get('code', -1) == 0:
+                d = {'code': 0, 'msg': 'ok!'}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
 class FileUploadHandler(BaseHandler):
     @tornado.web.authenticated
@@ -1577,7 +1408,7 @@ class FileUploadHandler(BaseHandler):
             except:
                 d = {'code': -1, 'msg': '服务器错误'}
             if d['code'] == 0 and len(d.get('data', [])) == 3:
-                url = 'http://%s:%s/img' % (conf.dataserver_ip, conf.dataserver_port)
+                url = 'http://%s:%s/img' % (conf.dbserver_ip, conf.dbserver_port)
                 [f, s, t] = d['data']
                 headers = self.request.headers
                 body = 'f=%s&s=%s&t=%s&uid=%s&k=%s' % (f,s,t,uid,kind)
@@ -1611,7 +1442,7 @@ class DelImagHandler(BaseHandler):
         if not src:
             d = {'code': -2, 'msg': '参数不正确'}
         else:
-            url = 'http://%s:%s/delimg' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/delimg' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             body = self.request.body + '&uid=%s&src=%s' % (uid, src)
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -1640,7 +1471,8 @@ class ISeeHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1648,7 +1480,7 @@ class ISeeHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -1684,7 +1516,7 @@ class ISeeHandler(BaseHandler):
                 self.write(d)
                 self.finish()
             else:
-                url = 'http://%s:%s/isee' % (conf.dataserver_ip, conf.dataserver_port)
+                url = 'http://%s:%s/isee' % (conf.dbserver_ip, conf.dbserver_port)
                 headers = self.request.headers
                 body = self.request.body + '&uid=%s' % uid 
                 http_client = tornado.httpclient.AsyncHTTPClient()
@@ -1718,7 +1550,8 @@ class SeeMeHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1726,7 +1559,7 @@ class SeeMeHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -1762,7 +1595,7 @@ class SeeMeHandler(BaseHandler):
                 self.write(d)
                 self.finish()
             else:
-                url = 'http://%s:%s/seeme' % (conf.dataserver_ip, conf.dataserver_port)
+                url = 'http://%s:%s/seeme' % (conf.dbserver_ip, conf.dbserver_port)
                 headers = self.request.headers
                 body = self.request.body + '&uid=%s' % uid 
                 http_client = tornado.httpclient.AsyncHTTPClient()
@@ -1797,7 +1630,8 @@ class ICareHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1805,7 +1639,7 @@ class ICareHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -1841,7 +1675,7 @@ class ICareHandler(BaseHandler):
                 self.write(d)
                 self.finish()
             else:
-                url = 'http://%s:%s/icare' % (conf.dataserver_ip, conf.dataserver_port)
+                url = 'http://%s:%s/icare' % (conf.dbserver_ip, conf.dbserver_port)
                 headers = self.request.headers
                 body = self.request.body + '&uid=%s' % uid 
                 http_client = tornado.httpclient.AsyncHTTPClient()
@@ -1880,7 +1714,7 @@ class SendCareHandler(BaseHandler):
         if not uid or not kind:
             d = {'code': -1, 'msg': '参数不正确'}
         else:
-            url = 'http://%s:%s/sendcare' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/sendcare' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1912,7 +1746,8 @@ class ListDatingHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1920,7 +1755,7 @@ class ListDatingHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -1946,7 +1781,7 @@ class ListDatingHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        url = 'http://%s:%s/list_dating' % (conf.dataserver_ip, conf.dataserver_port)
+        url = 'http://%s:%s/list_dating' % (conf.dbserver_ip, conf.dbserver_port)
         headers = self.request.headers
         body = self.request.body
         http_client = tornado.httpclient.AsyncHTTPClient()
@@ -1976,7 +1811,8 @@ class DatingDetailHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -1984,7 +1820,7 @@ class DatingDetailHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2018,7 +1854,7 @@ class DatingDetailHandler(BaseHandler):
         if not uid or not did:
             d = {'code': -1, 'data':'参数不正确'}
         else:
-            url = 'http://%s:%s/dating_detail' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/dating_detail' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2049,7 +1885,8 @@ class CreateDatingHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2057,7 +1894,7 @@ class CreateDatingHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2086,7 +1923,7 @@ class CreateDatingHandler(BaseHandler):
     def post(self):
         coo = self.get_secure_cookie('userid')
         uid = coo.split('_')[1]
-        url = 'http://%s:%s/create_dating' % (conf.dataserver_ip, conf.dataserver_port)
+        url = 'http://%s:%s/create_dating' % (conf.dbserver_ip, conf.dbserver_port)
         headers = self.request.headers
         body = self.request.body + '&uid=%s' % uid
         http_client = tornado.httpclient.AsyncHTTPClient()
@@ -2116,7 +1953,8 @@ class CityDatingHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2124,7 +1962,7 @@ class CityDatingHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2155,7 +1993,8 @@ class CityDatingHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2163,7 +2002,7 @@ class CityDatingHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2181,7 +2020,7 @@ class CityDatingHandler(BaseHandler):
         if ctx.get('user'): 
             cur1 = ctx['user']['curr_loc1']
             cur2 = ctx['user']['curr_loc2']
-            url = 'http://%s:%s/list_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/list_dating' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             body = self.request.body + '&loc1=%s&loc2=%s' % (cur1, cur2)
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -2218,9 +2057,9 @@ class RemoveDatingHandler(BaseHandler):
         if not did or not uid:
             d = {'code': -1,  'msg': '参数错误'}
         else:
-            url = 'http://%s:%s/remove_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/remove_dating' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
-            body = self.request.body
+            body = self.request.body + '&uid=%s'%uid
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
@@ -2248,7 +2087,8 @@ class ParticipateDatingHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2256,7 +2096,7 @@ class ParticipateDatingHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2290,7 +2130,7 @@ class ParticipateDatingHandler(BaseHandler):
             self.finish()
         else:
             uid = cookie.split('_')[1]
-            url = 'http://%s:%s/participate_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/participate_dating' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             body = 'uid=%s'%uid
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -2319,7 +2159,8 @@ class SponsorDatingHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2327,7 +2168,7 @@ class SponsorDatingHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2361,7 +2202,7 @@ class SponsorDatingHandler(BaseHandler):
             self.write(d)
             self.finish()
         else: 
-            url = 'http://%s:%s/sponsor_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/sponsor_dating' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             body = 'uid=%s'%uid
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -2395,7 +2236,7 @@ class DetailDatingHandler(BaseHandler):
             self.write(d)
             self.finish()
         else: 
-            url = 'http://%s:%s/detail_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/detail_dating' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             body = 'did=%s&cuid=%s' % (did,cuid)
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -2430,7 +2271,7 @@ class BaomingDatingHandler(BaseHandler):
             self.write(d)
             self.finish()
         else: 
-            url = 'http://%s:%s/baoming_dating' % (conf.dataserver_ip, conf.dataserver_port)
+            url = 'http://%s:%s/baoming_dating' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             body = self.request.body + '&uid=%s' % uid
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -2460,7 +2301,8 @@ class ListZhenghunHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2468,7 +2310,7 @@ class ListZhenghunHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2524,7 +2366,8 @@ class CityZhenghunHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2532,7 +2375,7 @@ class CityZhenghunHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2591,7 +2434,8 @@ class SponsorZhenghunHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2599,7 +2443,7 @@ class SponsorZhenghunHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2658,7 +2502,8 @@ class CreateZhenghunHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2666,7 +2511,7 @@ class CreateZhenghunHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -2725,7 +2570,8 @@ class DetailZhenghunHandler(BaseHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
-            url = 'http://%s:%s/ctx' % (conf.dataserver_ip, conf.dataserver_port)
+            uid = cookie.split('_')[1]
+            url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
@@ -2733,7 +2579,7 @@ class DetailZhenghunHandler(BaseHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}

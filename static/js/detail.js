@@ -187,7 +187,7 @@ $(function() {
                 var jsondata = JSON.parse(data);
                 console.log(jsondata);
                 if (jsondata.code === 0) {
-                    $(This).parent().prev().html(jsondata.data);
+                    $(This).parent().prev().html(jsondata.data.conn);
                     $(This).parent().css({ display: 'none'});
                     close_popup();
                 } else {

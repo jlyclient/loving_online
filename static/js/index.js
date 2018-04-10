@@ -153,6 +153,6 @@ $(function() {
     // 最新注册女会员
     get_new_member(2, 'love_row_girl');
     // 获取寻觅信息
-    find_member('find_member')
+    find_member();
     
 })
