@@ -1,5 +1,7 @@
 $(function() {
     find_member();
+    $("#city_8").citySelect();
+    $("#city_9").citySelect();
     $(".search_self").click(function() {
         var obj = {
             sex: '',

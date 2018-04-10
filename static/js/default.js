@@ -741,6 +741,7 @@ function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
 }
 
 function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, shengxiao) {
+    console.log(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, shengxiao);
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         type:'POST',
@@ -764,35 +765,38 @@ function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary
             console.log(boydata);
             if (boydata['code'] == '0') {
                 $('.love_box_line').empty();
-                console.log(boydata);
                 var boyhtml = '';
                 var degreearr = ['保密', '高中及以下', '中专/大专', '本科', '研究生', '博士及博士后'];
                 var sexarr = ['未填', '男', '女'];
-                for (var i = 0; i < boydata.data.length; i++) {
-                    var head_pic = boydata.data[i].pic.arr[0];
-                    if (head_pic.length == 0) {
-                        if (boydata.data[i].user.sex == 1) {
-                            head_pic = '/img/default_male.jpg';
-                        } else if (boydata.data[i].user.sex == 2) {
-                            head_pic = '/img/default_female.jpg';
+                if (boydata.data.length > 0) {
+                    for (var i = 0; i < boydata.data.length; i++) {
+                        var head_pic = boydata.data[i].pic.arr[0];
+                        if (head_pic.length == 0) {
+                            if (boydata.data[i].user.sex == 1) {
+                                head_pic = '/img/default_male.jpg';
+                            } else if (boydata.data[i].user.sex == 2) {
+                                head_pic = '/img/default_female.jpg';
+                            }
                         }
+                        boyhtml += '<div class="love_col love_col_4 love_item"> ' +
+                        '<div class="love_img">' +
+                            '<a href="/user?uid='+ boydata.data[i].user.id +'" target=\"_blank\" >' +
+                                '<img src='+head_pic+' alt="">' +
+                            '</a>'+
+                        '</div>'+
+                        '<h2>'+ boydata.data[i].user.nick_name +' '+
+                            '<span>（'+ sexarr[boydata.data[i].user.sex] +'）</span>' +
+                        '</h2>'+
+                        '<p>'+
+                            '<span>'+ boydata.data[i].user.age +'岁</span>'+
+                            '<span>'+ boydata.data[i].user.height +'CM</span>'+
+                            '<span>'+ degreearr[boydata.data[i].user.degree] + '</span>'+
+                        '</p>'+
+                        '<p class="love_text">'+ boydata.data[i].statement.motto+'</p>'+
+                    '</div>';
                     }
-                    boyhtml += '<div class="love_col love_col_4 love_item"> ' +
-                    '<div class="love_img">' +
-                        '<a href="/user?uid='+ boydata.data[i].user.id +'" target=\"_blank\" >' +
-                            '<img src='+head_pic+' alt="">' +
-                        '</a>'+
-                    '</div>'+
-                    '<h2>'+ boydata.data[i].user.nick_name +' '+
-                        '<span>（'+ sexarr[boydata.data[i].user.sex] +'）</span>' +
-                    '</h2>'+
-                    '<p>'+
-                        '<span>'+ boydata.data[i].user.age +'岁</span>'+
-                        '<span>'+ boydata.data[i].user.height +'CM</span>'+
-                        '<span>'+ degreearr[boydata.data[i].user.degree] + '</span>'+
-                    '</p>'+
-                    '<p class="love_text">'+ boydata.data[i].statement.motto+'</p>'+
-                '</div>';
+                } else {
+                    boyhtml += '<div class="love_none"><div class="love_none_text"><i></i><p>没有符合条件的人！</p></div></div>';
                 }
                 $('.love_box_line').append(boyhtml);
             } else {
