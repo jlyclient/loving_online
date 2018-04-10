@@ -204,22 +204,14 @@ class FindHandler(tornado.web.RequestHandler):
                     body=self.request.body,
                     validate_cert=False)
             b = resp.body
-            d = {}
+            d = {'code': -1, 'msg': '服务器错误'}
             try:
                 d = json.loads(b)
             except:
-                d = {}
-            if not d or d.get('code', -1) != 0 or not d.get('data'):
-                r = {'code':-1, 'msg':'error', 'data':[]}
-                r = json.dumps(r)
-                self.write(r)
-                self.finish()
-            else:
-                r = {'code':0, 'msg':'ok',
-                     'count':d.get('count', 0),'data':d['data']}
-                r = json.dumps(r)
-                self.write(r)
-                self.finish()
+                pass
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
         else:
             url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
@@ -232,22 +224,14 @@ class FindHandler(tornado.web.RequestHandler):
                     body=self.request.body,
                     validate_cert=False)
             b = resp.body
-            d = {}
+            d = {'code': -1, 'msg': '服务器错误'}
             try:
                 d = json.loads(b)
             except:
-                d = {}
-            if not d or d.get('code', -1) != 0 or not d.get('data'):
-                r = {'code':-1, 'msg':'error', 'data':[]}
-                r = json.dumps(r)
-                self.write(r)
-                self.finish()
-            else:
-                r = {'code':0, 'msg':'ok',
-                     'count': d.get('count', 0), 'data':d['data']}
-                r = json.dumps(r)
-                self.write(r)
-                self.finish()
+                pass
+            d = json.dumps(d)
+            self.write(d)
+            self.finish()
 
 class LoginHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
