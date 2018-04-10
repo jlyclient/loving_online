@@ -133,6 +133,7 @@ class FindHandler(tornado.web.RequestHandler):
         cookie = self.get_secure_cookie('userid')
         ctx = {}
         if cookie:
+            uid = cookie.split('_')[1]
             url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -141,7 +142,7 @@ class FindHandler(tornado.web.RequestHandler):
                     url,
                     method='POST',
                     headers=headers,
-                    body='cookie=%s'%cookie,
+                    body='uid=%s'%uid,
                     validate_cert=False)
             b = resp.body
             d = {}
@@ -182,68 +183,32 @@ class FindHandler(tornado.web.RequestHandler):
         page         = int(self.get_argument('page', -1))
         next_        = int(self.get_argument('next', -1))
         if sex != -1 or agemin != -1 or agemax != -1 or cur1 or cur2 or ori1 or ori2 or degree != -1 or salary != -1 or xz or sx or limit != -1 or page != -1 or next_ != -1:
-            '''ctx section begin '''
             cookie = self.get_secure_cookie('userid')
             ctx = {}
-            if cookie:
-                url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
-                headers = self.request.headers
-                http_client = tornado.httpclient.AsyncHTTPClient()
-                resp = yield tornado.gen.Task(
-                        http_client.fetch,
-                        url,
-                        method='POST',
-                        headers=headers,
-                        body='cookie=%s'%cookie,
-                        validate_cert=False)
-                b = resp.body
+            url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=self.request.body,
+                    validate_cert=False)
+            b = resp.body
+            d = {}
+            try:
+                d = json.loads(b)
+            except:
                 d = {}
-                try:
-                    d = json.loads(b)
-                except:
-                    d = {}
-                if d.get('code', -1) == -1:
-                    ctx = {}
-                else:
-                    ctx = d.get('data', {})
-                '''ctx section end '''
-                if not ctx:
-                    self.clear_cookie('userid')
-                    r = {'code':-1, 'msg':'请先登录!', 'data':{}}
-                    r = json.dumps(r)
-                    self.write(r)
-                    self.finish()
-                else:
-                    url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
-                    headers = self.request.headers
-                    http_client = tornado.httpclient.AsyncHTTPClient()
-                    resp = yield tornado.gen.Task(
-                            http_client.fetch,
-                            url,
-                            method='POST',
-                            headers=headers,
-                            body=self.request.body,
-                            validate_cert=False)
-                    b = resp.body
-                    d = {}
-                    try:
-                        d = json.loads(b)
-                    except:
-                        d = {}
-                    if not d or d.get('code', -1) != 0 or not d.get('data'):
-                        r = {'code':-1, 'msg':'error', 'data':[]}
-                        r = json.dumps(r)
-                        self.write(r)
-                        self.finish()
-                    else:
-                        r = {'code':0, 'msg':'ok',
-                             'count':d.get('count', 0),'data':d['data']}
-                        r = json.dumps(r)
-                        self.write(r)
-                        self.finish()
-
+            if not d or d.get('code', -1) != 0 or not d.get('data'):
+                r = {'code':-1, 'msg':'error', 'data':[]}
+                r = json.dumps(r)
+                self.write(r)
+                self.finish()
             else:
-                r = {'code':-1, 'msg':'请先登录!', 'data':[]}
+                r = {'code':0, 'msg':'ok',
+                     'count':d.get('count', 0),'data':d['data']}
                 r = json.dumps(r)
                 self.write(r)
                 self.finish()
