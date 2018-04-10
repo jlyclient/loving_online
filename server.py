@@ -168,20 +168,28 @@ class FindHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-        sex          = int(self.get_argument('sex',     -1))
-        agemin       = int(self.get_argument('agemin',  -1))
-        agemax       = int(self.get_argument('agemax',  -1))
+        sex          = self.get_argument('sex', None)
+        sex          = int(sex) if sex else -1
+        agemin       = self.get_argument('agemin', None)
+        agemin       = int(agemin) if agemin else -1
+        agemax       = self.get_argument('agemax', None)
+        agemax       = int(agemax) if agemax else -1
         cur1         = self.get_argument('cur1',    None)
         cur2         = self.get_argument('cur2',    None)
         ori1         = self.get_argument('ori1',    None)
         ori2         = self.get_argument('ori2',    None)
-        degree       = int(self.get_argument('degree', -1))
-        salary       = int(self.get_argument('salary', -1))
+        degree       = self.get_argument('degree', None)
+        degree       = int(degree) if degree else -1
+        salary       = self.get_argument('salary', None)
+        salary       = int(salary) if salary else -1
         xz           = self.get_argument('xingzuo', None)
         sx           = self.get_argument('shengxiao', None)
-        limit        = int(self.get_argument('limit', -1))
-        page         = int(self.get_argument('page', -1))
-        next_        = int(self.get_argument('next', -1))
+        limit        = self.get_argument('limit', None)
+        limit        = int(limit) if limit else -1
+        page         = self.get_argument('page', None)
+        page         = int(page) if page else -1
+        next_        = self.get_argument('next', None)
+        next_        = int(next_) if next_ else -1
         if sex != -1 or agemin != -1 or agemax != -1 or cur1 or cur2 or ori1 or ori2 or degree != -1 or salary != -1 or xz or sx or limit != -1 or page != -1 or next_ != -1:
             cookie = self.get_secure_cookie('userid')
             ctx = {}
