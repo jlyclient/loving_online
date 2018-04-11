@@ -271,9 +271,55 @@ class LoginHandler(tornado.web.RequestHandler):
                         self.write('微信服务器错误2')
                         self.finish()
                     else:
-                        for e in d:
-                            print('%s   %s' % (e, d[e]))
-                        self.finish()
+                        nick_name = d.get('nickname', '')
+                        sex       = d.get('sex', '')
+                        img       = d.get('headimgurl', '')
+                        print(img)
+                        unionid   = d.get('unionid', '')
+                        if not unionid:
+                            self.write('微信服务器错误2')
+                            self.finish()
+                        else:
+                            body = 'src=%s&nick_name=%s&sex=%s&unionid=%s' % \
+                                   (img, nick_name, sex, unionid)
+                            url = 'http://%s:%s/wxlogin' % (conf.dbserver_ip, conf.dbserver_port)
+                            headers = self.request.headers
+                            http_client = tornado.httpclient.AsyncHTTPClient()
+                            resp = yield tornado.gen.Task(
+                                    http_client.fetch,
+                                    url,
+                                    method='POST',
+                                    headers=headers,
+                                    body=body,
+                                    validate_cert=False)
+                            b = resp.body
+                            d = {'code': -1, 'msg': '服务器错误'}
+                            try:
+                                d = json.loads(b)
+                            except:
+                                pass
+                            if d['code'] == 0:
+                                uid = d['data']['uid']
+                                needup = d['data']['needup']
+                                val = 'userid_%s' % uid
+                                self.set_secure_cookie('userid', val)
+
+                                if needup:
+                                    url = 'http://%s:%s/wxup' % (conf.pic_server_ip, conf.pic_server_port)
+                                    headers = self.request.headers
+                                    http_client = tornado.httpclient.AsyncHTTPClient()
+                                    body = 'src=%s&uid=%s'%(img,uid)
+                                    resp = yield tornado.gen.Task(
+                                            http_client.fetch,
+                                            url,
+                                            method='POST',
+                                            headers=headers,
+                                            body=body,
+                                            validate_cert=False)
+                                self.redirect('/center')
+                            else:
+                                self.write('登录失败')
+                                self.finish()
 
 
 
