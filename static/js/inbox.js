@@ -87,6 +87,21 @@ $(function() {
         $("#love_seeemail_header").html(seedata.user.name + '的消息');
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_see').removeClass('d_n');
+        $.ajax({
+            url: '/see_email',
+            type: 'POST',
+            data: {
+                '_xsrf': xsrf,
+                eid: seedata.mail.id,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+            },
+            error: function(para) {
+                console.log(para);
+            }
+        })
     });
     $(".email_inbox").on('click', '.del_email', function() {
         var T = this;
@@ -177,6 +192,10 @@ function show_html(type) {
         if (type == 'out') {
             msg_kind = '';
         }
+        var radio = "";
+        if (email_data[type][i].mail.read == 0) {
+            radio += '<i class="radio"></i>'
+        }
         var msg_ = '';
         if (type == 'in') {
             msg_ = email_data[type][i].mail.kind == 0 ? '给您发送了邮件' : '给你发送了眼缘';
@@ -192,7 +211,7 @@ function show_html(type) {
         email_html += '<div class="love_inbox_line">'+
         '<div class="love_inbox_img">'+
         '<a href="/user?uid='+ email_data[type][i].user.id +'\" target=\"_blank\"><img src='+ email_data[type][i].user.pic +' alt=""></a></div>'+
-        '<div class="love_inbox_text"><p><span>' + msg_kind + '</span>'+
+        '<div class="love_inbox_text"><p><span>' + msg_kind + '</span>'+ radio +
                 msg_ + '</i></p>'+
             '<h3><button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg + charkan +
         '</div><span name='+ email_data[type][i].mail.id +' class="love_dialog_close del_email"></span><div class="love_inbox_time">'+ email_data[type][i].mail.time +'</div></div>';
