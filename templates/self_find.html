@@ -36,17 +36,21 @@
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
                         <select name="agemin" id="">
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
+                        {% for i in xrange(61) %}
+                            {% if i > 17 %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% end %}
+                        {% end %}
                         </select>
                     </div>
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
                         <select name="agemax" id="">
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
+                        {% for i in xrange(61) %}
+                            {% if i > 17 %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% end %}
+                        {% end %}
                         </select>
                     </div>
                 </div>

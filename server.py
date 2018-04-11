@@ -2635,7 +2635,39 @@ class DetailZhenghunHandler(BaseHandler):
         self.write(d)
         self.finish()
 
+class EmailUnReadHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        d = {'code': -1, 'msg': '参数不正确'}
+        if not uid:
+            pass
+        else:
+            url = 'http://%s:%s/email_unread' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            body = 'uid=%s'%uid
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {'code': -1, 'msg': '服务器错误'}
+            try:
+                d = json.loads(r)
+            except:
+                pass
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
+            
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
@@ -2695,6 +2727,7 @@ if __name__ == "__main__":
         ('/sponsor_zhenghun', SponsorZhenghunHandler),
         ('/create_zhenghun', CreateZhenghunHandler),
         ('/detail_zhenghun', DetailZhenghunHandler),
+        ('/email_unread', EmailUnReadHandler),
               ]
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application, xheaders=True)

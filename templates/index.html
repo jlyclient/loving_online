@@ -111,17 +111,21 @@
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
                         <select name="" >
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
+                        {% for i in xrange(61) %}
+                            {% if i > 17 %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% end %}
+                        {% end %}
                         </select>
                     </div>
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
                         <select name="">
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
+                        {% for i in xrange(61) %}
+                            {% if i > 17 %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% end %}
+                        {% end %}
                         </select>
                     </div>
                 </div>
@@ -159,9 +163,13 @@
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
                             <select name="" >
-                                <option value="18">本科</option>
-                                <option value="19">专科</option>
-                                <option value="20">硕士</option>
+                            0=保密 1=高中及以下 2=中专/大专 3=本科 4=研究生     5=博士及博士后
+                                <option value="0">保密</option>
+                                <option value="1">高中及以下</option>
+                                <option value="2">中专/大专</option>
+                                <option value="3">本科</option>
+                                <option value="4">硕士</option>
+                                <option value="5">博士及博士后</option>
                             </select>
                         </div>
                     </div>
