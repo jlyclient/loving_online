@@ -103,9 +103,9 @@ $(function() {
 
     //登录弹窗
     $(".btn_dialog_login").click(function() {
-    //   $('.love_dialog>div').addClass('d_n');
-    //  $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
-        wx_login();
+      $('.love_dialog>div').addClass('d_n');
+      $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
+        // wx_login();
     });
     
     // 修改密码弹窗
@@ -201,6 +201,8 @@ $(function() {
             $(data).parent().attr("class", 'active')
         });
     });
+
+   
 
        //图片上传弹窗
        var upload_type = null;
@@ -488,6 +490,30 @@ $(function() {
         }
          
     });
+
+     // 获取未读邮件个数
+    $.ajax({
+        url: '/email_unread',
+        type: 'POST',
+        data: {
+            "_xsrf":xsrf,
+        },
+        success: function(data) {
+            var jsondata = JSON.parse(data);
+            console.log(jsondata);
+            if (jsondata.code == 0) {
+                $(".love_icon-lingdang").empty();
+                if (jsondata.data > 0) {
+                    var weiduhtml = '<i class="weidunumber">'+ (jsondata.data > 99 ? '99+' : jsondata.data) +'</i>';
+                    $(".love_icon-lingdang").append(weiduhtml);
+                }
+                
+            }
+        },
+        error: function(para) {
+            console.log(para);
+        },
+    })
     
     // 确认修改密码
     $("#changepassword_btn").click(function() {

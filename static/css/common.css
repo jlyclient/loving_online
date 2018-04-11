@@ -1925,3 +1925,21 @@ header {
 .search_self {
     padding: 5px 10px;
 }
+.love_icon-lingdang{
+    position: relative;
+    font-size: 18px;
+}
+.weidunumber{
+    position: absolute;
+    right: -16px;
+    top: -10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #f13973;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+}
