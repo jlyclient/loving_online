@@ -75,33 +75,29 @@
                         <div class="love_col love_col_5">
                             <span class="tools_label">手机：</span>
                             <div class="tools_input">
-                            {% if not me and saw['mobile'] == 0 %}
-                                {% if other['verify_m'] %}
-                                    {% if other['public_m'] %}
-                                        ********
-                                    {% else %}
-                                        未公开
-                                    {% end %}
+                            {% if other['mobile'] and not me and saw['mobile'] == 0 %}
+                                {% if other['public_m'] %}
+                                    ********
                                 {% else %}
-                                    未验证
+                                    未公开
                                 {% end %}
                             {% elif me %}
-                                {% if other['verify_m'] %}
+                                {% if other['mobile'] %}
                                     {{other['mobile']}}
                                 {% else %}
                                     未填
                                 {% end %}
                             {% else %}
-                                {% if other['verify_m'] and other['public_m'] %}
+                                {% if other['mobile'] and other['public_m'] %}
                                     {{other['mobile']}}
-                                {% elif not other['verify_m'] %}
+                                {% elif not other['mobile'] %}
                                     未填
                                 {% elif not other['public_m'] %}
                                     未公开
                                 {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_m'] and not me and saw['mobile'] == 0 and other['public_m'] %}
+                            {% if other['mobile'] and not me and saw['mobile'] == 0 and other['public_m'] %}
                             <div class="love_other_tools">
                                 <button name="1" class="btn_center love_seeother">查看</button>
                             </div>
@@ -110,33 +106,29 @@
                         <div class="love_col love_col_5">
                             <span class="tools_label">邮箱：</span>
                             <div class="tools_input">
-                            {% if not me and saw['email'] == 0%}
-                                {% if other['verify_e'] %}
-                                    {% if other['public_e'] %}
-                                        ********
-                                    {% else %}
-                                        未公开
-                                    {% end %}
+                            {% if other['email'] and not me and saw['email'] == 0%}
+                                {% if other['public_e'] %}
+                                    ********
                                 {% else %}
-                                    未验证
+                                    未公开
                                 {% end %}
                             {% elif me %}
-                                {% if other['verify_e'] %}
+                                {% if other['email'] %}
                                     {{other['email']}}
                                 {% else %}
                                     未填
                                 {% end %}
                             {% else %}
-                                {% if other['verify_e'] and other['public_e'] %}
-                                    {{other['mobile']}}
-                                {% elif not other['verify_e'] %}
+                                {% if other['email'] and other['public_e'] %}
+                                    {{other['email']}}
+                                {% elif not other['email'] %}
                                     未填
                                 {% elif not other['public_e'] %}
                                     未公开
                                 {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_e'] and not me and saw['email'] == 0  and other['public_e'] %}
+                            {% if other['email'] and not me and saw['email'] == 0  and other['public_e'] %}
                             <div class="love_other_tools">
                                 <button name="4" class="btn_center love_seeother">查看</button>
                             </div>
@@ -145,33 +137,29 @@
                         <div class="love_col love_col_5">
                             <span class="tools_label">微信：</span>
                             <div class="tools_input">
-                            {% if not me and saw['wx'] == 0 %}
-                                {% if other['verify_w'] %}
-                                    {% if other['public_w'] %}
-                                        ********
-                                    {% else %}
-                                        未公开
-                                    {% end %}
+                            {% if other['wx'] and not me and saw['wx'] == 0 %}
+                                {% if other['public_w'] %}
+                                    ********
                                 {% else %}
-                                    未验证
+                                    未公开
                                 {% end %}
                             {% elif me %}
-                                {% if other['verify_w'] %}
+                                {% if other['wx'] %}
                                     {{other['wx']}}
                                 {% else %}
                                     未填
                                 {% end %}
                             {% else %}
-                                {% if other['verify_w'] and other['public_w'] %}
+                                {% if other['wx'] and other['public_w'] %}
                                     {{other['wx']}}
-                                {% elif not other['verify_w'] %}
+                                {% elif not other['wx'] %}
                                     未填
                                 {% elif not other['public_w'] %}
                                     未公开
                                 {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_w'] and not me and saw['wx'] == 0  and other['public_w'] %}
+                            {% if other['wx'] and not me and saw['wx'] == 0  and other['public_w'] %}
                             <div class="love_other_tools">
                                 <button name="2" class="btn_center love_seeother">查看</button>
                             </div>
@@ -180,33 +168,29 @@
                         <div class="love_col love_col_5">
                             <span class="tools_label">QQ：</span>
                             <div class="tools_input">
-                            {% if not me and saw['qq'] == 0 %}
-                                {% if other['verify_q'] %}
-                                    {% if other['public_q'] %}
-                                        ********
-                                    {% else %}
-                                        未公开
-                                    {% end %}
+                            {% if other['qq'] and not me and saw['qq'] == 0 %}
+                                {% if other['public_q'] %}
+                                    ********
                                 {% else %}
-                                    未验证
+                                    未公开
                                 {% end %}
                             {% elif me %}
-                                {% if other['verify_q'] %}
+                                {% if other['qq'] %}
                                     {{other['qq']}}
                                 {% else %}
                                     未填
                                 {% end %}
                             {% else %}
-                                {% if other['verify_q'] and other['public_q'] %}
+                                {% if other['qq'] and other['public_q'] %}
                                     {{other['qq']}}
-                                {% elif not other['verify_q'] %}
+                                {% elif not other['qq'] %}
                                     未填
                                 {% elif not other['public_q'] %}
                                     未公开
                                 {% end %}
                             {% end %}
                             </div>
-                            {% if other['verify_q'] and not me and saw['qq'] == 0  and other['public_q'] %}
+                            {% if other['qq'] and not me and saw['qq'] == 0  and other['public_q'] %}
                             <div class="love_other_tools">
                                 <button name="3" class="btn_center love_seeother">查看</button>
                             </div>

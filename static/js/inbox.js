@@ -87,21 +87,29 @@ $(function() {
         $("#love_seeemail_header").html(seedata.user.name + '的消息');
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_see').removeClass('d_n');
-        $.ajax({
-            url: '/see_email',
-            type: 'POST',
-            data: {
-                '_xsrf': xsrf,
-                eid: seedata.mail.id,
-            },
-            success: function(data) {
-                var jsondata = JSON.parse(data);
-                console.log(jsondata);
-            },
-            error: function(para) {
-                console.log(para);
-            }
-        })
+        if (seedata.mail.read == 0) {
+            $.ajax({
+                url: '/see_email',
+                type: 'POST',
+                data: {
+                    '_xsrf': xsrf,
+                    eid: seedata.mail.id,
+                },
+                success: function(data) {
+                    var jsondata = JSON.parse(data);
+                    if (jsondata.code == 0) {
+                        var n = $('.weidunumber').html();
+                        n = parseInt(n)
+                        n = n-1
+                        $('.weidunumber').html(n);
+                    }
+                    console.log(jsondata);
+                },
+                error: function(para) {
+                    console.log(para);
+                }
+            });
+        }
     });
     $(".email_inbox").on('click', '.del_email', function() {
         var T = this;
