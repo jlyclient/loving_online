@@ -28,6 +28,7 @@ $(function() {
         });
         if (obj.age1 > obj.age2) {
             alert('请按年龄从小到大筛选！');
+            return -1;
         } else {
             console.log(obj);
             // get_html('/list_zhenghun', obj.sex, obj.age1, obj.age2, obj.loc1, obj.los2);

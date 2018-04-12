@@ -672,28 +672,31 @@ class UserHandler(BaseHandler):
                 octx = {}
             else:
                 octx = d.get('data', {})
-            other = octx['otherinfo']
-            
-            url = 'http://%s:%s/sawother' % (conf.dbserver_ip, conf.dbserver_port)
-            headers = self.request.headers
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body='cuid=%s&uid=%s'%(cuid, uid),
-                    validate_cert=False)
-            b = resp.body
-            d = {}
-            try:
-                d = json.loads(b)
-            except:
+            other = octx.get('otherinfo')
+            if not other:
+                self.write('Not Found!')
+                self.finish()
+            else:
+                url = 'http://%s:%s/sawother' % (conf.dbserver_ip, conf.dbserver_port)
+                headers = self.request.headers
+                http_client = tornado.httpclient.AsyncHTTPClient()
+                resp = yield tornado.gen.Task(
+                        http_client.fetch,
+                        url,
+                        method='POST',
+                        headers=headers,
+                        body='cuid=%s&uid=%s'%(cuid, uid),
+                        validate_cert=False)
+                b = resp.body
                 d = {}
-            saw = {'wx':0,'qq':0,'email': 0,'mobile':0,'yanyuan':0,'email1':0}
-            if d and d['code'] == 0:
-                saw = d['data']
-            self.render('detail.html', name=name, me=me, other=other, saw=saw)
+                try:
+                    d = json.loads(b)
+                except:
+                    d = {}
+                saw = {'wx':0,'qq':0,'email': 0,'mobile':0,'yanyuan':0,'email1':0}
+                if d and d['code'] == 0:
+                    saw = d['data']
+                self.render('detail.html', name=name, me=me, other=other, saw=saw)
         else:
             self.redirect('/')
 
@@ -2675,9 +2678,10 @@ class YanYuanReplyHandler(BaseHandler):
         coo  = self.get_secure_cookie('userid')
         cuid = coo.split('_')[1]
         uid  = self.get_argument('uid', None)
+        eid  = self.get_argument('eid', None)
         kind = self.get_argument('kind', None)
         d = {'code': -1, 'msg': '参数不正确'}
-        if not uid or not cuid or not kind:
+        if not uid or not cuid or not eid or not kind:
             pass
         else:
             url = 'http://%s:%s/yanyuan_reply' % (conf.dbserver_ip, conf.dbserver_port)
