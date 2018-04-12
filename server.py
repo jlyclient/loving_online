@@ -2686,7 +2686,7 @@ class YanYuanReplyHandler(BaseHandler):
         else:
             url = 'http://%s:%s/yanyuan_reply' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
-            body = 'cuid=%s&uid=%s&kind=%s'%(cuid, uid, kind)
+            body = 'cuid=%s&uid=%s&eid=%s&kind=%s'%(cuid, uid, eid, kind)
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
