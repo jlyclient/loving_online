@@ -64,31 +64,37 @@ $(function() {
         $('.love_dialog').find('.love_dialog_message').removeClass('d_n');
     });
     $(".email_inbox").on('click', '.btn_resultbtn', function() {
-        console.log(this);
-        var This = this;
-        $.ajax({
-            url: '/yanyuan_reply',
-            type: 'POST',
-            data: {
-                '_xsrf': xsrf,
-                kind: $(This).attr('kind'),
-                uid: $(This).attr("name"),
-            },
-            success: function(data) {
-                var jsondata = JSON.parse(data);
-                if (jsondata.code == 0) {
-                    var n = $('.weidunumber').html();
-                        n = parseInt(n)
-                        n = n-1
-                        $('.weidunumber').html(n);
-                        $(This).parent().prev().removeChild($(This).parent().prev().find(".radio"));
-                }
-                console.log(jsondata);
-            },
-            error: function(para) {
-                console.log(para);
-            },
-        })
+        
+        var This = $(this);
+        if (This.parent().prev().find('.radio')[0]) {
+            $.ajax({
+                url: '/yanyuan_reply',
+                type: 'POST',
+                data: {
+                    '_xsrf': xsrf,
+                    kind: This.attr('kind'),
+                    uid: This.attr("name"),
+                    eid: This.attr("eid"),
+                },
+                success: function(data) {
+                    var jsondata = JSON.parse(data);
+                    console.log(jsondata, This.attr('kind'), This.attr("name"), This.attr("eid"));
+                    if (jsondata.code == 0) {
+                        
+                        var n = $('.weidunumber').html();
+                            n = parseInt(n)
+                            n = n-1
+                            $('.weidunumber').html(n);
+                            // $(this).parent().removeChild();
+                            // console.log(This.parent().prev().find('.radio')[0]);
+                            This.parent().prev()[0].removeChild(This.parent().prev().find('.radio')[0]);
+                    }
+                },
+                error: function(para) {
+                    console.log(para);
+                },
+            })
+        }
     });
 
     $(".email_inbox").on('click', '.btn_see', function() {
@@ -131,7 +137,7 @@ $(function() {
                         n = parseInt(n)
                         n = n-1
                         $('.weidunumber').html(n);
-                        This.parent().prev().removeChild(This.parent().prev().find(".radio"));
+                        This.parent().prev()[0].removeChild(This.parent().prev().find('.radio')[0]);
                         // console.log(This.parent().prev().find(".radio"));
                         // This.parent().prev();
                     }
@@ -229,7 +235,7 @@ function show_html(type) {
     console.log(type, email_data);
     for(var i = 0; i< email_data[type].length; i++) {
         var msg_kind = email_data[type][i].mail.kind == 0 ? '[普通邮件]':'[系统消息]';
-        var msg_kindbtn = email_data[type][i].mail.kind == 1 ? ('<button kind="1" name='+ email_data[type][i].user.id +' class="btn btn_dialog btn_resultbtn">同意') : ('<button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg);
+        var msg_kindbtn = email_data[type][i].mail.kind == 1 ? ('<button eid='+ email_data[type][i].mail.id +' kind="1" name='+ email_data[type][i].user.id +' class="btn btn_dialog btn_resultbtn">同意') : ('<button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg);
         if (type == 'out') {
             msg_kind = '';
         }
@@ -248,7 +254,7 @@ function show_html(type) {
                 msg_ = '您给' + '<em>'+ email_data[type][i].user.name +'</em><i>' +  '发送了眼缘';
             }
         }
-        var charkan = email_data[type][i].mail.kind == 1 ? '</button><button kind="0" name='+ email_data[type][i].user.id +' class="btn btn_plain btn_dialog btn_resultbtn">拒绝</button></h3>' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';
+        var charkan = email_data[type][i].mail.kind == 1 ? '</button><button eid='+ email_data[type][i].mail.id +' kind="0" name='+ email_data[type][i].user.id +' class="btn btn_plain btn_dialog btn_resultbtn">拒绝</button></h3>' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';
         email_html += '<div class="love_inbox_line">'+
         '<div class="love_inbox_img">'+
         '<a href="/user?uid='+ email_data[type][i].user.id +'\" target=\"_blank\"><img src='+ email_data[type][i].user.pic +' alt=""></a></div>'+

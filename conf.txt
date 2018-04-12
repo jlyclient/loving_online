@@ -23,7 +23,7 @@ ip=127.0.0.1
 port=8050
 
 [mail]
-mail_page=10
+mail_page=100
 
 [fee]
 dating_fee=1
