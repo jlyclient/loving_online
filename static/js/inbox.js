@@ -63,7 +63,36 @@ $(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_message').removeClass('d_n');
     });
+    $(".email_inbox").on('click', '.btn_resultbtn', function() {
+        console.log(this);
+        var This = this;
+        $.ajax({
+            url: '/yanyuan_reply',
+            type: 'POST',
+            data: {
+                '_xsrf': xsrf,
+                kind: $(This).attr('kind'),
+                uid: $(This).attr("name"),
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                if (jsondata.code == 0) {
+                    var n = $('.weidunumber').html();
+                        n = parseInt(n)
+                        n = n-1
+                        $('.weidunumber').html(n);
+                        $(This).parent().prev().removeChild($(This).parent().prev().find(".radio"));
+                }
+                console.log(jsondata);
+            },
+            error: function(para) {
+                console.log(para);
+            },
+        })
+    });
+
     $(".email_inbox").on('click', '.btn_see', function() {
+        var This = $(this);
         $(".love_see_content").empty();
         var seearr = email_data[$(this).attr('type')];
         var seedata = email_data[$(this).attr('type')][$(this).attr('num')];
@@ -102,6 +131,9 @@ $(function() {
                         n = parseInt(n)
                         n = n-1
                         $('.weidunumber').html(n);
+                        This.parent().prev().removeChild(This.parent().prev().find(".radio"));
+                        // console.log(This.parent().prev().find(".radio"));
+                        // This.parent().prev();
                     }
                     console.log(jsondata);
                 },
@@ -197,11 +229,12 @@ function show_html(type) {
     console.log(type, email_data);
     for(var i = 0; i< email_data[type].length; i++) {
         var msg_kind = email_data[type][i].mail.kind == 0 ? '[普通邮件]':'[系统消息]';
+        var msg_kindbtn = email_data[type][i].mail.kind == 1 ? ('<button kind="1" name='+ email_data[type][i].user.id +' class="btn btn_dialog btn_resultbtn">同意') : ('<button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg);
         if (type == 'out') {
             msg_kind = '';
         }
         var radio = "";
-        if (email_data[type][i].mail.read == 0) {
+        if (email_data[type][i].mail.read == 0 && type == 'in') {
             radio += '<i class="radio"></i>'
         }
         var msg_ = '';
@@ -215,13 +248,13 @@ function show_html(type) {
                 msg_ = '您给' + '<em>'+ email_data[type][i].user.name +'</em><i>' +  '发送了眼缘';
             }
         }
-        var charkan = email_data[type][i].mail.kind == 1 ? '' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';
+        var charkan = email_data[type][i].mail.kind == 1 ? '</button><button kind="0" name='+ email_data[type][i].user.id +' class="btn btn_plain btn_dialog btn_resultbtn">拒绝</button></h3>' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';
         email_html += '<div class="love_inbox_line">'+
         '<div class="love_inbox_img">'+
         '<a href="/user?uid='+ email_data[type][i].user.id +'\" target=\"_blank\"><img src='+ email_data[type][i].user.pic +' alt=""></a></div>'+
         '<div class="love_inbox_text"><p><span>' + msg_kind + '</span>'+ radio +
                 msg_ + '</i></p>'+
-            '<h3><button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg + charkan +
+            '<h3>' + msg_kindbtn + charkan +
         '</div><span name='+ email_data[type][i].mail.id +' class="love_dialog_close del_email"></span><div class="love_inbox_time">'+ email_data[type][i].mail.time +'</div></div>';
     }
     $(".email_inbox").empty();

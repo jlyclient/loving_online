@@ -273,8 +273,9 @@ $(function() {
     });
     //内心独白
     $(document).on('click', '.love_white_edit', function() {
-        $('#love_material').hide();
-        $('#love_oth_edit').show();
+        console.log('click 内心独白');
+        $('.love_heart_before').hide();
+        $('.love_heart_after').show();
         $("#love_white_edittext").val(centerobj.statement.content);
     });
     $(document).on('click', '.love_white_back', function() {
