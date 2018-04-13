@@ -25,23 +25,27 @@ $(function() {
         });
         $(".love_search_box").find('select').map((index, data) => {
             obj[$(data).attr("name")] = $(data).find("option:selected").attr("value");
+            
         });
-        var v = $('.prov').parent().find('.tools_select_text').html();
-        if (v == null || v == '' || v == '请选择') {
-            obj.cur1 = ''
-        }
-        v = $('.city').parent().find('.tools_select_text').val();
-        if (v == null || v == '' || v == '请选择') {
-            obj.cur2 = ''
-        }
-        //v = 
         if (obj.age1 > obj.age2) {
             alert('请按年龄从小到大筛选！');
             return -1;
         } else {
-            console.log(obj);
+            console.log(obj.shengxiao);
             // get_html('/list_zhenghun', obj.sex, obj.age1, obj.age2, obj.loc1, obj.los2);
-            find_member( obj.sex, obj.agemin, obj.agemax, obj.cur1, obj.cur2, obj.ori1, obj.ori2, obj.degree, obj.xingzuo, obj.shengxiao);
+            find_member(
+                obj.sex,
+                obj.agemin == '不限' ? '' : obj.agemin,
+                obj.agemax == '不限' ? '' : obj.agemax,
+                obj.cur1 == '不限' ? '' : obj.cur1,
+                obj.cur2 == '不限' || obj.agemin == undefined ? '' : obj.cur2,
+                obj.ori1 == '不限' ? '' : obj.ori1,
+                obj.ori2 == '不限' || obj.agemin == undefined ? '' : obj.ori2,
+                obj.degree == '不限' ? '' : obj.degree,
+                obj.salary == '不限' ? '' : obj.salary,
+                obj.xingzuo == '不限' ? '' : obj.xingzuo,
+                obj.shengxiao == '不限' ? '' : obj.shengxiao,
+            );
         }
     });
     
