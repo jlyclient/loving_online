@@ -26,6 +26,15 @@ $(function() {
         $(".love_search_box").find('select').map((index, data) => {
             obj[$(data).attr("name")] = $(data).find("option:selected").attr("value");
         });
+        var v = $('.prov').parent().find('.tools_select_text').html();
+        if (v == null || v == '' || v == '请选择') {
+            obj.cur1 = ''
+        }
+        v = $('.city').parent().find('.tools_select_text').val();
+        if (v == null || v == '' || v == '请选择') {
+            obj.cur2 = ''
+        }
+        //v = 
         if (obj.age1 > obj.age2) {
             alert('请按年龄从小到大筛选！');
             return -1;

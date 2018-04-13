@@ -36,6 +36,7 @@
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
                         <select name="agemin" id="">
+                            <option values="0">不限</option>
                         {% for i in xrange(61) %}
                             {% if i > 17 %}
                             <option value="{{i}}">{{i}}</option>
@@ -46,6 +47,7 @@
                     <div class="tools_select">
                         <div class="tools_select_text"></div>
                         <select name="agemax" id="">
+                            <option value="0">不限</option>
                         {% for i in xrange(61) %}
                             {% if i > 17 %}
                             <option value="{{i}}">{{i}}</option>
@@ -88,7 +90,7 @@
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
                             <select name="degree" id="">
-                                <option value="0">保密</option>
+                                <option value="0">不限</option>
                                 <option value="1">高中及以下</option>
                                 <option value="2">中专/大专</option>
                                 <option value="3">本科</option>
@@ -102,6 +104,7 @@
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
                             <select name="salary" id="">
+                                    <option value="0">不限</option>
                                     <option value="1">2000以下</option>
                                     <option value="2">2000~5000</option>
                                     <option value="3">5000~10000</option>
@@ -116,6 +119,7 @@
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
                             <select name="xingzuo" id="">
+                                    <option value="0">不限</option>
                                     <option value="1">白羊座</option>
                                     <option value="2">金牛座</option>
                                     <option value="3">双子座</option>
@@ -136,6 +140,7 @@
                         <div class="tools_select">
                             <div class="tools_select_text"></div>
                             <select name="shengxiao" id="">
+                                    <option value="0">不限</option>
                                     <option value="1">鼠</option>
                                     <option value="2">牛</option>
                                     <option value="3">虎</option>
@@ -154,134 +159,6 @@
                 </div>
             </div>
             <div class="love_row love_box_line">
-                <!-- <div class="love_col love_col_4 love_item">
-                    <div class="love_img">
-                        <a href="detail.html" target="_blank">
-                            <img src="img/img1.jpg" alt="boy">
-                        </a>
-                    </div>
-                    <h2>夏天未迁
-                        <span>（男）</span>
-                    </h2>
-                    <p>
-                        <span>22岁</span>
-                        <span>165CM</span>
-                        <span>本科</span>
-                    </p>
-                    <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div>
-                <div class="love_col love_col_4 love_item">
-                    <div class="love_img">
-                        <a href="detail.html" target="_blank">
-                            <img src="img/img2.jpg" alt="girl">
-                        </a>
-                    </div>
-                    <h2>夏天未迁
-                        <span>（女）</span>
-                    </h2>
-                    <p>
-                        <span>22岁</span>
-                        <span>165CM</span>
-                        <span>本科</span>
-                    </p>
-                    <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div>
-                <div class="love_col love_col_4 love_item">
-                    <div class="love_img">
-                        <a href="detail.html" target="_blank">
-                            <img src="img/img1.jpg" alt="boy">
-                        </a>
-                    </div>
-                    <h2>夏天未迁
-                        <span>（男）</span>
-                    </h2>
-                    <p>
-                        <span>22岁</span>
-                        <span>165CM</span>
-                        <span>本科</span>
-                    </p>
-                    <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div>
-                <div class="love_col love_col_4 love_item">
-                    <div class="love_img">
-                        <a href="detail.html" target="_blank">
-                            <img src="img/img2.jpg" alt="girl">
-                        </a>
-                    </div>
-                    <h2>夏天未迁
-                        <span>（女）</span>
-                    </h2>
-                    <p>
-                        <span>22岁</span>
-                        <span>165CM</span>
-                        <span>本科</span>
-                    </p>
-                    <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div>
-                <div class="love_col love_col_4 love_item">
-                    <div class="love_img">
-                        <a href="detail.html" target="_blank">
-                            <img src="img/img1.jpg" alt="boy">
-                        </a>
-                    </div>
-                    <h2>夏天未迁
-                        <span>（男）</span>
-                    </h2>
-                    <p>
-                        <span>22岁</span>
-                        <span>165CM</span>
-                        <span>本科</span>
-                    </p>
-                    <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div>
-                <div class="love_col love_col_4 love_item">
-                    <div class="love_img">
-                        <a href="detail.html" target="_blank">
-                            <img src="img/img2.jpg" alt="girl">
-                        </a>
-                    </div>
-                    <h2>夏天未迁
-                        <span>（女）</span>
-                    </h2>
-                    <p>
-                        <span>22岁</span>
-                        <span>165CM</span>
-                        <span>本科</span>
-                    </p>
-                    <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div>
-                <div class="love_col love_col_4 love_item">
-                    <div class="love_img">
-                        <a href="detail.html" target="_blank">
-                            <img src="img/img1.jpg" alt="boy">
-                        </a>
-                    </div>
-                    <h2>夏天未迁
-                        <span>（男）</span>
-                    </h2>
-                    <p>
-                        <span>22岁</span>
-                        <span>165CM</span>
-                        <span>本科</span>
-                    </p>
-                    <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div>
-                <div class="love_col love_col_4 love_item">
-                    <div class="love_img">
-                        <a href="detail.html" target="_blank">
-                            <img src="img/img2.jpg" alt="girl">
-                        </a>
-                    </div>
-                    <h2>夏天未迁
-                        <span>（女）</span>
-                    </h2>
-                    <p>
-                        <span>22岁</span>
-                        <span>165CM</span>
-                        <span>本科</span>
-                    </p>
-                    <p class="love_text">简单的我，简单的生活，简单的交友，我的世界如此简单简单的我，简单的生活，简单的交友，我的世界如此简单</p>
-                </div> -->
             </div>
             <div class="love_page">
                 <div>

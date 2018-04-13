@@ -169,69 +169,60 @@ class FindHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def post(self):
         sex          = self.get_argument('sex', None)
-        sex          = int(sex) if sex else -1
+#       sex          = int(sex) if sex else -1
         agemin       = self.get_argument('agemin', None)
-        agemin       = int(agemin) if agemin else -1
+#       agemin       = int(agemin) if agemin else -1
         agemax       = self.get_argument('agemax', None)
-        agemax       = int(agemax) if agemax else -1
+#       agemax       = int(agemax) if agemax else -1
         cur1         = self.get_argument('cur1',    None)
         cur2         = self.get_argument('cur2',    None)
         ori1         = self.get_argument('ori1',    None)
         ori2         = self.get_argument('ori2',    None)
         degree       = self.get_argument('degree', None)
-        degree       = int(degree) if degree else -1
+#       degree       = int(degree) if degree else -1
         salary       = self.get_argument('salary', None)
-        salary       = int(salary) if salary else -1
+#       salary       = int(salary) if salary else -1
         xz           = self.get_argument('xingzuo', None)
         sx           = self.get_argument('shengxiao', None)
         limit        = self.get_argument('limit', None)
-        limit        = int(limit) if limit else -1
+#       limit        = int(limit) if limit else -1
         page         = self.get_argument('page', None)
-        page         = int(page) if page else -1
+#       page         = int(page) if page else -1
         next_        = self.get_argument('next', None)
-        next_        = int(next_) if next_ else -1
-        if sex != -1 or agemin != -1 or agemax != -1 or cur1 or cur2 or ori1 or ori2 or degree != -1 or salary != -1 or xz or sx or limit != -1 or page != -1 or next_ != -1:
-            cookie = self.get_secure_cookie('userid')
-            ctx = {}
-            url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
-            headers = self.request.headers
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body=self.request.body,
-                    validate_cert=False)
-            b = resp.body
-            d = {'code': -1, 'msg': '服务器错误'}
-            try:
-                d = json.loads(b)
-            except:
-                pass
-            d = json.dumps(d)
-            self.write(d)
-            self.finish()
-        else:
-            url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
-            headers = self.request.headers
-            http_client = tornado.httpclient.AsyncHTTPClient()
-            resp = yield tornado.gen.Task(
-                    http_client.fetch,
-                    url,
-                    method='POST',
-                    headers=headers,
-                    body=self.request.body,
-                    validate_cert=False)
-            b = resp.body
-            d = {'code': -1, 'msg': '服务器错误'}
-            try:
-                d = json.loads(b)
-            except:
-                pass
-            d = json.dumps(d)
-            self.write(d)
-            self.finish()
+#       next_        = int(next_) if next_ else -1
+        print('sex=', sex)
+        print('agemin=', agemin)
+        print('agemax=', agemax)
+        print('cur1=', cur1)
+        print('cur2=', cur2)
+        print('ori1=', ori1)
+        print('ori2=', ori2)
+        print('degree=', degree)
+        print('salary=', salary)
+        print('xz=', xz)
+        print('sx=', sx)
+        print('limit=', limit)
+        print('page=', page)
+        print('next=', next_)
+        url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=self.request.body,
+                validate_cert=False)
+        b = resp.body
+        d = {'code': -1, 'msg': '服务器错误'}
+        try:
+            d = json.loads(b)
+        except:
+            pass
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
 class LoginHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
