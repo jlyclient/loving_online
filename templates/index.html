@@ -1,23 +1,4 @@
-<!--
-<!DOCTYPE html>
--->
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <meta http-equiv="Cache-Control" content="no-transform " />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>佳良缘</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/tools.css">
-    <link rel="stylesheet" href="css/common.css">
-</head>
-
-<body>
 {% include "./header.html" %}
 {% module xsrf_form_html() %}
     <section>
@@ -93,159 +74,13 @@
         <div class="love">
             <div class="love_box_title love_title_search">
                 <span>寻觅</span>
+                <a class="love_box_more" href="">查看更多</a>
             </div>
-            <div class="love_search_box mt-20">
-                <span class="tools_label">性别：</span>
-                <div class="tools_radio">
-                    <input type="radio" name="radio" checked>
-                    <div class="tools_radio_bg"></div>
-                    <span class="tools_radio_text">男士</span>
-                </div>
-                <div class="tools_radio">
-                    <input type="radio" name="radio" />
-                    <div class="tools_radio_bg"></div>
-                    <span class="tools_radio_text">女士</span>
-                </div>
-                <div class="select select_age">
-                    <span class="tools_label">年龄：</span>
-                    <div class="tools_select">
-                        <div class="tools_select_text"></div>
-                        <select name="" >
-                        {% for i in xrange(61) %}
-                            {% if i > 17 %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% end %}
-                        {% end %}
-                        </select>
-                    </div>
-                    <div class="tools_select">
-                        <div class="tools_select_text"></div>
-                        <select name="">
-                        {% for i in xrange(61) %}
-                            {% if i > 17 %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% end %}
-                        {% end %}
-                        </select>
-                    </div>
-                </div>
-                <div class="select select_address">
-                    <div class="select_city" id="city_1">
-                        <span class="tools_label">现居：</span>
-                        <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="" class="prov"></select>
-                        </div>
-                        <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="" class="city"></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="select select_address">
-                    <div class="select_city" id="city_2">
-                        <span class="tools_label">籍贯：</span>
-                        <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="" class="prov"></select>
-                        </div>
-                        <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="" class="city"></select>
-                        </div>
-                    </div>
-                </div>
-                <span class="love_search_more"></span>
-                <button class="btn fr search_self" type="button">搜索</button>
-                <div class="love_search_other mt-20">
-                    <div class="select select_address">
-                        <span class="tools_label">学历：</span>
-                        <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="" >
-                            0=保密 1=高中及以下 2=中专/大专 3=本科 4=研究生     5=博士及博士后
-                                <option value="0">保密</option>
-                                <option value="1">高中及以下</option>
-                                <option value="2">中专/大专</option>
-                                <option value="3">本科</option>
-                                <option value="4">硕士</option>
-                                <option value="5">博士及博士后</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="select select_address">
-                        <span class="tools_label">月薪：</span>
-                        <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="salary" >
-                                    <option value="1">2000以下</option>
-                                    <option value="2">2000~5000</option>
-                                    <option value="3">5000~10000</option>
-                                    <option value="4">10000~20000</option>
-                                    <option value="5">20000~50000</option>
-                                    <option value="6">50000以上</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="select select_address">
-                        <span class="tools_label">星座：</span>
-                        <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="xingzuo" id="">
-                                    <option value="1">白羊座</option>
-                                    <option value="2">金牛座</option>
-                                    <option value="3">双子座</option>
-                                    <option value="4">巨蟹座</option>
-                                    <option value="5">狮子座</option>
-                                    <option value="6">处女座</option>
-                                    <option value="7">天秤座</option>
-                                    <option value="8">天蝎座</option>
-                                    <option value="9">射手座</option>
-                                    <option value="10">摩羯座</option>
-                                    <option value="11">水瓶座</option>
-                                    <option value="12">双鱼座</option>
-                                  </select>
-                        </div>
-                    </div>
-                    <div class="select select_address">
-                        <span class="tools_label">生肖：</span>
-                        <div class="tools_select">
-                            <div class="tools_select_text"></div>
-                            <select name="shengxiao" id="">
-                                    <option value="1">鼠</option>
-                                    <option value="2">牛</option>
-                                    <option value="3">虎</option>
-                                    <option value="4">兔</option>
-                                    <option value="5">龙</option>
-                                    <option value="6">蛇</option>
-                                    <option value="7">马</option>
-                                    <option value="8">羊</option>
-                                    <option value="9">猴</option>
-                                    <option value="10">鸡</option>
-                                    <option value="11">狗</option>
-                                    <option value="12">猪</option>
-                                 </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="love_row love_box_line" id="find_member">
                 
             </div>
-            <div class="love_page">
-                <div>
-                    <span class="love_icon love_icon-back disabled"></span>
-                    <span class="active">1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <span class="love_page_more">...</span>
-                    <span>30</span>
-                    <span class="love_icon love_icon-more"></span>
-                    <span class="love_total">共90页</span>
-                </div>
-            </div>
+            
         </div>
     </section>
     {% include "./footer.html" %}

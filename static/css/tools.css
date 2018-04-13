@@ -350,59 +350,8 @@
 /* page */
 
 .love_page {
-    text-align: right;
-    margin: 20px 0;
-}
-
-.love_page div {
-    display: inline-block;
-    overflow: hidden;
-}
-
-.love_page span {
-    display: block;
-    border: 1px solid #d6d6d6;
-    line-height: 28px;
-    width: 36px;
-    height: 30px;
     text-align: center;
-    cursor: pointer;
-    color: #333333;
-    float: left;
-    margin: 0 3px;
-}
-
-.love_page span.love_icon {
-    width: 50px;
-    color: #f13973;
-    font-size: 16px;
-}
-
-.love_page span.love_total {
-    border: none;
-    width: auto;
-    margin-left: 20px;
-}
-
-.love_page span.disabled,
-.love_page span.disabled:hover {
-    color: #333333;
-    border: 1px solid #d6d6d6;
-    cursor: default;
-}
-
-.love_page span.love_page_more,
-.love_page span.love_page_more:hover,
-.love_page span.love_total:hover {
-    border: none;
-    color: #333333;
-    cursor: default;
-}
-
-.love_page span.active,
-.love_page span:hover {
-    color: #f13973;
-    border-color: #f13973;
+    margin: 20px 0;
 }
 
 .love_dialog_mask {

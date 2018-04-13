@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <meta http-equiv="Cache-Control" content="no-transform " />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>佳良缘</title>
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/tools.css">
-    <link rel="stylesheet" href="../css/common.css">
-</head>
-
-<body>
     {% include "../header.html" %}
     {% include "./dating_nav.html" %}
     <section>
@@ -23,19 +6,15 @@
             <div class="love_try_box">
             </div>
             <div class="love_page">
-                <div>
-                    <span class="love_icon love_icon-back disabled"></span>
-                    <span class="active">1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <span class="love_page_more">...</span>
-                    <span>30</span>
-                    <span class="love_icon love_icon-more"></span>
-                    <span class="love_total">共90页</span>
+                    <ul class="pagination" id="page1">
+                    </ul>
+                    <div class="pageJump">
+                        <span>跳转到</span>
+                        <input type="text" />
+                        <span>页</span>
+                        <button type="button" class="button">确定</button>
+                    </div>
                 </div>
-            </div>
         </div>
     </section>
 
@@ -108,6 +87,7 @@
 
     <script src="../js/jquery-min.js"></script>
     <script src="../js/jquery.cityselect.js"></script>
+    <script src="../js/pager.js"></script>
     <script src="../js/default.js"></script>
     <script src="../js/city_dating.js"></script>
     <script>

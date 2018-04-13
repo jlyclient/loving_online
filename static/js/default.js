@@ -682,9 +682,9 @@ function send_verify(type) {
     });
 }
 // 征婚
-function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
+function get_html(url, sex, age1, age2, loc1, loc2, next, callback) {
     var xsrf = get_cookie_by_name('_xsrf');
-    console.log(url, sex, age1, age2, loc1, loc2, page, limit, next);
+    console.log(url, sex, age1, age2, loc1, loc2, next);
     $.ajax({
         url: url,
         type: 'POST',
@@ -695,8 +695,6 @@ function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
             age2: age2,
             loc1: loc1,
             loc2: loc2,
-            page: page,
-            limit: limit,
             next: next,
         },
         success: function(data) {
@@ -704,6 +702,7 @@ function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
             console.log(jsondata);
             if (jsondata.code == 0) {
                 $(".love_try_box").empty();
+                callback(Math.ceil(jsondata.data.count / jsondata.data.page), next);
                 var listhtml = '';
                 var listdata = jsondata.data.arr;
                 if (listdata.length > 0) {
@@ -768,8 +767,8 @@ function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
     });
 }
 
-function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, shengxiao) {
-    console.log(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, shengxiao);
+function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, shengxiao, next, callback) {
+    console.log(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, next, shengxiao);
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         type:'POST',
@@ -787,6 +786,7 @@ function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary
             salary: salary,
             xingzuo: xingzuo,
             shengxiao: shengxiao,
+            next: next ? next : 0,
         },
         success: function(mes) {
             var boydata = JSON.parse(mes);
@@ -827,6 +827,9 @@ function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary
                     boyhtml += '<div class="love_none"><div class="love_none_text"><i></i><p>没有符合条件的人！</p></div></div>';
                 }
                 $('.love_box_line').append(boyhtml);
+                if (callback) {
+                    callback(Math.ceil(boydata.count / boydata.page), next);
+                }
             } else {
                 console.log('获取数据失败！');
             }

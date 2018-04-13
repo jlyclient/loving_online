@@ -26,10 +26,7 @@ $(function() {
         bc: '',
         vt: '',
     }
-    $("#city_9").citySelect({
-        prov: '北京',
-        city: '东城区',
-    });
+    $("#city_9").citySelect();
 
 
     $('.launch_data').click('on', function() {

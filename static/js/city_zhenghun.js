@@ -1,7 +1,27 @@
 $(function() {
     var xsrf = get_cookie_by_name('_xsrf');
     var email_id = null;
-    get_html('/city_zhenghun');
+    get_html('/city_zhenghun','','','','','',0, gethtmlFun);
+    function gethtmlFun(value, next) {
+        Page({
+			num:value,				//页码数
+			startnum:next+1,		//指定页码
+			elem:$('#page1'),		//指定的元素
+            callback:function(n){	//回调函数
+                console.log(n);
+				get_html(
+                    '/city_zhenghun',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    n-1,
+                    gethtmlFun,
+                );
+			}
+		});
+    }
     $(".love_try_box").on('click', '.private_email', function() {
         email_id = $(this).attr("uid");
         $('.love_dialog').find('.love_dialog_letter').removeClass('d_n');
