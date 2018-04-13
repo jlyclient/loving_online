@@ -1,12 +1,15 @@
 $(function() {
     var xsrf = get_cookie_by_name('_xsrf');
     var email_id = null;
-    $("#city_9").citySelect({
-        prov: '北京',
-        city: '东城区',
-    });
+    $("#city_9").citySelect();
     get_html('/list_zhenghun');
-    
+    var obj = {
+        sex: '',
+        age1: '',
+        age2: '',
+        loc1: '',
+        loc2: '',
+    }
     $(".love_try_box").on('click', '.private_email', function() {
         email_id = $(this).attr("uid");
         $('.love_dialog').find('.love_dialog_letter').removeClass('d_n');
@@ -38,14 +41,7 @@ $(function() {
         }
     });
 
-    $(".fr").click(function() {
-        var obj = {
-            sex: '',
-            age1: '',
-            age2: '',
-            loc1: '',
-            loc2: '',
-        }
+    $(".fr").click(function() {   
         $(".love_search_box").find("input").map((index, data) => {
             var type = $(data).attr("type");
             if (type === 'radio' && data.checked) {
@@ -59,7 +55,14 @@ $(function() {
         if (obj.age1 > obj.age2) {
             alert('请按年龄从小到大筛选！');
         } else {
-            get_html('/list_zhenghun', obj.sex, obj.age1, obj.age2, obj.loc1, obj.los2);
+            get_html(
+                '/list_zhenghun',
+                obj.sex,
+                obj.age1,
+                obj.age2,
+                obj.loc1,
+                obj.los2,
+            );
         }
     })
 })

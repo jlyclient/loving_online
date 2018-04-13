@@ -684,6 +684,7 @@ function send_verify(type) {
 // 征婚
 function get_html(url, sex, age1, age2, loc1, loc2, page, limit, next) {
     var xsrf = get_cookie_by_name('_xsrf');
+    console.log(url, sex, age1, age2, loc1, loc2, page, limit, next);
     $.ajax({
         url: url,
         type: 'POST',
