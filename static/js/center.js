@@ -114,10 +114,6 @@ $(function() {
                     (centerobj.otherinfo.public_e === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
                     (centerobj.otherinfo.public_e === 0 ? '对外公开' : '对外隐藏') +
-                    '</button><button id="love_bind_email" '+
-                    (centerobj.otherinfo.verify_e === 0 ? "class ='btn_center'" : "class ='btn_center btn_center_plain'") +
-                    '>'+
-                    (centerobj.otherinfo.verify_e === 0 ? '验证' : '解绑') +
                     '</button></div></div>';
                 love_accountwx = '<div class="love_col love_col_5">微信：'+ 
                 centerobj.otherinfo.wx +
@@ -125,10 +121,6 @@ $(function() {
                     (centerobj.otherinfo.public_w === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
                     (centerobj.otherinfo.public_w === 0 ? '对外公开' : '对外隐藏') +
-                    '</button><button id="love_bind_wx"  ' +
-                    (centerobj.otherinfo.verify_w === 0 ? "class ='btn_center'" : "class ='btn_center btn_center_plain'") 
-                    +'>'+ 
-                    (centerobj.otherinfo.verify_w === 0 ? '验证' : '解绑') +
                     '</button></div></div>';
                 love_accountqq = '<div class="love_col love_col_5">QQ：'+ 
                 centerobj.otherinfo.qq +
@@ -136,9 +128,6 @@ $(function() {
                     (centerobj.otherinfo.public_q === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
                     (centerobj.otherinfo.public_q === 0 ? '对外公开' : '对外隐藏') +
-                    '</button><button id="love_bind_qq"  '+ 
-                    (centerobj.otherinfo.verify_q === 0 ? "class ='btn_center'" : "class ='btn_center btn_center_plain'") +'>'+ 
-                    (centerobj.otherinfo.verify_q === 0 ? '验证' : '解绑') +
                     '</button></div></div>';
                 $("#love_account").append(love_accountmobile += love_accountemail += love_accountwx += love_accountqq);
                 console.log(centerobj);
@@ -405,10 +394,17 @@ $(function() {
             work: 0,
             car: 0,
             house: 0,
+            mobile: '',
+            wx: '',
+            qq: '',
+            email: '',
         }
         $("#love_oth_edit").find("select").map((index, data) => {
             obj[$(data).attr("name")] = Number($(data).find("option:selected").attr("value"));
         });
+        $("#love_oth_edit").find('input').map((index, data) => {
+            obj[$(data).attr("name")] =$(data).val();
+        })
         $.ajax({
             type:'POST',
             url: '/other_edit',
@@ -418,6 +414,10 @@ $(function() {
                 work: obj.work,
                 car: obj.car,
                 house: obj.house,
+                mobile: obj.mobile,
+                wx: obj.wx,
+                qq: obj.qq,
+                email: obj.email,
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
@@ -514,6 +514,11 @@ $(function() {
         $('.love_bind_err').css({display: 'none'});
     });
 
+
+    // 查看图片
+    $("#love_user_pic").on("click", 'li', function() {
+        show_img($(this).find('img').attr('src'));
+    });
 })
 function get_cookie_by_name(name)
 {

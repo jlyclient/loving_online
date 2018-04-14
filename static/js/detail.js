@@ -200,6 +200,10 @@ $(function() {
             },
         })
     })
+    $(".picList").on("click", 'li', function() {
+        show_img($(this).find('img').attr('src'));
+        console.log($(this).find('img').attr('src'));
+    });
 })
 // 关闭弹窗
 function close_popup() {

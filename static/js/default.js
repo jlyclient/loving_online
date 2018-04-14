@@ -839,3 +839,17 @@ function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary
         } 
     })
 }
+
+// 展示图片
+function show_img(src) {
+    var showhtml = '<div class="love_img_box">'+
+    '<span onclick="close_showimg()" class="love_img_close"></span>'+
+    '<img class="img_show" src='+ src +' alt="">'+
+    '</div>';
+    $('body').append(showhtml);
+}
+function close_showimg() {
+    var delimgbox = $('.love_img_box')[0];
+    var box = $('body')[0];
+    box.removeChild(delimgbox);
+}
