@@ -1148,7 +1148,7 @@ class PersonalCenterHandler(BaseHandler):
             sex_ = u'新用户'
             name = user['nick_name']
             name = name if name else sex_ + user['mobile'][-4:]
-            self.render('center/center.html', name=name, nation_arr=nation_arr)
+            self.render('center/center.html', name=name, nation_arr=nation_arr, ctx=ctx)
         else:
             self.redirect('/')
     @tornado.web.authenticated
