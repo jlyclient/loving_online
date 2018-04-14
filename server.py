@@ -205,7 +205,8 @@ class FindHandler(tornado.web.RequestHandler):
         print('page=', page)
         print('next=', next_)
         cookie = self.get_secure_cookie('userid')
-        uid = cookie.split('_')[1]
+        print('cookie=', cookie)
+        uid = cookie.split('_')[1] if cookie else ''
         url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
         headers = self.request.headers
         http_client = tornado.httpclient.AsyncHTTPClient()
@@ -670,9 +671,6 @@ class UserHandler(BaseHandler):
             other = octx.get('otherinfo')
             if not other:
                 self.write('Not Found!')
-                self.finish()
-            elif ctx['user']['sex'] == octx['user']['sex']:
-                self.write('请查看异性朋友')
                 self.finish()
             else:
                 url = 'http://%s:%s/sawother' % (conf.dbserver_ip, conf.dbserver_port)
