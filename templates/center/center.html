@@ -394,20 +394,32 @@
                                 </div>
                             </div>
                         </div>
-                        <!--
                         <div class="love_row">
                             <div class="love_col love_col_5">
                                 <span class="tools_label">手机：</span>
                                 <div class="tools_input">
-                                    <input name="mobile" type="text" readonly value="18900026767">
+                                    <input type="text" id="m_o4" value="{{ctx['otherinfo'].get('mobile', '')}}">
                                 </div>
-                                <div class="love_other_tools">
-                                    <button class="btn_center">对外公开</button>
-                                    <button class="btn_center btn_center_plain">解绑</button>
+                            </div>
+                            <div class="love_col love_col_5">
+                                <span class="tools_label">邮箱：</span>
+                                <div class="tools_input">
+                                    <input type="text" id='em_o4' value="{{ctx['otherinfo'].get('email', '')}}">
+                                </div>
+                            </div>
+                            <div class="love_col love_col_5">
+                                <span class="tools_label">微信：</span>
+                                <div class="tools_input">
+                                    <input type="text" id='w_o4' value="{{ctx['otherinfo'].get('wx', '')}}">
+                                </div>
+                            </div>
+                            <div class="love_col love_col_5">
+                                <span class="tools_label">QQ：</span>
+                                <div class="tools_input">
+                                    <input type="text" id='q_o4' value="{{ctx['otherinfo'].get('qq', '')}}">
                                 </div>
                             </div>
                         </div>
-                        -->
                         <div class="love_center_group">
                             <button class="btn love_other_sure" type="button">确定</button>
                             <button class="btn btn_blue love_other_back" type="button">取消</button>

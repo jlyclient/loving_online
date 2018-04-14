@@ -17,7 +17,24 @@ function get_cookie_by_name(name)
 $(function() {
     var show_data, send_email;
     var xsrf = get_cookie_by_name('_xsrf');
-    get_data('email');
+    var show_type = 'in';
+    get_data('email', 'in', 0, gethtmlFun);
+    function gethtmlFun(value, next) {
+        Page({
+			num:value,				//页码数
+			startnum:next+1,		//指定页码
+			elem:$('#page1'),		//指定的元素
+            callback:function(n) {	//回调函数
+                console.log(n);
+				get_data(
+                    'email',
+                    show_type,
+                    n-1,
+                    gethtmlFun,
+                );
+			}
+		});
+    }
     var spanarr = $(".love_inbox_tab").find('span');
     for (var i = 0; i < spanarr.length; i++) {
         $(spanarr[i]).click(function() {
@@ -25,7 +42,14 @@ $(function() {
                 $(spanarr[j]).attr('class', '');
             }
             $(this).attr('class', 'active');
-            show_html($(this).attr('type'))
+            show_type = $(this).attr('type');
+            show_html($(this).attr('type'));
+            if (show_type == 'in') {
+                gethtmlFun(Math.ceil(email_data.total_in / email_data.page), 0);
+            } else {
+                gethtmlFun(Math.ceil(email_data.totoal_out / email_data.page), 0);
+            }
+            
         })
     }
     console.log('ajax');
@@ -64,7 +88,6 @@ $(function() {
         $('.love_dialog').find('.love_dialog_message').removeClass('d_n');
     });
     $(".email_inbox").on('click', '.btn_resultbtn', function() {
-        
         var This = $(this);
         if (This.parent().prev().find('.radio')[0]) {
             $.ajax({
@@ -206,7 +229,7 @@ $(function() {
     })
 })
 
-function get_data(url) {
+function get_data(url, type, next, callback) {
     var xsrf = get_cookie_by_name('_xsrf');
     var url_ = '/' + url;
     $.ajax({
@@ -214,13 +237,20 @@ function get_data(url) {
         type: 'POST',
         data: {
             '_xsrf': xsrf,
+            next: next,
         },
         success: function(data) {
             var jsondata = JSON.parse(data);
             console.log(jsondata);
             if (jsondata.code == 0) {
                 email_data = jsondata.data;
-                show_html('in');
+                if (type == 'in') {
+                    callback(Math.ceil(jsondata.data.total_in / jsondata.data.page), next);
+                } else {
+                    callback(Math.ceil(jsondata.data.totoal_out / jsondata.data.page), next);
+                }
+                
+                show_html(type);
             }
         },
         error: function(para) {

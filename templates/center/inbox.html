@@ -23,18 +23,14 @@
            
         </div>
         <div class="love">
-            <div class="love_page" id="love_pages">
-                <div>
-                    <span class="love_icon love_icon-back disabled"></span>
-                    <span class="active">1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <span class="love_page_more">...</span>
-                    <span>30</span>
-                    <span class="love_icon love_icon-more"></span>
-                    <span class="love_total">共90页</span>
+            <div class="love_page">
+                <ul class="pagination" id="page1">
+                </ul>
+                <div class="pageJump">
+                    <span>跳转到</span>
+                    <input type="text" />
+                    <span>页</span>
+                    <button type="button" class="button">确定</button>
                 </div>
             </div>
         </div>
@@ -136,6 +132,7 @@
     </div>
     <script src="../js/jquery-min.js"></script>
     <script src="../js/default.js"></script>
+    <script src="../js/pager.js"></script>
     <script src="../js/center.js"></script>
     <script src="../js/inbox.js"></script>
 </body>
