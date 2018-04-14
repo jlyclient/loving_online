@@ -200,10 +200,39 @@ $(function() {
             },
         })
     })
-    $(".picList").on("click", 'li', function() {
-        show_img($(this).find('img').attr('src'));
-        console.log($(this).find('img').attr('src'));
+    // $(".picList").on("click", 'li', function() {
+    //     show_img($(this).find('img').attr('src'));
+    //     console.log($(this).find('img').attr('src'));
+    // });
+
+     //点击图片看原图
+     $(document).on('click', '.picScroll-left .picList li', function() {
+        var _flag = $(this).parents('.picList').attr('data-flag');
+        if ($('body').find('.love_dialog_mask').length > 0)
+            return false;
+        else
+            $('body').css('overflow', 'hidden').append('<div class="love_dialog_mask"></div>');
+        var list = $(this).parents('.picList').html();
+        $('.love_dialog>div').addClass('d_n');
+        $('.love_dialog').find('.love_img_pic').removeClass('d_n');
+        $('.picScroll .picList').html(list);
+        var _height = $('.picScroll .picList img').height();
+        $('.picScroll a.prev,.picScroll a.next').css({ 'height': _height + 'px', 'line-height': _height + 'px' });
+        jQuery(".picScroll").slide({
+            mainCell: ".bd ul",
+            autoPage: true,
+            effect: "left",
+            autoPlay: false,
+            vis: 1,
+            scroll: 1,
+            pnLoop: false,
+            trigger: "click",
+            opp: true,
+            prevCell: ".prev",
+            nextCell: ".next"
+        });
     });
+
 })
 // 关闭弹窗
 function close_popup() {

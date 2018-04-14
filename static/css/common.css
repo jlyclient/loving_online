@@ -1965,8 +1965,8 @@ header {
 }
 .love_img_close{
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: -40px;
+    top: -40px;
     cursor: pointer;
 }
 .love_img_close::after{

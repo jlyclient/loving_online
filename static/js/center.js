@@ -515,10 +515,10 @@ $(function() {
     });
 
 
-    // 查看图片
-    $("#love_user_pic").on("click", 'li', function() {
-        show_img($(this).find('img').attr('src'));
-    });
+    // // 查看图片
+    // $("#love_user_pic").on("click", 'li', function() {
+    //     show_img($(this).find('img').attr('src'));
+    // });
 })
 function get_cookie_by_name(name)
 {
