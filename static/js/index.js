@@ -79,9 +79,6 @@ function get_new_member(sex_, dom) {
     });
 }
 
-function cb(para) {
-    var d = JSON.parse(para);
-}
 function wx_login() {
     var url = '/wxlogin_code';
     var xsrf = get_cookie_by_name('_xsrf');

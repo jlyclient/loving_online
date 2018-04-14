@@ -161,7 +161,7 @@ class FindHandler(tornado.web.RequestHandler):
             name = user['nick_name']
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
-            self.render('self_find.html', name=name)
+            self.render('self_find.html', name=name, sex=ctx['user']['sex'])
         else:
             self.redirect('/')
         
@@ -204,6 +204,8 @@ class FindHandler(tornado.web.RequestHandler):
         print('limit=', limit)
         print('page=', page)
         print('next=', next_)
+        cookie = self.get_secure_cookie('userid')
+        uid = cookie.split('_')[1]
         url = 'http://%s:%s/find' % (conf.dbserver_ip, conf.dbserver_port)
         headers = self.request.headers
         http_client = tornado.httpclient.AsyncHTTPClient()
@@ -212,7 +214,7 @@ class FindHandler(tornado.web.RequestHandler):
                 url,
                 method='POST',
                 headers=headers,
-                body=self.request.body,
+                body=self.request.body + '&uid=%s'%uid,
                 validate_cert=False)
         b = resp.body
         d = {'code': -1, 'msg': '服务器错误'}
@@ -643,6 +645,8 @@ class UserHandler(BaseHandler):
             sex_ = u'新用户'
             name = name if name else sex_ + user['mobile'][-4:]
             me = True if int(uid) == int(user['id']) else False
+            if me:
+                self.redirect('/center')
             url = 'http://%s:%s/ctx' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -666,6 +670,9 @@ class UserHandler(BaseHandler):
             other = octx.get('otherinfo')
             if not other:
                 self.write('Not Found!')
+                self.finish()
+            elif ctx['user']['sex'] == octx['user']['sex']:
+                self.write('请查看异性朋友')
                 self.finish()
             else:
                 url = 'http://%s:%s/sawother' % (conf.dbserver_ip, conf.dbserver_port)
@@ -743,7 +750,27 @@ class UserHandler(BaseHandler):
             yanyuan = 0
             if b and b.get('data'):
                 yanyuan = b['data']['yanyuan']
-            d = {'code': 0, 'msg': 'ok', 'data': ctx, 'yanyuan':yanyuan}
+            url = 'http://%s:%s/guanzhu_check' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body='uid=%s&cuid=%s'%(uid, cuid),
+                    validate_cert=False)
+            r = resp.body
+            b = {}
+            try:
+                b = json.loads(r)
+            except:
+                b = {}
+            guanzhu = 0
+            if b and b.get('data'):
+                guanzhu = b['data']['guanzhu']
+            d = {'code': 0, 'msg': 'ok', 'data': ctx, 'yanyuan':yanyuan,
+                 'guanzhu': guanzhu}
         d = json.dumps(d)
         self.write(d)
         self.finish()
