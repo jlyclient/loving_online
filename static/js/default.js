@@ -491,6 +491,8 @@ $(function() {
          
     });
 
+    var cookie = get_cookie_by_name('userid');
+    if (cookie != null) {
      // 获取未读邮件个数
     $.ajax({
         url: '/email_unread',
@@ -513,7 +515,8 @@ $(function() {
         error: function(para) {
             console.log(para);
         },
-    })
+    });
+    }
     
     // 确认修改密码
     $("#changepassword_btn").click(function() {
