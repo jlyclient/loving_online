@@ -265,7 +265,15 @@ function show_html(type) {
     console.log(type, email_data);
     for(var i = 0; i< email_data[type].length; i++) {
         var msg_kind = email_data[type][i].mail.kind == 0 ? '[普通邮件]':'[系统消息]';
-        var msg_kindbtn = email_data[type][i].mail.kind == 1 ? ('<button eid='+ email_data[type][i].mail.id +' kind="1" name='+ email_data[type][i].user.id +' class="btn btn_dialog btn_resultbtn">同意') : ('<button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg);
+        var msg_kindbtn ='';
+        var charkan = '';
+        if (type = 'in') {
+            msg_kindbtn = email_data[type][i].mail.kind == 1 ? ('<button eid='+ email_data[type][i].mail.id +' kind="1" name='+ email_data[type][i].user.id +' class="btn btn_dialog btn_resultbtn">同意') : ('<button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg);
+            charkan = email_data[type][i].mail.kind == 1 ? '</button><button eid='+ email_data[type][i].mail.id +' kind="0" name='+ email_data[type][i].user.id +' class="btn btn_plain btn_dialog btn_resultbtn">拒绝</button></h3>' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';   
+        } else {
+            msg_kindbtn = email_data[type][i].mail.kind == 1 ? '' : ('<button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg);
+            charkan = email_data[type][i].mail.kind == 1 ? '' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';   
+        }
         if (type == 'out') {
             msg_kind = '';
         }
@@ -284,7 +292,7 @@ function show_html(type) {
                 msg_ = '您给' + '<em>'+ email_data[type][i].user.name +'</em><i>' +  '发送了眼缘';
             }
         }
-        var charkan = email_data[type][i].mail.kind == 1 ? '</button><button eid='+ email_data[type][i].mail.id +' kind="0" name='+ email_data[type][i].user.id +' class="btn btn_plain btn_dialog btn_resultbtn">拒绝</button></h3>' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';
+
         email_html += '<div class="love_inbox_line">'+
         '<div class="love_inbox_img">'+
         '<a href="/user?uid='+ email_data[type][i].user.id +'\" target=\"_blank\"><img src='+ email_data[type][i].user.pic +' alt=""></a></div>'+

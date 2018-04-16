@@ -103,32 +103,36 @@ $(function() {
                     // 其他资料账号相关
                 var love_accountmobile = '', love_accountemail = '', love_accountwx = '', love_accountqq = '';
                 love_accountmobile = '<div class="love_col love_col_5">手机：' + centerobj.otherinfo.mobile +
-                    '<div class="love_other_tools"><button name="1" public="public_m" ' +
+                    '<div class="love_other_tools">'+ (centerobj.otherinfo.mobile == '' ? '' : '<button name="1" public="public_m" ' +
                     (centerobj.otherinfo.public_m === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
                     (centerobj.otherinfo.public_m === 0 ? '对外公开' : '对外隐藏' )+
-                    '</button></div></div>';
+                    '</button>')
+                    + '</div></div>';
                 love_accountemail = '<div class="love_col love_col_5">邮箱：'+ 
                 centerobj.otherinfo.email +
-                    '<div class="love_other_tools"><button name="4" public="public_e" '+
+                    '<div class="love_other_tools">'+ (centerobj.otherinfo.email == '' ? '' : '<button name="4" public="public_e" '+
                     (centerobj.otherinfo.public_e === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
                     (centerobj.otherinfo.public_e === 0 ? '对外公开' : '对外隐藏') +
-                    '</button></div></div>';
+                    '</button>')
+                     +'</div></div>';
                 love_accountwx = '<div class="love_col love_col_5">微信：'+ 
                 centerobj.otherinfo.wx +
-                    '<div class="love_other_tools"><button name="2" public="public_w" '+
+                    '<div class="love_other_tools">'+ (centerobj.otherinfo.wx == '' ? '' : '<button name="2" public="public_w" '+
                     (centerobj.otherinfo.public_w === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
                     (centerobj.otherinfo.public_w === 0 ? '对外公开' : '对外隐藏') +
-                    '</button></div></div>';
+                    '</button>')
+                    +'</div></div>';
                 love_accountqq = '<div class="love_col love_col_5">QQ：'+ 
                 centerobj.otherinfo.qq +
-                    '<div class="love_other_tools"><button name="3" public="public_q" '+
+                    '<div class="love_other_tools">'+ (centerobj.otherinfo.qq == '' ? '' : '<button name="3" public="public_q" '+
                     (centerobj.otherinfo.public_q === 0 ? "class ='btn_center btn_center_plain'" : "class ='btn_center'") +
                     '>'+ 
                     (centerobj.otherinfo.public_q === 0 ? '对外公开' : '对外隐藏') +
-                    '</button></div></div>';
+                    '</button>') 
+                    +'</div></div>';
                 $("#love_account").append(love_accountmobile += love_accountemail += love_accountwx += love_accountqq);
                 console.log(centerobj);
 
@@ -456,26 +460,6 @@ $(function() {
                     console.log(para);
                 }
             })
-        }
-        console.log($(this).attr("id"));
-        if($(this).attr("id") === "love_bind_email") {
-            // 绑定微信
-            $('.love_dialog>div').addClass('d_n');
-            $('.love_dialog').find('.love_dialog_email').removeClass('d_n');
-        }
-        if ($(this).attr("id") === 'love_bind_wx') {
-            // 验证微信
-            $('.love_dialog>div').addClass('d_n');
-            $('.love_dialog').find('.love_dialog_login_code').removeClass('d_n');
-            $("#love_login_code_header").html('微信二维码验证');
-            $("#love_login_code_way").html("请使用微信扫描图中二维码");
-        }
-        if ($(this).attr("id") === 'love_bind_qq') {
-            // 绑定qq
-            $('.love_dialog>div').addClass('d_n');
-            $('.love_dialog').find('.love_dialog_login_code').removeClass('d_n');
-            $("#love_login_code_header").html('QQ二维码验证');
-            $("#love_login_code_way").html("请使用QQ扫描图中二维码");
         }
     });
 
