@@ -37,7 +37,7 @@ $(function() {
                     callback(Math.ceil(jsondata.data.count / jsondata.data.page), next);
                     var listhtml = '';
                     var listdata = jsondata.data.arr;
-                    console.log(jsondata);
+                    console.log(listhtml);
                     if (listdata.length == 0) {
                         listhtml += '<div class="love_none"><div class="love_none_text"><i></i><p>暂时没有任何约会信息，快去约会吧！</p></div></div>';
                     } else {
@@ -88,7 +88,6 @@ $(function() {
                         '</div>';
                         }
                     }
-                    
                     $(".love_try_box").append(listhtml);
                 }
                 console.log(jsondata);

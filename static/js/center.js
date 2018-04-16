@@ -62,7 +62,7 @@ $(function() {
                 '</h2>';
                 centermescon += "<div class='love_mater_detail'>";
                 var tmp = 
-                    "<span>征友状态："+ (centerobj.user.state === 0 ? '征友进行中' : '找到意中人') + "</span>"+
+                    "<span>状态："+ (centerobj.user.state === 0 ? '征友进行中' : '找到意中人') + "</span>"+
 
                     "<span>意向："+ aim[centerobj.user.aim] +"</span>"+
                     "<span>年龄："+ centerobj.user.age +"</span>"+
