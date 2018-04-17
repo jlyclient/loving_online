@@ -210,11 +210,12 @@ $(function() {
         upload_type = $(this).attr("name");
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_img').removeClass('d_n');
+        var fileserver_url = 'http://www.' + document.domain + '/fileupload';
         uploader = WebUploader.create({
             // swf文件路径
             swf: 'Uploader.swf',
             // 文件接收服务端。
-            server: 'http://47.94.105.76:8000/fileupload',
+            server: fileserver_url,
 
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
