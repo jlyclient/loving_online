@@ -1634,12 +1634,12 @@ header {
 }
 
 .love_inbox_time {
-    width: 130px;
     height: 74px;
     overflow: hidden;
     float: right;
     color: #999999;
     line-height: 60px;
+    margin-right: 50px;
 }
 
 .love_inbox_text h3 button {

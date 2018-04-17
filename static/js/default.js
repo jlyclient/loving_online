@@ -103,9 +103,9 @@ $(function() {
 
     //登录弹窗
     $(".btn_dialog_login").click(function() {
-      $('.love_dialog>div').addClass('d_n');
-      $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
-        // wx_login();
+      //$('.love_dialog>div').addClass('d_n');
+      //$('.love_dialog').find('.love_dialog_login').removeClass('d_n');
+        wx_login();
     });
     
     // 修改密码弹窗
@@ -491,6 +491,8 @@ $(function() {
          
     });
 
+    var cookie = get_cookie_by_name('userid');
+    if (cookie != null) {
      // 获取未读邮件个数
     $.ajax({
         url: '/email_unread',
@@ -513,7 +515,8 @@ $(function() {
         error: function(para) {
             console.log(para);
         },
-    })
+    });
+    }
     
     // 确认修改密码
     $("#changepassword_btn").click(function() {
