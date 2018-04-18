@@ -1528,6 +1528,11 @@ header {
     width: auto;
 }
 
+.picLists img {
+    height: 158px;
+    width: auto;
+}
+
 .love_img_map {
     width: auto;
     height: auto;

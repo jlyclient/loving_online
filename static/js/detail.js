@@ -233,7 +233,12 @@ $(function() {
     // });
 
      //点击图片看原图
-     $(document).on('click', '.picScroll-left .picList li', function() {
+     show_centerimg();
+
+})
+// 查看图片
+function show_centerimg() {
+    $(document).on('click', '.picScroll-left .picList li', function() {
         var _flag = $(this).parents('.picList').attr('data-flag');
         if ($('body').find('.love_dialog_mask').length > 0)
             return false;
@@ -259,8 +264,7 @@ $(function() {
             nextCell: ".next"
         });
     });
-
-})
+}
 // 关闭弹窗
 function close_popup() {
     $('body').css('overflow', 'auto');
@@ -270,6 +274,7 @@ function close_popup() {
             $('.love_pay_content_1').show();
             $('.love_pay_content_2').hide();
         }
+        show_centerimg();
         if (uploader != null) {
             uploader.destroy();
         }
