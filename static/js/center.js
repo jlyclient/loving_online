@@ -137,7 +137,6 @@ $(function() {
                 console.log(centerobj);
 
                 var user_show_pic = '';
-
                 var user_pic = "";
                 console.log(centerobj.pic.arr.length);
                 var show_uoload_btn = 0;
