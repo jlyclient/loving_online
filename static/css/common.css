@@ -1493,6 +1493,7 @@ header {
     margin: 0;
     width: auto;
     height: auto;
+    text-align: center;
 }
 
 .picScroll .bd ul li img {
