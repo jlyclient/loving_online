@@ -252,7 +252,7 @@ function show_centerimg() {
         var _height = $('.picScroll .picList img').height();
         $('.picScroll a.prev,.picScroll a.next').css({ 'height': _height + 'px', 'line-height': _height + 'px' });
         jQuery(".picScroll").slide({
-            mainCell: ".bd ul",
+            mainCell: "#show_img",
             autoPage: true,
             effect: "left",
             autoPlay: false,
