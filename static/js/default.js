@@ -271,9 +271,7 @@ $(function() {
         });
         uploader.on('uploadError',function(file,response){
             console.log(file,response);
-    //         if(response.code==0){
-    
-    //      　　}
+
         });
         
     });
