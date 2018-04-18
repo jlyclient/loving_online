@@ -239,6 +239,7 @@ $(function() {
 // 查看图片
 function show_centerimg() {
     $(document).on('click', '.picScroll-left .picList li', function() {
+        $(".love_img_pic .bd").empty();
         var _flag = $(this).parents('.picList').attr('data-flag');
         if ($('body').find('.love_dialog_mask').length > 0)
             return false;
