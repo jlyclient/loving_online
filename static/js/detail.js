@@ -46,6 +46,9 @@ $(function() {
                 if (jsondata.yanyuan == 1) {
                     $(".btn_yanyuan").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff', cursor: 'none' });
                 }
+                if (jsondata.guanzhu == 1) {
+                    $(".btn_guanzhu").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff', cursor: 'none' });
+                }
                 centerobj = jsondata.data;
                 var centermestitle = '', centermescon = '', centerintroduction = '';
                 var center_interest = '';
@@ -172,6 +175,30 @@ $(function() {
                     })
                 }
             });
+            $(".btn_guanzhu").click(function() {
+                if (jsondata.guanzhu != 1) {
+                    $.ajax({
+                        url: '/guanzhu',
+                        type: 'POST',
+                        data: {
+                            'kind': 1,
+                            '_xsrf': xsrf,
+                            uid: uid,
+                        },
+                        success: function(data) {
+                            var jsondata = JSON.parse(data);
+                            console.log(jsondata);
+                            if (jsondata.code === 0) {
+                                alert('关注成功！');
+                                $(".btn_guanzhu").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff', cursor: 'none' });
+                            }
+                        },
+                        error: function(para) {
+                            console.log(para);
+                        }
+                    })
+                }
+            })
         }
     });
     $(".love_payment_btn").click(function() {

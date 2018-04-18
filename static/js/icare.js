@@ -45,6 +45,8 @@ $(function() {
                         '</div>';
                         }
                     }
+                } else {
+                    isee += '<div class="love_none"><div class="love_none_text"><i></i><p>暂时没有任何我关注的人，快去关注吧！</p></div></div>';
                 }
                 console.log(isee);
                 $(".love_see_content").append(isee);

@@ -46,6 +46,9 @@ $(function() {
                         }
                         isee += '</div></div>';
                     }
+                } else {
+                    isee += '<div class="love_none"><div class="love_none_text"><i></i><p>暂时没有人看过我！</p></div></div>';
+                
                 }
                 console.log(isee);
                 $(".love_center_see").append(isee);
