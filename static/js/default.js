@@ -262,6 +262,7 @@ $(function() {
             if(response.msg== 'ok') {
                 close_popup();
                 alert("图片上传成功！");
+                window.location.reload();
          　　} else {
              alert(response.msg);
          }
@@ -294,6 +295,7 @@ $(function() {
                 if (jsondata.code == 0) {
                     alert("图片删除成功！")
                 }
+                window.location.reload();
             },
             error: function(para){
                 console.log('ajax', para);
