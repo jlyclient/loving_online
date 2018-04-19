@@ -17,7 +17,7 @@ $(function() {
                 $(".love_detail_title").append(detail_title);
                 var detail_zhenghun = '<div class="love_detail_box mt-20">'+
                 '<div class="love_detail_img">'+
-                    '<a href="/user?uid='+ detaildata.uid +'" target="_blank" ><img id='+ detaildata.src +' src="img/img1.jpg" alt=""></a>'+
+                    '<a href="/user?uid='+ detaildata.uid +'" target="_blank" ><img src='+ detaildata.src +' alt=""></a>'+
                 '</div>'+
                 '<div class="love_detail_text">'+
                     '<h2>'+ detaildata.nick_name +'<span>（'+ detaildata.sex_name +'）</span></h2>'+

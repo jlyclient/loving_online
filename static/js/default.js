@@ -747,6 +747,7 @@ function get_html(url, sex, age1, age2, loc1, loc2, next, callback) {
                                     '<div>'+
                                         '<span>'+ now_time(listdata[i].time) +'</span>'+
                                         '<span>'+ listdata[i].scan_count +'人阅读</span>'+
+                                        (url == '/sponsor_zhenghun' ? '<span class="del_zhenghun" name='+ listdata[i].id +'>删除</span>' : '')
                                     '</div>'+
                                 '</div>'+
                             '</div>'+

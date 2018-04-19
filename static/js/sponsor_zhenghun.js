@@ -27,6 +27,24 @@ $(function() {
         $('.love_dialog').find('.love_dialog_letter').removeClass('d_n');
         $("#send_email").html($(this).attr("name"));
     });
+    $(".love_try_box").on("click", '.del_zhenghun', function() {
+        del_id = $(this).attr("name");
+        $.ajax({
+            url: ' /remove_zhenghun',
+            type: 'POST',
+            data: {
+                '_xsrf': xsrf,
+                zid: del_id,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+                if (jsondata.code == 0) {
+                    get_html('/sponsor_zhenghun','','','','','',0, gethtmlFun);
+                }
+            }
+        });
+    })
     $(".btn_send_email").click(function() {
         if ($("#send_email_content").val().length > 0) {
             $.ajax({
