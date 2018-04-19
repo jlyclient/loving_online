@@ -2654,6 +2654,38 @@ class DetailZhenghunHandler(BaseHandler):
         self.write(d)
         self.finish()
 
+class RemoveZhenghunHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        zid = self.get_argument('zid', None)
+        coo = self.get_secure_cookie('userid', None)
+        uid = coo.split('_')[1]
+        if not zid or not uid:
+            d = {'code': -1, 'msg': '参数错误'}
+        else:
+            url = 'http://%s:%s/remove_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            body = 'zid=%s&uid=%s'%(zid, uid)
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {}
+            try:
+                d = json.loads(r)
+            except:
+                d = {'code': -1, 'msg': '服务器错误'}
+            d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 class EmailUnReadHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -2780,6 +2812,7 @@ if __name__ == "__main__":
         ('/sponsor_zhenghun', SponsorZhenghunHandler),
         ('/create_zhenghun', CreateZhenghunHandler),
         ('/detail_zhenghun', DetailZhenghunHandler),
+        ('/remove_zhenghun', RemoveZhenghunHandler),
         ('/email_unread', EmailUnReadHandler),
         ('/yanyuan_reply', YanYuanReplyHandler),
               ]
