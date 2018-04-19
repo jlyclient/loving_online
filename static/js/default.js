@@ -204,12 +204,12 @@ $(function() {
         upload_type = $(this).attr("name");
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_img').removeClass('d_n');
-        var fileserver_url = 'http://www.' + document.domain + '/fileupload';
+        // var fileserver_url = 'http://www.' + document.domain + '/fileupload';
         uploader = WebUploader.create({
             // swf文件路径
             swf: 'Uploader.swf',
             // 文件接收服务端。
-            server: fileserver_url,
+            server: '/fileupload',
 
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -259,9 +259,12 @@ $(function() {
         });
         uploader.on('uploadSuccess',function(file,response){
             console.log(file,response);
-            if(response.code==0){
+            if(response.msg== 'ok') {
                 close_popup();
-         　　}
+                alert("图片上传成功！");
+         　　} else {
+             alert(response.msg);
+         }
         });
         uploader.on('uploadError',function(file,response){
             console.log(file,response);
@@ -288,6 +291,9 @@ $(function() {
             success: function(data) {
                 var jsondata = JSON.parse(data);
                 console.log(jsondata);
+                if (jsondata.code == 0) {
+                    alert("图片删除成功！")
+                }
             },
             error: function(para){
                 console.log('ajax', para);
