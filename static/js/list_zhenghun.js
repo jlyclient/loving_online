@@ -83,12 +83,14 @@ $(function() {
                 obj[$(data).attr("name")] = $(data).attr("option");
             }
         });
-        $(".love_start").find('select').map((index, data) => {
+        $(".love_search_box").find('select').map((index, data) => {
+            console.log($(data).find("option:selected").attr("value"), '-----');
             obj[$(data).attr("name")] = $(data).find("option:selected").attr("value");
         });
         if (obj.age1 > obj.age2) {
             alert('请按年龄从小到大筛选！');
         } else {
+            console.log(obj);
             get_html(
                 '/list_zhenghun',
                 obj.sex,
