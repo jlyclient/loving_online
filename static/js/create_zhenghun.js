@@ -1,8 +1,5 @@
 $(function() {
-    $("#city_9").citySelect({
-        prov: '北京',
-        city: '东城区',
-    });
+    $("#city_9").citySelect();
     $(".love_try_tab").find('li').map((index, data) => {
         $(data).removeClass("active");
         if (index == 3) {
@@ -55,8 +52,10 @@ $(function() {
                     var jsondata = JSON.parse(data);
                     console.log(jsondata);
                     if (jsondata.code == 0) {
-                        alert('发起约会成功！');
+                        alert('发起征婚成功！');
                         window.location.reload();
+                    } else {
+                        alert(jsondata.msg);
                     }
                 },
                 error: function(para) {

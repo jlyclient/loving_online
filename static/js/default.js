@@ -20,17 +20,11 @@ $(function() {
     // 首页城市选择器
     if ($('#city_1').length > 0) {
         //现居
-        $("#city_1").citySelect({
-            prov: "北京",
-            city: "东城区"
-        });
+        $("#city_1").citySelect();
     }
     if ($('#city_2').length > 0) {
         //籍贯
-        $("#city_2").citySelect({
-            prov: "北京",
-            city: "东城区"
-        });
+        $("#city_2").citySelect();
     }
     //select自定义控件
     var selectArry = $('select');
@@ -747,7 +741,7 @@ function get_html(url, sex, age1, age2, loc1, loc2, next, callback) {
                                     '<div>'+
                                         '<span>'+ now_time(listdata[i].time) +'</span>'+
                                         '<span>'+ listdata[i].scan_count +'人阅读</span>'+
-                                        (url == '/sponsor_zhenghun' ? '<span class="del_zhenghun love_photo_add" name='+ listdata[i].id +'>删除</span>' : '')
+                                        (url == '/sponsor_zhenghun' ? '<span class="del_zhenghun love_photo_add" name='+ listdata[i].id +'>删除</span>' : '') +
                                     '</div>'+
                                 '</div>'+
                             '</div>'+
