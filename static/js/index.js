@@ -15,6 +15,12 @@ function get_cookie_by_name(name)
 }
 function get_new_member(sex_, dom) {
     var xsrf = get_cookie_by_name('_xsrf');
+    $(".love_nav").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 0) {
+            $(data).addClass("active");
+        }
+    }); 
     $.ajax({
         type: 'POST',
         url: '/new',

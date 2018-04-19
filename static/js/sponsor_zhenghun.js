@@ -2,6 +2,18 @@ $(function() {
     var xsrf = get_cookie_by_name('_xsrf');
     var email_id = null;
     get_html('/sponsor_zhenghun','','','','','',0, gethtmlFun);
+    $(".love_try_tab").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 2) {
+            $(data).addClass("active");
+        }
+    });
+    $(".love_nav").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 2) {
+            $(data).addClass("active");
+        }
+    }); 
     function gethtmlFun(value, next) {
         Page({
 			num:value,				//页码数

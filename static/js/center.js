@@ -1,4 +1,16 @@
 $(function() {
+    $(".love_nav").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 4) {
+            $(data).addClass("active");
+        }
+    }); 
+    $(".love_center_tab").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 0) {
+            $(data).addClass("active");
+        }
+    }); 
     var centerobj = {};
     var salary = ['未填', '2000以下', '2000~5000', '5000~10000', '10000~20000', '20000~50000', '50000以上']; // 薪资水平
     var aim = ['未填', '交友', '征婚', '聊天']; // 交友目的

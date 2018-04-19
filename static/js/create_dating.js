@@ -27,8 +27,18 @@ $(function() {
         vt: '',
     }
     $("#city_9").citySelect();
-
-
+    $(".love_try_tab").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 4) {
+            $(data).addClass("active");
+        }
+    });
+    $(".love_nav").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 1) {
+            $(data).addClass("active");
+        }
+    }); 
     $('.launch_data').click('on', function() {
         $(".love_start").find('input').map((index, data) => {
             // text radio num

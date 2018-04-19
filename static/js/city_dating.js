@@ -18,6 +18,18 @@ $(function() {
 			}
 		});
     }
+    $(".love_try_tab").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 1) {
+            $(data).addClass("active");
+        }
+    }); 
+    $(".love_nav").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 1) {
+            $(data).addClass("active");
+        }
+    }); 
     function city_datinghtml(next, callback) {
         $.ajax({
             url: '/city_dating',

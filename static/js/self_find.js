@@ -38,6 +38,12 @@ $(function() {
 			}
 		});
     }
+    $(".love_nav").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 3) {
+            $(data).addClass("active");
+        }
+    }); 
     var page = find_member('', '', '', '', '', '', '', '', '', '', '',0, callbackFun);
     console.log(page);
     $("#city_8").citySelect();

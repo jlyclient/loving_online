@@ -8,6 +8,18 @@ $(function() {
         loc1: '',
         loc2: '',
     }
+    $(".love_try_tab").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 0) {
+            $(data).addClass("active");
+        }
+    });
+    $(".love_nav").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 2) {
+            $(data).addClass("active");
+        }
+    });  
     $("#city_9").citySelect();
     get_html('/list_zhenghun','','','','','',0, gethtmlFun);
     function gethtmlFun(value, next) {

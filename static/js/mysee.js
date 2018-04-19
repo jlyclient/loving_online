@@ -14,6 +14,12 @@ function get_cookie_by_name(name)
     return "";
 }
 $(function() {
+    $(".love_center_tab").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 1) {
+            $(data).addClass("active");
+        }
+    }); 
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         type: 'POST',

@@ -3,6 +3,18 @@ $(function() {
         prov: '北京',
         city: '东城区',
     });
+    $(".love_try_tab").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 3) {
+            $(data).addClass("active");
+        }
+    }); 
+    $(".love_nav").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 2) {
+            $(data).addClass("active");
+        }
+    }); 
     var xsrf = get_cookie_by_name('_xsrf');
     $(".create_zhenghun").click(function() {
         var obj = {

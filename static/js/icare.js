@@ -15,6 +15,12 @@ function get_cookie_by_name(name)
 }
 $(function() {
     var xsrf = get_cookie_by_name('_xsrf');
+    $(".love_center_tab").find('li').map((index, data) => {
+        $(data).removeClass("active");
+        if (index == 3) {
+            $(data).addClass("active");
+        }
+    }); 
     $.ajax({
         type: 'POST',
         url: '/icare',
