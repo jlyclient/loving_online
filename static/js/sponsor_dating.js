@@ -44,6 +44,7 @@ $(function() {
                 console.log(jsondata);
                 if (jsondata.code == 0) {
                     sponsor_datinghtml(0, sponsordatingFun);
+                    $('.alert').html('删除成功').show().delay(1500).fadeOut();
                 }
             }
         });
