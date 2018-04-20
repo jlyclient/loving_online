@@ -2080,7 +2080,7 @@ class RemoveDatingHandler(BaseHandler):
     @tornado.gen.coroutine
     def post(self):
         did = self.get_argument('did', None)
-        cookie = self.get_secure_cookie('cookie', None)
+        cookie = self.get_secure_cookie('userid', None)
         uid = cookie.split('_')[1]
         if not did or not uid:
             d = {'code': -1,  'msg': '参数错误'}
