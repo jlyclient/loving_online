@@ -178,7 +178,7 @@ $(function() {
             $(".btn_guanzhu").click(function() {
                 if (jsondata.guanzhu != 1) {
                     $.ajax({
-                        url: '/guanzhu',
+                        url: '/sendcare',
                         type: 'POST',
                         data: {
                             'kind': 1,
