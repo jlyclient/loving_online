@@ -30,6 +30,7 @@ $(function() {
             $(data).addClass("active");
         }
     }); 
+
     function list_datinghtml(next, callback) {
         $.ajax({
             url: '/list_dating',
@@ -88,7 +89,8 @@ $(function() {
                                         '<p>约会补充:'+ listdata[i].buchong +'</p>'+
                                     '</div>'+
                                     '<div class="love_try_item_bottom">'+ (endflag || listdata[i].baoming ? '' : '<a class="btn btn_default" href="/dating_detail?did='+ listdata[i].id +'">我要参加</a>') +''+
-                                        '<div>'+ now_time(listdata[i].time) +'<span>'+ listdata[i].scan_count +'人阅读</span>'+
+                                        '<div>'+ now_time(listdata[i].time) +
+                                        '<span>'+ listdata[i].scan_count +'人阅读</span>'+
                                         '</div>'+
                                     '</div>'+
                                 '</div>'+

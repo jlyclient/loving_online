@@ -30,6 +30,24 @@ $(function() {
             $(data).addClass("active");
         }
     }); 
+    $(".love_try_box").on("click", '.del_dating', function() {
+        del_id = $(this).attr("name");
+        $.ajax({
+            url: '/remove_dating',
+            type: 'POST',
+            data: {
+                '_xsrf': xsrf,
+                did: del_id,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+                if (jsondata.code == 0) {
+                    sponsor_datinghtml(0, sponsordatingFun);
+                }
+            }
+        });
+    })
     function sponsor_datinghtml(next, callback) {
         $.ajax({
             url: '/sponsor_dating',
@@ -88,7 +106,9 @@ $(function() {
                                         '<p>约会补充:'+ listdata[i].buchong +'</p>'+
                                     '</div>'+
                                     '<div class="love_try_item_bottom">'+ (endflag || listdata[i].baoming ? '' : '<a class="btn btn_default" href="/dating_detail?did='+ listdata[i].id +'">查看</a>') +''+
-                                        '<div>'+ now_time(listdata[i].time) +'<span>'+ listdata[i].scan_count +'人阅读</span>'+
+                                        '<div>'+ now_time(listdata[i].time) +
+                                        '<span>'+ listdata[i].scan_count +'人阅读</span>'+
+                                        '<span name='+ listdata[i].id +' class="love_photo_add del_dating">删除 </span>'+
                                         '</div>'+
                                     '</div>'+
                                 '</div>'+
