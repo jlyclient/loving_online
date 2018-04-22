@@ -2852,10 +2852,9 @@ class ChongZhiHandler(BaseHandler):
                 pass
             else:
                 num = table[i]
-                num = 1
                 t = time.localtime()
                 now = time.strftime('%Y%m%d%H%M%S', t)
-                otn = '%s%02d' % (now, kind)
+                otn = '%s%02d_%s' % (now, kind, uid)
                 pro_id = '1%02d' % kind
                 sc_ip = self.request.remote_ip
                 xml = genorder(otn, pro_id, sc_ip, num)
