@@ -233,6 +233,7 @@ $(function() {
                                 var codedata = JSON.parse(data);
                                 console.log(codedata);
                                 if (codedata.code == 0) {
+                                    clearInterval(t);
                                     close_popup();
                                 }
                             },
