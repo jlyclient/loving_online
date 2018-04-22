@@ -187,14 +187,15 @@ $(function() {
         var chongzhinum = 0;
         // var chongzhitype = 0;
         var flag = false;
-        var yuanarr = [1.00, 10.00, 20.00, 50.00, 200.00, 500.00, 1000.00];
+        var yuanarr = [10.00, 20.00, 50.00, 100.00, 200.00, 500.00, 1000.00];
         $(".love_rec_select").find('span').map((index, data) => {
             if ($(data).attr('class') == 'active') {
                 chongzhinum = $(data).attr('name');
             }
             console.log(chongzhinum);
         });
-        $("love_rec_pay").find(".love_pay").map((index, data) => {
+        $(".love_rec_pay").find(".love_pay").map((index, data) => {
+            console.log()
             if ($(data).attr('class') == 'active') {
                 flag = true;
             }
