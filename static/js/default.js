@@ -195,8 +195,8 @@ $(function() {
             console.log(chongzhinum);
         });
         $(".love_rec_pay").find(".love_pay").map((index, data) => {
-            console.log()
-            if ($(data).attr('class') == 'active') {
+            console.log($(data).attr('class'));
+            if ($(data).attr('class') == 'love_pay active') {
                 flag = true;
             }
         });
