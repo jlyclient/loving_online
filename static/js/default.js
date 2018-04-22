@@ -164,12 +164,49 @@ $(function() {
     $(".btn_recharge").click(function() {
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_rec').removeClass('d_n');
+        $.ajax({
+            url: 'yue',
+            type: 'POST',
+            data: {
+                "_xsrf":xsrf,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                $(".love_balance").empty();
+                console.log(jsondata);
+                if (jsondata.code == 0) {
+                    var balancehtml = '<p>充值余额：<span>'+ jsondata.data.num +'</span>爱豆</p><p>赠送余额：<span>'+ jsondata.data.free +'</span>爱豆</p>';
+                    $(".love_balance").append(balancehtml);  
+                }
+            }
+        })
     });
 
     //充值二维码弹窗
     $(".btn_pay_submit").click(function() {
         $('.love_pay_content_1').hide();
         $('.love_pay_content_2').show();
+        $(".love_rec_select").find('span').map((index, data) => {
+            var chongzhinum = 0;
+            if ($(data).attr('class') == 'active') {
+                chongzhinum = $(data).attr('name');
+            }
+            console.log(chongzhinum)
+            $.ajax({
+                url: '/chongzhi',
+                type: 'POST',
+                data: {
+                    "_xsrf":xsrf,
+                    kind: chongzhinum,
+                    way: 0,
+                },
+                success: function(data) {
+                    var jsondata = JSON.parse(data);
+                    console.log(jsondata);
+                }
+            })
+        })
+
     });
  
 

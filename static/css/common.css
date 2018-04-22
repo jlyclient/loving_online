@@ -1713,12 +1713,14 @@ header {
 .love_rec_select {
     width: 520px;
     overflow: hidden;
-    margin-bottom: 15px;
+    display: flex;
+    /* justify-content: space-between; */
+    flex-wrap: wrap;
 }
 
 .love_rec_select span {
     display: block;
-    float: left;
+    /* float: left; */
     width: 100px;
     height: 38px;
     border: 1px solid #d6d6d6;
@@ -1729,9 +1731,10 @@ header {
     cursor: pointer;
     position: relative;
     font-size: 16px;
+    margin-bottom: 15px;
 }
 
-.love_rec_select span:last-child {
+.love_rec_select span:nth-child(4n) {
     margin-right: 0;
 }
 

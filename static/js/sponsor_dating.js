@@ -109,7 +109,7 @@ $(function() {
                                     '<div class="love_try_item_bottom">'+ (endflag || listdata[i].baoming ? '' : '<a class="btn btn_default" href="/dating_detail?did='+ listdata[i].id +'">查看</a>') +''+
                                         '<div>'+ now_time(listdata[i].time) +
                                         '<span>'+ listdata[i].scan_count +'人阅读</span>'+
-                                        '<span name='+ listdata[i].id +' class="love_photo_add del_dating">删除 </span>'+
+                                        '<span name='+ listdata[i].id +' class="love_photo_add del_dating">删除</span>'+
                                         '</div>'+
                                     '</div>'+
                                 '</div>'+
@@ -120,7 +120,6 @@ $(function() {
                         '</div>';
                         }
                     }
-                    
                     $(".love_try_box").append(listhtml);
                 }
                 console.log(jsondata);
