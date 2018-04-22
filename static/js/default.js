@@ -187,7 +187,7 @@ $(function() {
         var chongzhinum = 0;
         // var chongzhitype = 0;
         var flag = false;
-        var yuanarr = [10.00, 20.00, 50.00, 100.00, 200.00, 500.00, 1000.00];
+        var yuanarr = [1.00, 2.00, 5.00, 10.00, 20.00, 50.00, 100.00];
         $(".love_rec_select").find('span').map((index, data) => {
             if ($(data).attr('class') == 'active') {
                 chongzhinum = $(data).attr('name');
@@ -216,6 +216,7 @@ $(function() {
                         $('.love_pay_content_1').hide();
                         $('.love_pay_content_2').show();
                         $(".love_content2_title").empty();
+                        $("#qrcode").empty();
                         var payhtml = '尊敬的会员<span>'+ $("#login_name").html() +'</span>，您正在使用即时到帐付款功能，您即将付款<span>'+ yuanarr[chongzhinum] +'</span>元。';
                         $(".love_content2_title").append(payhtml);
                         $(".love_pay_num").html(yuanarr[chongzhinum]);
