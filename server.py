@@ -2875,7 +2875,7 @@ class ChongZhiHandler(BaseHandler):
                     d = {'code': -1, 'msg': '下单失败'}
                 else:
                     code_url = wx_order_res.get('code_url')
-                    d = {'code': 0, 'msg': 'ok', 'data': code_url}
+                    d = {'code': 0, 'msg': 'ok', 'data':{'code_url': code_url, 'out_trade_no':otn}}
         d = json.dumps(d)
         self.write(d)
         self.finish()
