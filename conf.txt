@@ -33,3 +33,9 @@ zhenghun_fee=1
 wx_code_url=https://open.weixin.qq.com/connect/qrconnect?appid=wxcd463fb8f1644167&redirect_uri=http://47.94.105.76:8000/login&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect
 wx_access_url=https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxcd463fb8f1644167&secret=684a8c4abb6b8c3c65c6e78112e726c5&code=%s&grant_type=authorization_code
 user_url=https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s
+
+[pay]
+wx_notify_url=http://www.jialiangyuan.com:5656/pay
+wx_order_url=https://api.mch.weixin.qq.com/pay/unifiedorder
+wx_key=jly2018jilindaxuesangzaoyunfengc
+

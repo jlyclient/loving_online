@@ -31,6 +31,10 @@ class Picconf():
         self.wx_access_url=p.get('login', 'wx_access_url')
         self.user_url= p.get('login', 'user_url')
 
+        self.wx_notify_url = p.get('pay', 'wx_notify_url')
+        self.wx_order_url  = p.get('pay', 'wx_order_url')
+        self.wx_key        = p.get('pay', 'wx_key')
+
     def dis(self):
         print(self.sys_port)
 

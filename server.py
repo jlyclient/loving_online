@@ -19,6 +19,8 @@ from tornado.web import StaticFileHandler
 from tornado.options import define, options
 
 from conf import conf
+from wxpay import genorder
+from xmlparse import order_response_xml_parse
 
 define("port", default=conf.sys_port, help="run on the given port", type=int)
 
@@ -265,6 +267,7 @@ class LoginHandler(tornado.web.RequestHandler):
                         self.write('微信服务器错误2')
                         self.finish()
                     else:
+                        openid    = d.get('openid', '')
                         nick_name = d.get('nickname', '')
                         sex       = d.get('sex', '')
                         img       = d.get('headimgurl', '')
@@ -274,8 +277,8 @@ class LoginHandler(tornado.web.RequestHandler):
                             self.write('微信服务器错误2')
                             self.finish()
                         else:
-                            body = 'src=%s&nick_name=%s&sex=%s&unionid=%s' % \
-                                   (img, nick_name, sex, unionid)
+                            body = 'src=%s&nick_name=%s&sex=%s&unionid=%s&openid=%s' % \
+                                   (img, nick_name, sex, unionid, openid)
                             url = 'http://%s:%s/wxlogin' % (conf.dbserver_ip, conf.dbserver_port)
                             headers = self.request.headers
                             http_client = tornado.httpclient.AsyncHTTPClient()
@@ -2765,6 +2768,118 @@ class YanYuanReplyHandler(BaseHandler):
         self.write(d)
         self.finish()
             
+class YuEHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo  = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        d = {'code': -1, 'msg': '参数不正确'}
+        if not uid:
+            pass
+        else:
+            url = 'http://%s:%s/yue' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            body = 'uid=%s'% uid
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {'code': -1, 'msg': '服务器错误'}
+            try:
+                d = json.loads(r)
+            except:
+                pass
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
+class QueryPayHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+    coo  = self.get_secure_cookie('userid')
+    uid  = coo.split('_')[1]
+    otn  = self.get_argument('out_trade_no', None)
+    d = {'code': -1, 'msg': '参数不正确'}
+    if otn:
+        url = 'http://%s:%s/query_order_pay' % (conf.dbserver_ip, conf.dbserver_port)
+        headers = self.request.headers
+        body = 'uid=%s&out_trade_no=%s'% (uid, otn)
+        http_client = tornado.httpclient.AsyncHTTPClient()
+        resp = yield tornado.gen.Task(
+                http_client.fetch,
+                url,
+                method='POST',
+                headers=headers,
+                body=body,
+                validate_cert=False)
+        r = resp.body
+        d = {'code': -1, 'msg': '服务器错误'}
+        try:
+            d = json.loads(r)
+        except:
+            pass
+    d = json.dumps(d)
+    self.write(d)
+    self.finish()
+
+class ChongZhiHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    @tornado.gen.coroutine
+    def post(self):
+        coo  = self.get_secure_cookie('userid')
+        uid = coo.split('_')[1]
+        kind = int(self.get_argument('kind', '-1'))#第几个选项
+        way  = int(self.get_argument('way', '-1'))#充值方式 0=wx 1=alipay
+        print('kind=', kind)
+        print('way=', way)
+        d = {'code': -1, 'msg': '参数不正确'}
+        if not uid or kind == -1 or way == -1:
+            pass
+        else:
+            table = [100, 200, 500,1000,2000,5000,10000]
+            i = int(kind)
+            if i >= len(table) or i < 0:
+                pass
+            else:
+                num = table[i]
+                num = 1
+                t = time.localtime()
+                now = time.strftime('%Y%m%d%H%M%S', t)
+                otn = '%s%02d' % (now, kind)
+                pro_id = '1%02d' % kind
+                sc_ip = self.request.remote_ip
+                xml = genorder(otn, pro_id, sc_ip, num)
+                url = conf.wx_order_url
+                headers = {'Content-Type':'text/xml'}
+                body = xml
+                http_client = tornado.httpclient.AsyncHTTPClient()
+                resp = yield tornado.gen.Task(
+                        http_client.fetch,
+                        url,
+                        method='POST',
+                        headers=headers,
+                        body=body,
+                        validate_cert=False)
+                wx_order_res = order_response_xml_parse(resp.body)
+                if not wx_order_res.get('return_code') or wx_order_res['return_code'] != 'SUCCESS' or not wx_order_res.get('code_url'):
+                    d = {'code': -1, 'msg': '下单失败'}
+                else:
+                    code_url = wx_order_res.get('code_url')
+                    d = {'code': 0, 'msg': 'ok', 'data': code_url}
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
+
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
@@ -2827,6 +2942,9 @@ if __name__ == "__main__":
         ('/remove_zhenghun', RemoveZhenghunHandler),
         ('/email_unread', EmailUnReadHandler),
         ('/yanyuan_reply', YanYuanReplyHandler),
+        ('/yue', YuEHandler),
+        ('/chongzhi', ChongZhiHandler),
+        ('/query_pay_order', QueryPayHandler),
               ]
     application = tornado.web.Application(handler, **settings)
     http_server = tornado.httpserver.HTTPServer(application, xheaders=True)
