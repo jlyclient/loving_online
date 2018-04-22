@@ -2805,31 +2805,31 @@ class QueryPayHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def post(self):
-    coo  = self.get_secure_cookie('userid')
-    uid  = coo.split('_')[1]
-    otn  = self.get_argument('out_trade_no', None)
-    d = {'code': -1, 'msg': '参数不正确'}
-    if otn:
-        url = 'http://%s:%s/query_order_pay' % (conf.dbserver_ip, conf.dbserver_port)
-        headers = self.request.headers
-        body = 'uid=%s&out_trade_no=%s'% (uid, otn)
-        http_client = tornado.httpclient.AsyncHTTPClient()
-        resp = yield tornado.gen.Task(
-                http_client.fetch,
-                url,
-                method='POST',
-                headers=headers,
-                body=body,
-                validate_cert=False)
-        r = resp.body
-        d = {'code': -1, 'msg': '服务器错误'}
-        try:
-            d = json.loads(r)
-        except:
-            pass
-    d = json.dumps(d)
-    self.write(d)
-    self.finish()
+        coo  = self.get_secure_cookie('userid')
+        uid  = coo.split('_')[1]
+        otn  = self.get_argument('out_trade_no', None)
+        d = {'code': -1, 'msg': '参数不正确'}
+        if otn:
+            url = 'http://%s:%s/query_order_pay' % (conf.dbserver_ip, conf.dbserver_port)
+            headers = self.request.headers
+            body = 'uid=%s&out_trade_no=%s'% (uid, otn)
+            http_client = tornado.httpclient.AsyncHTTPClient()
+            resp = yield tornado.gen.Task(
+                    http_client.fetch,
+                    url,
+                    method='POST',
+                    headers=headers,
+                    body=body,
+                    validate_cert=False)
+            r = resp.body
+            d = {'code': -1, 'msg': '服务器错误'}
+            try:
+                d = json.loads(r)
+            except:
+                pass
+        d = json.dumps(d)
+        self.write(d)
+        self.finish()
 
 class ChongZhiHandler(BaseHandler):
     @tornado.web.authenticated
