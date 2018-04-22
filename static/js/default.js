@@ -184,27 +184,65 @@ $(function() {
 
     //充值二维码弹窗
     $(".btn_pay_submit").click(function() {
-        $('.love_pay_content_1').hide();
-        $('.love_pay_content_2').show();
+        var chongzhinum = 0;
+        var yuanarr = [1.00, 10.00, 20.00, 50.00, 200.00, 500.00, 1000.00];
         $(".love_rec_select").find('span').map((index, data) => {
-            var chongzhinum = 0;
             if ($(data).attr('class') == 'active') {
                 chongzhinum = $(data).attr('name');
             }
-            console.log(chongzhinum)
-            $.ajax({
-                url: '/chongzhi',
-                type: 'POST',
-                data: {
-                    "_xsrf":xsrf,
-                    kind: chongzhinum,
-                    way: 0,
-                },
-                success: function(data) {
-                    var jsondata = JSON.parse(data);
-                    console.log(jsondata);
+            console.log(chongzhinum);
+        });
+        $.ajax({
+            url: '/chongzhi',
+            type: 'POST',
+            data: {
+                "_xsrf":xsrf,
+                kind: chongzhinum,
+                way: 0,
+            },
+            success: function(data) {
+                var jsondata = JSON.parse(data);
+                console.log(jsondata);
+                if (jsondata.code == 0) {
+                    $('.love_pay_content_1').hide();
+                    $('.love_pay_content_2').show();
+                    $(".love_content2_title").empty();
+                    var payhtml = '尊敬的会员<span>'+ $("#login_name").html() +'</span>，您正在使用即时到帐付款功能，您即将付款<span>'+ yuanarr[chongzhinum] +'</span>元。';
+                    $(".love_content2_title").append(payhtml);
+                    $(".love_pay_num").html(yuanarr[chongzhinum]);
+                    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                        width : 178,
+                        height : 178,
+                    });
+                    qrcode.makeCode(jsondata.data.code_url);
+                    var time = 0;
+                    var t = setInterval(function() {
+                        if (time == 30) {
+                            clearInterval(t);
+                            close_popup();
+                            return;
+                        }
+                        $.ajax({
+                            url: '/query_pay_order',
+                            type: 'POST',
+                            data: {
+                                "_xsrf":xsrf,
+                                out_trade_no: jsondata.data.out_trade_no, 
+                            },
+                            success: function(data) {
+                                var codedata = JSON.parse(data);
+                                console.log(codedata);
+                                if (codedata.code == 0) {
+                                    close_popup();
+                                }
+                            },
+                        });
+                        time ++;
+                    }, 2000);
+                } else {
+                    alert(jsondata.msg);
                 }
-            })
+            }
         })
 
     });
