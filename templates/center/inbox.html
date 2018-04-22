@@ -51,27 +51,32 @@
 
 
     <div class="love_dialog">
-        <!-- 充值 -->
-        <div class="love_dialog_rec d_n">
+       <!-- 充值 -->
+       <div class="love_dialog_rec d_n">
             <div class="love_dialog_header">
                 充值<span class="love_dialog_close btn_dialog_close"></span>
             </div>
             <div class="love_dialog_content">
                 <div class="love_pay_content_1">
-                    <p>我的余额：<span>10</span>爱豆</p>
+                    <p class="love_balance">
+                        
+                    </p>
                     <p>充值金额：</p>
                     <div class="love_rec_select">
-                        <span>1爱豆</span>
-                        <span>10爱豆</span>
-                        <span class="active">20爱豆</span>
-                        <span>100爱豆</span>
+                        <span name="0">1爱豆</span>
+                        <span name="1">10爱豆</span>
+                        <span name="2">20爱豆</span>
+                        <span name="3">50爱豆</span>
+                        <span name="4">200爱豆</span>
+                        <span name="5">500爱豆</span>
+                        <span name="6">1000爱豆</span>
                     </div>
-                    <div class="love_rec_input">
+                    <!-- <div class="love_rec_input">
                         <input type="number" placeholder="输入您要充值的爱豆，如：30">
-                    </div>
+                    </div> -->
                     <p>支付方式：</p>
                     <div class="love_rec_pay">
-                        <div class="love_pay active"><i class="love_icon love_icon-zhifubao0"></i></div>
+                        <!-- <div class="love_pay active"><i class="love_icon love_icon-zhifubao0"></i></div> -->
                         <div class="love_pay"><i class="love_icon love_icon-weixin"></i></div>
                     </div>
                     <div class="love_dialog_btns mt-30">
@@ -80,16 +85,15 @@
                     </div>
                 </div>
                 <div class="love_pay_content_2">
-                    <p>尊敬的会员<span>疯狂的诗人</span>，您正在使用即时到帐付款功能，您即将付款<span>50.00</span>元。</p>
+                    <p class="love_content2_title"></p>
                     <p>收款方：佳良缘官方财务</p>
                     <div class="love_pay_code tc">
                         <p>扫码付款（元）</p>
-                        <p><span>50.00</span></p>
-                        <div class="love_code_img">
-                            <img src="../img/code.jpg" alt="">
+                        <p><span class="love_pay_num">50.00</span></p>
+                        <div id="qrcode" class="love_code_img">
+                            <!-- <img  src="img/code.jpg" alt=""> -->
                         </div>
-                        <h3>打开手机支付宝&emsp;扫一扫继续付款</h3>
-                        <h3><span>初次使用请下载手机支付宝app</span></h3>
+                        <h3>打开手机微信&emsp;扫一扫继续付款</h3>
                     </div>
                 </div>
             </div>
@@ -131,6 +135,7 @@
         </div>
     </div>
     <script src="../js/jquery-min.js"></script>
+    <script src="../js/qrcode.js"></script>
     <script src="../js/default.js"></script>
     <script src="../js/pager.js"></script>
     <script src="../js/center.js"></script>
