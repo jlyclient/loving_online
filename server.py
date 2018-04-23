@@ -2650,7 +2650,7 @@ class DetailZhenghunHandler(BaseHandler):
         else:
             url = 'http://%s:%s/detail_zhenghun' % (conf.dbserver_ip, conf.dbserver_port)
             headers = self.request.headers
-            body = self.request.body + 'zid=%s'%zid
+            body = self.request.body
             http_client = tornado.httpclient.AsyncHTTPClient()
             resp = yield tornado.gen.Task(
                     http_client.fetch,
