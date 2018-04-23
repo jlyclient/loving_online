@@ -108,6 +108,9 @@ $(function() {
                             n = parseInt(n)
                             n = n-1
                             $('.weidunumber').html(n);
+                            if (n == 0) {
+                                $(".love_icon-lingdang").empty();
+                            }
                             // $(this).parent().removeChild();
                             // console.log(This.parent().prev().find('.radio')[0]);
                             This.parent().prev()[0].removeChild(This.parent().prev().find('.radio')[0]);
@@ -160,6 +163,9 @@ $(function() {
                         n = parseInt(n)
                         n = n-1
                         $('.weidunumber').html(n);
+                        if (n == 0) {
+                            $(".love_icon-lingdang").empty();
+                        }
                         This.parent().prev()[0].removeChild(This.parent().prev().find('.radio')[0]);
                         // console.log(This.parent().prev().find(".radio"));
                         // This.parent().prev();
