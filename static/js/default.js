@@ -97,9 +97,9 @@ $(function() {
 
     //登录弹窗
     $(".btn_dialog_login").click(function() {
-      $('.love_dialog>div').addClass('d_n');
-      $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
-        // wx_login();
+    //   $('.love_dialog>div').addClass('d_n');
+    //   $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
+        wx_login();
     });
     
     // 修改密码弹窗

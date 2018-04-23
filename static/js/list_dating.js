@@ -61,7 +61,7 @@ $(function() {
                             if (endflag) {
                                 timehtml += '<p>报名已截止</p>';
                             } else {
-                                timehtml += show_time(endtime);
+                                show_time(endtime, i);
                             }
                             loc_ = loc_display(listdata[i].loc1, listdata[i].loc2);
                             listhtml += '<div '+ (endflag == true ? 'class="love_try_item love_over"' : 'class="love_try_item"') +'>'+
