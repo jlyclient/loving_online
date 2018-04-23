@@ -97,9 +97,9 @@ $(function() {
 
     //登录弹窗
     $(".btn_dialog_login").click(function() {
-      //$('.love_dialog>div').addClass('d_n');
-      //$('.love_dialog').find('.love_dialog_login').removeClass('d_n');
-        wx_login();
+      $('.love_dialog>div').addClass('d_n');
+      $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
+        // wx_login();
     });
     
     // 修改密码弹窗
@@ -631,12 +631,13 @@ $(function() {
 
 // 距离到现在的时间
 function now_time(time) {
-    var time_start = new Date(time).getTime(); //设定当前时间
+    var time_start = new Date(time.replace(/\-/g, "/")).getTime(); //设定当前时间
     var time_end = new Date().getTime(); //设定目标时间
     // 计算时间差 
     var time_distance = time_end - time_start;
+
     // 天
-    var int_day = Math.floor(time_distance / 86400000)
+    var int_day = Math.floor(time_distance / 86400000);
     time_distance -= int_day * 86400000;
     // 时
     var int_hour = Math.floor(time_distance / 3600000)
@@ -664,9 +665,10 @@ function now_time(time) {
 }
 
 //倒计时
-function show_time(time) {
+function show_time(time, i) {
     var time_start = new Date().getTime(); //设定当前时间
     var time_end = time; //设定目标时间
+    var num = 0;
     // 计算时间差 
     var time_distance = time_end - time_start;
     // 天
@@ -695,14 +697,19 @@ function show_time(time) {
     }
     // 显示时间 
     // $("#time_d").val(int_day);
-    var timehtml = '<p class="love_time">剩余：<span class="love_time_h">'+ int_day+'</span>天<span class="love_time_h">'+ int_hour+'</span>小时'+
+    $('.love_try_item_right').eq(i).empty();
+    var timehtml = '<div><p class="love_time">剩余：<span class="love_time_h">'+ int_day+'</span>天<span class="love_time_h">'+ int_hour+'</span>小时'+
     '<span class="love_time_m">'+ int_minute +'</span>分'+
-    '<span class="love_time_s">'+ int_second +'</span>秒</p>';
+    '<span class="love_time_s">'+ int_second +'</span>秒</p></div>';
+    // console.log(timehtml);
+    $('.love_try_item_right').eq(i).append(timehtml);
+    setTimeout('show_time('+ time +','+ i +')', 1000);
     // 设置定时器
-    setTimeout(function(){
-        show_time(time);
-    }, 1000);
-    return timehtml;
+    // setInterval(function(){
+    //     num++;
+    //     show_time(time - 1000 * num);
+    // }, 1000);
+    // return timehtml;
 }
 // 关闭弹窗
 function close_popup() {
@@ -799,14 +806,13 @@ function get_html(url, sex, age1, age2, loc1, loc2, next, callback) {
                 var listdata = jsondata.data.arr;
                 if (listdata.length > 0) {
                     for(var i = 0; i < listdata.length; i++) {
-                        var endtime = Number(new Date(listdata[i].time).getTime()) + listdata[i].valid_day * 24 * 60 * 60 * 1000;
+                        var endtime = Number(new Date(listdata[i].time.replace(/\-/g, "/")).getTime()) + listdata[i].valid_day * 24 * 60 * 60 * 1000;
                         var endflag = new Date().getTime() > endtime ? true : false;
                         var timehtml = '';
-                        console.log(endflag);
                         if (endflag) {
                             timehtml += '<p>报名已截止</p>';
                         } else {
-                            timehtml += show_time(endtime);
+                            show_time(endtime, i);
                         }
                         listhtml += '<div '+ (endflag == true ? 'class="love_try_item love_over"' : 'class="love_try_item"') +'>'+
                         '<div class="love_try_item_left">'+
