@@ -25,7 +25,7 @@ $(function() {
         type: 'POST',
         url: '/icare',
         data: {
-            '_xsrf': xsrf,
+            '_xsrf': xsrf
         },
         success: function(data) {
             var jsondata = JSON.parse(data);

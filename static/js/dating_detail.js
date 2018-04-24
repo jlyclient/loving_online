@@ -7,7 +7,7 @@ $(function() {
         type: 'POST',
         data: {
             "_xsrf":xsrf,
-            did: did,
+            did: did
         },
         success: function(data) {
             var subject = ['约饭','电影','交友','聊天','喝酒','唱歌','其他'];
@@ -102,7 +102,7 @@ $(function() {
             type: 'POST',
             data: {
                 "_xsrf":xsrf,
-                did: did,
+                did: did
             },
             success: function(data) {
                 var reasondata = JSON.parse(data);

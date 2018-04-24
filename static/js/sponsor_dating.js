@@ -13,7 +13,7 @@ $(function() {
                 console.log(n);
 				sponsor_datinghtml(
                     n-1,
-                    sponsordatingFun,
+                    sponsordatingFun
                 );
 			}
 		});
@@ -37,7 +37,7 @@ $(function() {
             type: 'POST',
             data: {
                 '_xsrf': xsrf,
-                did: del_id,
+                did: del_id
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
@@ -55,7 +55,7 @@ $(function() {
             type: 'POST',
             data: {
                 "_xsrf":xsrf,
-                next: next,
+                next: next
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);

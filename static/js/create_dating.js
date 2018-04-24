@@ -24,7 +24,7 @@ $(function() {
         num: '',
         fee:  '',
         bc: '',
-        vt: '',
+        vt: ''
     }
     $("#city_9").citySelect();
     $(".love_try_tab").find('li').map((index, data) => {
@@ -74,7 +74,7 @@ $(function() {
                     num: obj.num,
                     fee:  obj.fee,
                     bc: obj.bc,
-                    vt: obj.vt,
+                    vt: obj.vt
                 },
                 success: function(data) {
                     var jsondata = JSON.parse(data);

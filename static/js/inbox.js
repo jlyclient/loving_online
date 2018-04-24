@@ -30,7 +30,7 @@ $(function() {
                     'email',
                     show_type,
                     n-1,
-                    gethtmlFun,
+                    gethtmlFun
                 );
 			}
 		});
@@ -57,7 +57,7 @@ $(function() {
         url: '/latest_conn',
         type: 'POST',
         data: {
-            '_xsrf': xsrf,
+            '_xsrf': xsrf
         },
         success: function(data) {
             var jsondata = JSON.parse(data);
@@ -97,7 +97,7 @@ $(function() {
                     '_xsrf': xsrf,
                     kind: This.attr('kind'),
                     uid: This.attr("name"),
-                    eid: This.attr("eid"),
+                    eid: This.attr("eid")
                 },
                 success: function(data) {
                     var jsondata = JSON.parse(data);
@@ -154,7 +154,7 @@ $(function() {
                 type: 'POST',
                 data: {
                     '_xsrf': xsrf,
-                    eid: seedata.mail.id,
+                    eid: seedata.mail.id
                 },
                 success: function(data) {
                     var jsondata = JSON.parse(data);
@@ -189,7 +189,7 @@ $(function() {
             type: 'POST',
             data: {
                 '_xsrf': xsrf,
-                eid: eid,
+                eid: eid
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
@@ -217,7 +217,7 @@ $(function() {
             data: {
                 '_xsrf': xsrf,
                 uid: send_email,
-                content: cnt,
+                content: cnt
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
@@ -243,7 +243,7 @@ function get_data(url, type, next, callback) {
         type: 'POST',
         data: {
             '_xsrf': xsrf,
-            next: next,
+            next: next
         },
         success: function(data) {
             var jsondata = JSON.parse(data);

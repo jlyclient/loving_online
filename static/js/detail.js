@@ -135,7 +135,7 @@ $(function() {
                     data: {
                         '_xsrf': xsrf,
                         uid: uid,
-                        content: msg,
+                        content: msg
                     },
                     success: function(data) {
                         var jsondata = JSON.parse(data);
@@ -159,7 +159,7 @@ $(function() {
                         data: {
                             'kind': 1,
                             '_xsrf': xsrf,
-                            uid: uid,
+                            uid: uid
                         },
                         success: function(data) {
                             var jsondata = JSON.parse(data);
@@ -183,7 +183,7 @@ $(function() {
                         data: {
                             'kind': 1,
                             '_xsrf': xsrf,
-                            uid: uid,
+                            uid: uid
                         },
                         success: function(data) {
                             var jsondata = JSON.parse(data);
@@ -208,7 +208,7 @@ $(function() {
             data: {
                 '_xsrf': xsrf,
                 kind: seeother,
-                uid: uid,
+                uid: uid
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);

@@ -13,7 +13,7 @@ $(function() {
                 console.log(n);
 				participate_datinghtml(
                     n-1,
-                    participatedatingFun,
+                    participatedatingFun
                 );
 			}
 		});
@@ -35,7 +35,7 @@ $(function() {
             url: '/participate_dating',
             type: 'POST',
             data: {
-                "_xsrf":xsrf,
+                "_xsrf":xsrf
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);

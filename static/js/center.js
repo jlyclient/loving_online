@@ -49,7 +49,7 @@ $(function() {
         car: house,
         work: work,
         state: ['征友进行中', '找到意中人'],
-        nation: nation_arr,
+        nation: nation_arr
     }
     $.ajax({
         type:'POST',
@@ -242,11 +242,11 @@ $(function() {
             }
             $("#city_3").citySelect({
                 prov: centerobj.user.curr_loc1,
-                city: centerobj.user.curr_loc2,
+                city: centerobj.user.curr_loc2
             });
             $("#city_4").citySelect({
                 prov: centerobj.user.ori_loc1,
-                city: centerobj.user.ori_loc2,
+                city: centerobj.user.ori_loc2
             });
 
         });
@@ -325,7 +325,7 @@ $(function() {
             ori_loc1: '',
             ori_loc2: '',
             motto: '',
-            hobby: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            hobby: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         };
         $("#love_editcenter_box").find('input').map((index, data) => {
             obj[$(data).attr('name')] = $(data).val();
@@ -365,7 +365,7 @@ $(function() {
                 ori_loc1: obj.ori_loc1,
                 ori_loc2: obj.ori_loc2,
                 motto: obj.motto,
-                hobby: JSON.stringify(obj.hobby),
+                hobby: JSON.stringify(obj.hobby)
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
@@ -412,7 +412,7 @@ $(function() {
             mobile: '',
             wx: '',
             qq: '',
-            email: '',
+            email: ''
         }
         $("#love_oth_edit").find("select").map((index, data) => {
             obj[$(data).attr("name")] = Number($(data).find("option:selected").attr("value"));
@@ -432,7 +432,7 @@ $(function() {
                 mobile: obj.mobile,
                 wx: obj.wx,
                 qq: obj.qq,
-                email: obj.email,
+                email: obj.email
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
@@ -484,7 +484,7 @@ $(function() {
                 url: '/verify_other',
                 data: {
                     num: email,
-                    kind: 3,
+                    kind: 3
                 },
                 success: function(data) {
                     var jsondata = JSON.parse(dsta);

@@ -20,7 +20,7 @@ $(function() {
             title: '',
             content: '',
             valid_day: '',
-            object: '',
+            object: ''
         }
         $(".love_seek_start").find('input').map((index, data) => {
             if ($(data).attr('type') == 'text') {
@@ -46,7 +46,7 @@ $(function() {
                     title: obj.title,
                     content: obj.content,
                     valid_day: obj.valid_day,
-                    object: obj.object,
+                    object: obj.object
                 },
                 success: function(data) {
                     var jsondata = JSON.parse(data);

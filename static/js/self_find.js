@@ -10,7 +10,7 @@ $(function() {
         degree: '',
         salary: '',
         xingzuo: '',
-        shengxiao: '',
+        shengxiao: ''
     }
     function callbackFun(value, next) {
         console.log(value, '000000');
@@ -33,7 +33,7 @@ $(function() {
                     obj.xingzuo == '不限'|| obj.xingzuo == undefined ? '' : obj.xingzuo,
                     obj.shengxiao == '不限' || obj.shengxiao == undefined ? '' : obj.shengxiao,
                     n-1,
-                    callbackFun,
+                    callbackFun
                 );
 			}
 		});
@@ -78,7 +78,7 @@ $(function() {
                 obj.xingzuo == '不限'|| obj.xingzuo == undefined ? '' : obj.xingzuo,
                 obj.shengxiao == '不限' || obj.shengxiao == undefined ? '' : obj.shengxiao,
                 0,
-                callbackFun,
+                callbackFun
             );
         }
     });

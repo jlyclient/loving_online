@@ -168,7 +168,7 @@ $(function() {
             url: 'yue',
             type: 'POST',
             data: {
-                "_xsrf":xsrf,
+                "_xsrf":xsrf
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
@@ -207,7 +207,7 @@ $(function() {
                 data: {
                     "_xsrf":xsrf,
                     kind: chongzhinum,
-                    way: 0,
+                    way: 0
                 },
                 success: function(data) {
                     var jsondata = JSON.parse(data);
@@ -237,7 +237,7 @@ $(function() {
                                 type: 'POST',
                                 data: {
                                     "_xsrf":xsrf,
-                                    out_trade_no: jsondata.data.out_trade_no, 
+                                    out_trade_no: jsondata.data.out_trade_no
                                 },
                                 success: function(data) {
                                     var codedata = JSON.parse(data);
@@ -337,7 +337,7 @@ $(function() {
         console.log('success');
         uploader.option('formData',{
             "_xsrf":xsrf,
-            kind: upload_type,
+            kind: upload_type
          });
         //添加完需要与图片一起上传的参数之后,就可以手动触发uploader的上传事件了.
         uploader.upload();
@@ -448,7 +448,7 @@ $(function() {
             sex: '',
             password1: '',
             password2: '',
-            checked: false,
+            checked: false
         }
         
         $('#love_register').find('input').map((index, data) => {
@@ -472,7 +472,7 @@ $(function() {
                     password1: obj.password1,
                     password2: obj.password2,
                     token: g_token,
-                    time: g_time,
+                    time: g_time
                 },
                 success: function(data) {
                     var boydata = JSON.parse(data);
@@ -511,7 +511,7 @@ $(function() {
             mobile: '',
             code: '',
             password1: '',
-            password2: '',
+            password2: ''
         }
         var xsrf = get_cookie_by_name('_xsrf');
         $('#love_findpassword').find('input').map((index, data) => {
@@ -528,7 +528,7 @@ $(function() {
                     password1: obj.password1,
                     password2: obj.password2,
                     token: g_token,
-                    time: g_time,
+                    time: g_time
                 },
                 success: function(data) {
                     var boydata = JSON.parse(data);
@@ -587,7 +587,7 @@ $(function() {
         url: '/email_unread',
         type: 'POST',
         data: {
-            "_xsrf":xsrf,
+            "_xsrf":xsrf
         },
         success: function(data) {
             var jsondata = JSON.parse(data);
@@ -794,7 +794,7 @@ function get_html(url, sex, age1, age2, loc1, loc2, next, callback) {
             age2: age2,
             loc1: loc1,
             loc2: loc2,
-            next: next,
+            next: next
         },
         success: function(data) {
             var jsondata = JSON.parse(data);
@@ -867,7 +867,7 @@ function get_html(url, sex, age1, age2, loc1, loc2, next, callback) {
 }
 
 function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, shengxiao, next, callback) {
-    console.log(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, next, shengxiao);
+    // console.log(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary, xingzuo, next, shengxiao);
     var xsrf = get_cookie_by_name('_xsrf');
     $.ajax({
         type:'POST',
@@ -885,7 +885,7 @@ function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary
             salary: salary,
             xingzuo: xingzuo,
             shengxiao: shengxiao,
-            next: next ? next : 0,
+            next: next ? next : 0
         },
         success: function(mes) {
             var boydata = JSON.parse(mes);

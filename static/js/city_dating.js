@@ -13,7 +13,7 @@ $(function() {
                 console.log(n);
 				city_datinghtml(
                     n-1,
-                    callbacklistFun,
+                    callbacklistFun
                 );
 			}
 		});
@@ -36,7 +36,7 @@ $(function() {
             type: 'POST',
             data: {
                 "_xsrf":xsrf,
-                next: next,
+                next: next
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);

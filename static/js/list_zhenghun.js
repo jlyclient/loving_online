@@ -6,7 +6,7 @@ $(function() {
         age1: '',
         age2: '',
         loc1: '',
-        loc2: '',
+        loc2: ''
     }
     $(".love_try_tab").find('li').map((index, data) => {
         $(data).removeClass("active");
@@ -37,7 +37,7 @@ $(function() {
                     obj.loc1,
                     obj.los2,
                     n-1,
-                    gethtmlFun,
+                    gethtmlFun
                 );
 			}
 		});
@@ -57,7 +57,7 @@ $(function() {
                 data: {
                     '_xsrf': xsrf,
                     uid: email_id,
-                    content: $("#send_email_content").val(),
+                    content: $("#send_email_content").val()
                 },
                 success: function(data) {
                     var jsondata = JSON.parse(data);
@@ -99,7 +99,7 @@ $(function() {
                 obj.loc1,
                 obj.los2,
                 0,
-                gethtmlFun,
+                gethtmlFun
             );
         }
     })

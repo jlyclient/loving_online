@@ -29,7 +29,7 @@ $(function() {
                     '',
                     '',
                     n-1,
-                    gethtmlFun,
+                    gethtmlFun
                 );
 			}
 		});
@@ -46,7 +46,7 @@ $(function() {
             type: 'POST',
             data: {
                 '_xsrf': xsrf,
-                zid: del_id,
+                zid: del_id
             },
             success: function(data) {
                 var jsondata = JSON.parse(data);
@@ -66,7 +66,7 @@ $(function() {
                 data: {
                     '_xsrf': xsrf,
                     uid: email_id,
-                    content: $("#send_email_content").val(),
+                    content: $("#send_email_content").val()
                 },
                 success: function(data) {
                     var jsondata = JSON.parse(data);

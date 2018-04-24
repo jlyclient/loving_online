@@ -29,7 +29,7 @@ function get_new_member(sex_, dom) {
             sex: sex_,
             limit: 4,
             page: 12,
-            next: 0,
+            next: 0
         },
         success: function(data) {
             var boydata = JSON.parse(data);
@@ -120,7 +120,7 @@ $(function() {
             degree: '',
             salary: '',
             xingzuo: '',
-            shengxiao: '',
+            shengxiao: ''
         }
         $(".love_search_box").find("input").map((index, data) => {
             var type = $(data).attr("type");

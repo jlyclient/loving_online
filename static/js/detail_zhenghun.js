@@ -6,7 +6,7 @@ $(function() {
         type: 'POST',
         data: {
             '_xsrf': xsrf,
-            zid: zid,
+            zid: zid
         },
         success: function(data) {
             var jsondata = JSON.parse(data);
