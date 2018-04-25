@@ -157,7 +157,7 @@ $(function() {
                         $("#love_user_portrait").attr("src", centerobj.pic.arr[0]);
                         show_uoload_btn+= 1;
                     }
-                    if (i > 0 && centerobj.pic.arr[i] !== '') {
+                    if (i >= 0 && centerobj.pic.arr[i] !== '') {
                         user_pic += '<div class="love_col love_col_2"><div class="love_photo"><p><span class="love_icon love_icon-delete"></span></p><img src='+ centerobj.pic.arr[i] +'></div></div>';
                         user_show_pic += '<li><img src='+ centerobj.pic.arr[i] +'></li>';
                         show_uoload_btn += 1;
