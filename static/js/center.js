@@ -172,7 +172,7 @@ $(function() {
                     $(this).attr("src", centerobj.pic.arr[0]);
                 });
             } else {
-                alert(centerobj.msg.reason);
+                alert(centerobj.msg.reason,'执行到这里是code不等于0');
             }
         },
         error: function(para) {
