@@ -292,6 +292,7 @@ $(function() {
         upload_type = $(this).attr("name");
         $('.love_dialog>div').addClass('d_n');
         $('.love_dialog').find('.love_dialog_img').removeClass('d_n');
+        $('.love_img_show img').attr('src', '');
         // var fileserver_url = 'http://www.' + document.domain + '/fileupload';
         uploader = WebUploader.create({
             // swf文件路径
@@ -324,10 +325,6 @@ $(function() {
                     alert("不能预览，请重新上传！")
                     console.log('bunengyulan');
                 }
-                // if (error) {
-                //     $img.replaceWith('<span>不能预览</span>');
-                //     return;
-                // }
                 $('.love_img_show img').attr('src', src);
             });
         });

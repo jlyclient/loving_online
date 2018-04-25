@@ -168,9 +168,9 @@ $(function() {
                 if(show_uoload_btn >= 10) {
                     $(".love_upload_btn").css({display: 'none'});
                 }
-                $(".love_show_img").map(function() {
-                    $(this).attr("src", centerobj.pic.arr[0]);
-                });
+                // $(".love_show_img").map(function() {
+                //     $(this).attr("src", centerobj.pic.arr[0]);
+                // });
             } else {
                 alert(centerobj.msg.reason,'执行到这里是code不等于0');
             }

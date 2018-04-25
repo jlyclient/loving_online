@@ -176,27 +176,34 @@ $(function() {
                 }
             });
             $(".btn_guanzhu").click(function() {
-                if (jsondata.guanzhu != 1) {
-                    $.ajax({
-                        url: '/sendcare',
-                        type: 'POST',
-                        data: {
-                            'kind': 1,
-                            '_xsrf': xsrf,
-                            uid: uid
-                        },
-                        success: function(data) {
-                            var jsondata = JSON.parse(data);
-                            console.log(jsondata);
-                            if (jsondata.code === 0) {
-                                alert('关注成功！');
-                                $(".btn_guanzhu").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff', cursor: 'none' });
+                $.ajax({
+                    url: '/sendcare',
+                    type: 'POST',
+                    data: {
+                        'kind': jsondata.guanzhu != 1 ? 1 : 0,
+                        '_xsrf': xsrf,
+                        uid: uid
+                    },
+                    success: function(data) {
+                        var jsondata = JSON.parse(data);
+                        console.log(jsondata);
+                        if (jsondata.code === 0) {
+                            // alert('关注成功！');
+                            if (jsondata.guanzhu != 1) {
+                                $(".btn_guanzhu").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff'});
+                                $(".btn_guanzhu").html('已关注');
+                            } else {
+                                $(".btn_guanzhu").css({ background: '#fff', borderColor: '#f13973', color: '#f13973' });
+                                $(".btn_guanzhu").html('关注');
                             }
-                        },
-                        error: function(para) {
-                            console.log(para);
                         }
-                    })
+                    },
+                    error: function(para) {
+                        console.log(para);
+                    }
+                })
+                if (jsondata.guanzhu != 1) {
+                    
                 }
             })
         }
