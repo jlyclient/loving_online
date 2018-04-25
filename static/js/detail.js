@@ -47,7 +47,8 @@ $(function() {
                     $(".btn_yanyuan").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff', cursor: 'none' });
                 }
                 if (jsondata.guanzhu == 1) {
-                    $(".btn_guanzhu").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff', cursor: 'none' });
+                    $(".btn_guanzhu").css({ background: '#2cade3', borderColor: '#2cade3', color: '#fff'});
+                    $(".btn_guanzhu").html('已关注');
                 }
                 centerobj = jsondata.data;
                 var centermestitle = '', centermescon = '', centerintroduction = '';
