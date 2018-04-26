@@ -97,9 +97,9 @@ $(function() {
 
     //登录弹窗
     $(".btn_dialog_login").click(function() {
-    //   $('.love_dialog>div').addClass('d_n');
-    //   $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
-        wx_login();
+      $('.love_dialog>div').addClass('d_n');
+      $('.love_dialog').find('.love_dialog_login').removeClass('d_n');
+        // wx_login();
     });
     
     // 修改密码弹窗
@@ -251,7 +251,7 @@ $(function() {
                             time ++;
                         }, 2000);
                     } else {
-                        alert(jsondata.msg);
+                        alert(jsondata.msg, '执行到这里是jsondata.code不为0, default.js254行');
                     }
                 }
             });    
@@ -349,8 +349,8 @@ $(function() {
                 alert("图片上传成功！");
                 window.location.reload();
          　　} else {
-             alert(response.msg);
-         }
+             alert(response.msg, '执行到这里时response.msg不为OK, default.js 352');
+            }
         });
         uploader.on('uploadError',function(file,response){
             console.log(file,response);
@@ -361,12 +361,14 @@ $(function() {
     // 删除图片
     $("#love_user_pic").on('click', '.love_icon-delete', function() {
         var src = $(this).parent().next().attr("src");
+        var This = this;
         console.log(src);
         var a = src.split('/');
         if (a.length != 7) {
             return -1;
         }
         var t = a[3] + '/' + a[4] + '/' + a[5];
+        // console.log($(This).parent().parent().parent().eq(0).css({ display: 'none' }));
         $.ajax({
             url: '/delimg',
             type: 'POST',
@@ -380,7 +382,7 @@ $(function() {
                 if (jsondata.code == 0) {
                     alert("图片删除成功！")
                 }
-                window.location.reload();
+                $(This).parent().parent().parent().eq(0).css({ display: 'none' });
             },
             error: function(para){
                 console.log('ajax', para);
@@ -476,7 +478,7 @@ $(function() {
                     if (boydata['code'] == '0') {
                         close_popup(); // 关闭弹窗
                     } else {
-                        alert(boydata['msg']);
+                        alert(boydata['msg'], '执行到这里时code不为0 default.js 482');
                     }
                 }
             });
@@ -532,7 +534,7 @@ $(function() {
                     if (boydata['code'] == '0') {
                         close_popup(); // 关闭弹窗
                     } else {
-                        alert(boydata['msg']);
+                        alert(boydata['msg'], '执行到这里时code不为0 default.js 538');
                     }
                 },
                 error: function(para) {
@@ -578,7 +580,7 @@ $(function() {
     });
 
     var cookie = get_cookie_by_name('userid');
-    if (cookie != null) {
+    if (cookie != null && cookie != '') {
      // 获取未读邮件个数
     $.ajax({
         url: '/email_unread',
@@ -770,7 +772,7 @@ function send_verify(type) {
                     }
                 }, 1000);
             } else {
-                alert(d['msg']);
+                alert(d['msg'], '执行到这里时code不为0 default.js 776');
             }
         },
         error: function(para) {

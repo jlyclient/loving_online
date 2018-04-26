@@ -1995,3 +1995,8 @@ header {
 .webuploader-element-invisible{
     display: none;
 }
+.love_see_item_img{
+    width: 100%;
+    height: 185px;
+    overflow: hidden;
+}

@@ -252,7 +252,7 @@ $(function() {
         });
         $("#love_editcenter_box").find('textarea').eq(0).val(centerobj.statement.motto);
         for(var j = 0; j < centerobj.hobby.arr.length; j++) {
-            console.log(centerobj.hobby.arr[j], $(".love_tools_intersting").find('span').eq(j));
+            // console.log(centerobj.hobby.arr[j], $(".love_tools_intersting").find('span').eq(j));
             if (centerobj.hobby.arr[j] === 1) {
                 $(".love_tools_intersting").find('span').eq(j).addClass('active');
             } else {
@@ -274,6 +274,7 @@ $(function() {
     $(document).on('click', '.love_mater_back', function() {
         $('.love_mater_before').show();
         $('.love_mater_after').hide();
+        window.location.reload();
     });
     //内心独白
     $(document).on('click', '.love_white_edit', function() {
