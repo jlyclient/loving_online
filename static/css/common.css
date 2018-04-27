@@ -1657,6 +1657,8 @@ header {
 
 .love_inbox_lately {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
     margin: 20px auto 40px;
     overflow: hidden;
 }
@@ -1665,6 +1667,7 @@ header {
     width: 144px;
     float: left;
     margin-right: 32px;
+    margin-bottom: 20px;
 }
 
 .love_inbox_lately .love_lately_item:last-child {
