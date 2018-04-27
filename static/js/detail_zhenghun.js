@@ -49,6 +49,8 @@ $(function() {
                 '<div class="clear"></div>'+
             '</div>';
                 $(".love_try_detail").append(detail_zhenghun);
+            } else {
+                alert(jsondata.msg);
             }
         }
     })

@@ -102,6 +102,8 @@ $(function() {
                         }
                     }
                     $(".love_try_box").append(listhtml);
+                } else {
+                    alert(jsondata.msg);
                 }
                 console.log(jsondata);
             }

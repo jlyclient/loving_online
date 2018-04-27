@@ -92,6 +92,8 @@ $(function() {
                     '<div class="love_row love_detail_row">'+ bmmumber +'</div>';     
                 }
                 $(".love_detail_text").append(love_detail_text);
+            } else {
+                alert(jsondata.msg);
             }
         }
     });

@@ -177,6 +177,8 @@ $(function() {
                 if (jsondata.code == 0) {
                     var balancehtml = '<p>充值余额：<span>'+ jsondata.data.num +'</span>爱豆</p><p>赠送余额：<span>'+ jsondata.data.free +'</span>爱豆</p>';
                     $(".love_balance").append(balancehtml);  
+                } else {
+                    alert(jsondata.msg);
                 }
             }
         })
@@ -245,6 +247,8 @@ $(function() {
                                     if (codedata.code == 0) {
                                         clearInterval(t);
                                         close_popup();
+                                    } else {
+                                        alert(codedata.msg);
                                     }
                                 },
                             });
@@ -381,6 +385,8 @@ $(function() {
                 console.log(jsondata);
                 if (jsondata.code == 0) {
                     alert("图片删除成功！")
+                } else {
+                    alert(jsondata.msg);
                 }
                 $(This).parent().parent().parent().eq(0).css({ display: 'none' });
             },
@@ -598,6 +604,8 @@ $(function() {
                     $(".love_icon-lingdang").append(weiduhtml);
                 }
                 
+            } else {
+                alert(jsondata.msg);
             }
         },
         error: function(para) {
@@ -857,6 +865,8 @@ function get_html(url, sex, age1, age2, loc1, loc2, next, callback) {
                     listhtml += '<div class="love_none"><div class="love_none_text"><i></i><p>暂时没有任何征婚信息，快去征婚吧！</p></div></div>';
                 }
                 $(".love_try_box").append(listhtml);
+            } else {
+                alert(jsondata.msg);
             }
         },
         error: function(para) {
@@ -929,7 +939,7 @@ function find_member(sex, agemin, agemax, cur1, cur2, ori1, ori2, degree, salary
                     callback(Math.ceil(boydata.count / boydata.page), next);
                 }
             } else {
-                console.log('获取数据失败！');
+                alert(jsondata.msg);
             }
         },
         error: function(para) {

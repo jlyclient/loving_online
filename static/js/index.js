@@ -76,7 +76,7 @@ function get_new_member(sex_, dom) {
                 }
                 $('#'+dom+'').append(boyhtml);
             } else {
-                console.log('获取最新注册男会员失败！');
+                alert(jsondata.msg);
             }
         },
         error: function(para) {

@@ -82,6 +82,8 @@ $(function() {
                     if (jsondata.code == 0) {
                         alert('约会发起成功！');
                         window.location.reload();
+                    } else {
+                        alert(jsondata.msg);
                     }
                 },
                 error: function(para) {

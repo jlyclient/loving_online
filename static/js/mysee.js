@@ -56,6 +56,8 @@ $(function() {
                     isee += '<div class="love_none"><div class="love_none_text"><i></i><p>暂时没有任何我看过的人，快去看看吧！</p></div></div>';
                 }
                 $(".love_center_see").append(isee);
+            } else {
+                alert(jsondata.msg);
             }
         },
         error: function(para) {

@@ -54,6 +54,8 @@ $(function() {
                 if (jsondata.code == 0) {
                     get_html('/sponsor_zhenghun','','','','','',0, gethtmlFun);
                     $('.alert').html('删除成功').show().delay(1500).fadeOut();
+                } else {
+                    alert(jsondata.msg);
                 }
             }
         });

@@ -187,7 +187,6 @@ $(function() {
                     },
                     success: function(data) {
                         var jsondata = JSON.parse(data);
-                        console.log(jsondata);
                         if (jsondata.code === 0) {
                             // alert('关注成功！');
                             if (jsondata.guanzhu != 1) {
@@ -197,6 +196,8 @@ $(function() {
                                 $(".btn_guanzhu").css({ background: '#fff', borderColor: '#f13973', color: '#f13973' });
                                 $(".btn_guanzhu").html('关注');
                             }
+                        } else {
+                            alert(jsondata.msg);
                         }
                     },
                     error: function(para) {

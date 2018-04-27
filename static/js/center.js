@@ -172,7 +172,7 @@ $(function() {
                 //     $(this).attr("src", centerobj.pic.arr[0]);
                 // });
             } else {
-                alert(centerobj.msg.reason,'执行到这里是code不等于0');
+                alert(centerdata.msg,'执行到这里是code不等于0');
             }
         },
         error: function(para) {
@@ -375,6 +375,8 @@ $(function() {
                     $('.love_mater_before').show();
                     $('.love_mater_after').hide();
                     window.location.reload();
+                } else {
+                    alert(jsondata.msg);
                 }
             },
             error: function(para) {
@@ -398,6 +400,8 @@ $(function() {
                     $('.love_heart_before').show();
                     $('.love_heart_after').hide();
                     window.location.reload();
+                } else {
+                    alert(jsondata.msg);
                 }
             }
         })
@@ -441,6 +445,8 @@ $(function() {
                     $('.love_other_before').show();
                     $('.love_other_after').hide();
                     window.location.reload();
+                } else {
+                    alert(jsondata.msg);
                 }
                 console.log(jsondata);
             },
@@ -466,6 +472,8 @@ $(function() {
                     console.log(jsondata);
                     if(jsondata.code == 0) {
                         window.location.reload();
+                    } else {
+                        alert(jsondata.msg);
                     }
                 },
                 error: function(para){
@@ -493,6 +501,8 @@ $(function() {
                     if (jsondata.code === 0) {
                         $(".love_bind_err").css({ display: 'block'});
                         $(".love_bind_err").html('您好，您已发送验证链接至指定邮箱，请注意查收。');
+                    } else {
+                        alert(jsondata.msg);
                     }
                 },
                 error: function(para) {

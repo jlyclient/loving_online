@@ -56,6 +56,8 @@ $(function() {
                 }
                 console.log(isee);
                 $(".love_see_content").append(isee);
+            } else {
+                alert(jsondata.msg);
             }
         },
         error: function(para) {

@@ -58,6 +58,8 @@ $(function() {
                 }
                 console.log(isee);
                 $(".love_center_see").append(isee);
+            } else {
+                alert(jsondata.msg);
             }
         },
         error: function(para) {

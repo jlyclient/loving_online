@@ -75,13 +75,17 @@ $(function() {
                 '</div>';
                 }
                 $(".love_inbox_lately").append(latest);
+            } else {
+                alert(jsondata.msg);
             }
         },
         error: function(para) {
             console.log(para);
         }
     });
-    $(".email_inbox").on("click", ".btn_message", function() {
+    $(".email_inbox").on("click", ".btn_message", function(event) {
+        event.stopPropagation();
+        $("#send_back_content").val('');
         send_email = $(this).attr('name');
         $("#send_name").html($(this).attr('send'));
         $('.love_dialog>div').addClass('d_n');
@@ -114,6 +118,8 @@ $(function() {
                             // $(this).parent().removeChild();
                             // console.log(This.parent().prev().find('.radio')[0]);
                             This.parent().prev()[0].removeChild(This.parent().prev().find('.radio')[0]);
+                    } else {
+                        alert(jsondata.msg);
                     }
                 },
                 error: function(para) {
@@ -169,6 +175,8 @@ $(function() {
                         This.parent().prev()[0].removeChild(This.parent().prev().find('.radio')[0]);
                         // console.log(This.parent().prev().find(".radio"));
                         // This.parent().prev();
+                    } else {
+                        alert(jsondata.msg);
                     }
                     console.log(jsondata);
                 },
@@ -196,6 +204,8 @@ $(function() {
                 if (jsondata.code == 0) {
                     $(T).parent().remove();
                     console.log(jsondata);
+                } else {
+                    alert(jsondata.msg);
                 }
             }
         })
@@ -225,6 +235,8 @@ $(function() {
                 if (jsondata.code == 0) {
                     console.log(jsondata);
                     close_popup();
+                } else {
+                    alert(jsondata.msg);
                 }
             },
             error: function(para) {
@@ -257,6 +269,8 @@ function get_data(url, type, next, callback) {
                 }
                 
                 show_html(type);
+            } else {
+                alert(jsondata.msg);
             }
         },
         error: function(para) {
@@ -273,7 +287,7 @@ function show_html(type) {
         var msg_kind = email_data[type][i].mail.kind == 0 ? '[普通邮件]':'[系统消息]';
         var msg_kindbtn ='';
         var charkan = '';
-        if (type = 'in') {
+        if (type == 'in') {
             msg_kindbtn = email_data[type][i].mail.kind == 1 ? ('<button eid='+ email_data[type][i].mail.id +' kind="1" name='+ email_data[type][i].user.id +' class="btn btn_dialog btn_resultbtn">同意') : ('<button name='+ email_data[type][i].user.id +' send='+ email_data[type][i].user.name +' class="btn btn_dialog btn_message">' + backmsg);
             charkan = email_data[type][i].mail.kind == 1 ? '</button><button eid='+ email_data[type][i].mail.id +' kind="0" name='+ email_data[type][i].user.id +' class="btn btn_plain btn_dialog btn_resultbtn">拒绝</button></h3>' : '</button><button type='+ type +' num='+ i +' class="btn btn_plain btn_dialog btn_see">查看</button></h3>';   
         } else {
