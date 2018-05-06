@@ -219,31 +219,31 @@ header {
 }
 
 .love_title_boy::before {
-    background: url(../img/boy.png) 0 0 no-repeat;
+    background: url(../../img/boy.png) 0 0 no-repeat;
 }
 
 .love_title_girl::before {
-    background: url(../img/girl.png) 0 0 no-repeat;
+    background: url(../../img/girl.png) 0 0 no-repeat;
 }
 
 .love_title_search::before {
-    background: url(../img/search.png) 0 0 no-repeat;
+    background: url(../../img/search.png) 0 0 no-repeat;
 }
 
 .love_title_material::before {
-    background: url(../img/material.png) 0 0 no-repeat;
+    background: url(../../img/material.png) 0 0 no-repeat;
 }
 
 .love_title_heart::before {
-    background: url(../img/heart.png) 0 0 no-repeat;
+    background: url(../../img/heart.png) 0 0 no-repeat;
 }
 
 .love_title_other::before {
-    background: url(../img/other.png) 0 0 no-repeat;
+    background: url(../../img/other.png) 0 0 no-repeat;
 }
 
 .love_title_lately::before {
-    background: url(../img/lately.png) 0 0 no-repeat;
+    background: url(../../img/lately.png) 0 0 no-repeat;
 }
 
 .love_box_more {
@@ -504,7 +504,7 @@ header {
     height: 35px;
     vertical-align: middle;
     margin-top: -5px;
-    background-image: url(../img/tryst-icon.png);
+    background-image: url(../../img/tryst-icon.png);
     background-repeat: no-repeat;
     background-position-y: 0;
 }
@@ -857,7 +857,7 @@ header {
     display: inline-block;
     width: 500px;
     height: 225px;
-    background: url(../img/none.png) 0 0 no-repeat;
+    background: url(../../img/none.png) 0 0 no-repeat;
 }
 
 .love_none_text p {
@@ -1082,7 +1082,7 @@ header {
     display: block;
     width: 22px;
     height: 22px;
-    background: url(../img/time.png) 0 0 no-repeat;
+    background: url(../../img/time.png) 0 0 no-repeat;
     position: absolute;
     left: 15px;
     top: 8px;
